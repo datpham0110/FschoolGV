@@ -118,12 +118,12 @@ export default class AddNewClass extends Component {
                             />
                         </View>
                     </ScrollView>
-                    <ButtonCom
+                    {/* <ButtonCom
                         onPress={() => Utils.goscreen(this, 'sc_NewLopDiemDanh', { reloadData: this.reloadData })}
                         text={"Lớp tạo mới"}
                         txtStyle={{ color: 'white' }}
                         style={{ paddingHorizontal: 65, marginTop: 15, marginBottom: 20, borderRadius: 3, backgroundColor: '#f8b199' }}
-                    />
+                    /> */}
                 </View>
             </View >
         );

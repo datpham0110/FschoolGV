@@ -216,7 +216,7 @@ class Welcome extends Component {
 							{this.renderItemMenuTop(Images.icHomeBaoBai, 'sc_BaoBaiMain', 'Báo bài', { type: 2 })}
 							{this.renderItemMenuTop(Images.icHomeChat, 'sc_ChatStack', 'Trao đổi', this._countTraoDoi(this.props.listClassChat))}
 							{this.renderItemMenuTop(Images.bgHocPhi, 'sc_HocPhi', 'Học phí')}
-							{this.renderItemMenuTop(Images.icNotifycation1, 'sc_notification', 'Gửi thông báo')}
+							{this.renderItemMenuTop(Images.icNotifycation1, 'sc_notification', 'Gửi thông báo', { type: 1 })}
 							{this.renderItemMenuTop(Images.icThpiKhoaBieu1, 'sc_ThoiKhoaBieuHome', 'Thời khoá biểu')}
 							{this.renderItemMenuTop(Images.icKhaosat, 'sc_KhaoSatHome', 'Khảo sát')}
 							{this.renderItemMenuTop(Images.icoCam, 'sc_KhaoSatHome', 'Camera')}

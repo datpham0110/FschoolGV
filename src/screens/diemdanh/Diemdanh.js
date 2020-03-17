@@ -74,11 +74,7 @@ export default class Diemdanh extends Component {
         }
     }
 
-    //-------------------------------------- FUC
-    addNewClass = () => {
-        Utils.goscreen(this, 'sc_NewLopDiemDanh', { idLop: this.onloadData })
-    }
-    // Go screen select lớp
+
     loadListClass = () => {
         Utils.goscreen(this, 'sc_AddNewClass', { idLop: this.onloadData })
     }
@@ -106,7 +102,7 @@ export default class Diemdanh extends Component {
     // Select lớp trả data về
     onloadData = (idLop, flag, isNewClassGoback = false) => {
         let arr = [];
-        for (let index = 0; index < 64; index++) {
+        for (let index = 0; index < 30; index++) {
             let ghe = {
                 IDHocSinh: 'null'
             }
@@ -188,20 +184,6 @@ export default class Diemdanh extends Component {
                 }
             }
         }
-        // else if (this.state.itemChildCapNhat == null && this.state.isCapNhat == true) {
-        //     Utils.showMsgBoxYesNo(this, 'Thông báo', 'Bạn có chắc muốn cập nhật lại điểm danh học sinh ' + item.TenHocSinh, 'Xác nhận', 'Huỷ', () => {
-        //         this.setState({ itemChildCapNhat: item });
-        //         this.statusDiemDanhTrung = item.Ngay[this.dayInMonth - 1];
-        //     })
-        // }
-
-        // else if (this.state.isCapNhat == true) {
-        //     Utils.nlog('----------------------------------')
-        //     // Utils.showMsgBoxYesNo(this, 'Thông báo', 'Bạn có chắc muốn cập nhật lại điểm danh học sinh ' + item.TenHocSinh, 'Xác nhận', 'Huỷ', () => {
-        //     this.setState({ itemChildCapNhat: item });
-        //     this.statusDiemDanhTrung = item.Ngay[this.dayInMonth - 1];
-        //     // })
-        // }
 
         else if (this.state.isCapNhat == true) {
             // if (this.state.itemChildCapNhat.MaHocSinh == item.MaHocSinh) {
@@ -239,46 +221,7 @@ export default class Diemdanh extends Component {
                     return;
                 }
             }
-            // }
         }
-
-        // else if (this.state.itemChildCapNhat != null && this.state.isCapNhat == true) {
-        //     if (this.state.itemChildCapNhat.MaHocSinh == item.MaHocSinh) {
-        //         var { listHS } = this.state;
-        //         const dataTemp = listHS.slice(0);
-        //         const day = item.Ngay;
-        //         switch (day[itemDay]) {
-        //             case -1:
-        //                 day[itemDay] = 1
-        //                 break;
-        //             case 0:
-        //                 day[itemDay] = 1
-        //                 break;
-        //             case 1:
-        //                 day[itemDay] = 2
-        //                 break;
-        //             case 3:
-        //                 day[itemDay] = 0
-        //                 break;
-        //             case 2:
-        //                 day[itemDay] = 4
-        //                 break;
-        //             case 4:
-        //                 day[itemDay] = 0
-        //                 break;
-        //             default: day[itemDay] = -1
-        //                 break;
-        //         }
-        //         item = { ...item, Ngay: day }
-        //         for (let i = 0; i < dataTemp.length; i++) {
-        //             if (dataTemp[i].IDHocSinh == item.IDHocSinh) {
-        //                 dataTemp[i] = item;
-        //                 this.setState({ listHS: dataTemp, flagCapNhat: true })
-        //                 return;
-        //             }
-        //         }
-        //     }
-        // }
     };
     compare(a, b) {
         if (a < b) {
@@ -314,7 +257,7 @@ export default class Diemdanh extends Component {
                 let arr = res.data.DanhSach;
                 arr.sort((a, b) => this.compare(parseInt(a.ViTri), parseInt(b.ViTri)));
                 let arr1 = [];
-                for (let index = 0; index < 64; index++) {
+                for (let index = 0; index < 30; index++) {
                     let ghe = {
                         IDHocSinh: 'null'
                     }
@@ -550,18 +493,6 @@ export default class Diemdanh extends Component {
         }
     }
     reloadData = (flag) => {
-        // if (this.state.valuMonHoc != 'Chọn môn học') {
-        //     if (this.state.loaiLop == 0) {
-        //         this.Listdiemdanh(this.state.valuListLop, this.state.loaiLop, this.state.valuMonHoc.IdMonHoc);
-        //     } else {
-        //         this.Listdiemdanh(this.state.valuListLop, this.state.loaiLop, this.state.valuListLop.IDMonHoc);
-        //     }
-        // } else {
-        //     if (flag.LoaiLop == 1) {
-        //         this.Listdiemdanh(this.state.valuListLop, this.state.loaiLop, this.state.valuListLop.IDMonHoc);
-        //     }
-        // }
-
         if (this.state.loaiLop == 0) {
             this.Listdiemdanh(this.state.valuListLop, this.state.loaiLop, this.state.subjectsSelected.IdMonHoc);
         } else {
@@ -654,7 +585,7 @@ export default class Diemdanh extends Component {
                             onValueChange={this.isEnoughAllStudentsChange} />
                     </View>
                 </View>
-                <View style={[nstyles.nrow, { paddingVertical: 5, backgroundColor: 'white', marginBottom: 5 }]}>
+                {/* <View style={[nstyles.nrow, { paddingVertical: 5, backgroundColor: 'white', marginBottom: 5 }]}>
                     <View style={nstyles.nrow}>
                         <Text style={[styles.stext, { color: 'green', marginLeft: 10, textAlign: 'left' }]}>{'Có mặt: ' + this.demSoHocSinh(this.dayInMonth - 1, 1)}  </Text>
                     </View>
@@ -662,10 +593,14 @@ export default class Diemdanh extends Component {
                     <View style={[nstyles.nrow]}>
                         <Text style={[styles.stext, { color: colors.orange, marginLeft: 10, textAlign: 'left' }]}>{'Tham gia hoạt động: ' + this.demSoHocSinh(this.dayInMonth - 1, 4)}  </Text>
                     </View>
-                </View>
+                </View> */}
                 <View style={[nstyles.nrow, { paddingVertical: 5, backgroundColor: 'white', marginBottom: 10 }]}>
                     <View style={[nstyles.nrow]}>
                         <Text style={[styles.stext, { color: colors.blue, marginLeft: 10, textAlign: 'left' }]}>{'Vắng có phép: ' + this.demSoHocSinh(this.dayInMonth - 1, 2)}  </Text>
+                    </View>
+                    <View style={{ height: 10 }} />
+                    <View style={nstyles.nrow}>
+                        <Text style={[styles.stext, { color: 'green', marginLeft: 10, textAlign: 'left' }]}>{'Có mặt: ' + this.demSoHocSinh(this.dayInMonth - 1, 1)}  </Text>
                     </View>
                     <View style={{ height: 10 }} />
                     <View style={[nstyles.nrow]}>
@@ -710,9 +645,9 @@ export default class Diemdanh extends Component {
                         <View style={[nstyles.nrow, { flex: 1, alignItems: 'center', justifyContent: 'space-between' }]}>
                             <Text style={[styles.textThuNgayThang, { flex: 1, fontWeight: 'bold', fontSize: sizes.reText(22) }]}>{this.dayInMonth + '/' + this.monthInYear + '/' + this.year}</Text>
                             <View style={{ width: 20 }} />
-                            <TouchableOpacity onPress={() => this.goSD(this.state.loaiLop)} style={{ flex: 1, padding: 5, borderRadius: 6, alignItems: 'center', justifyContent: 'flex-end' }}>
+                            {/* <TouchableOpacity onPress={() => this.goSD(this.state.loaiLop)} style={{ flex: 1, padding: 5, borderRadius: 6, alignItems: 'center', justifyContent: 'flex-end' }}>
                                 <Text style={{ fontSize: sizes.fs(14), fontWeight: '500', color: '#2FBACF', textDecorationLine: 'underline', fontStyle: 'italic' }}>Sơ đồ điểm danh</Text>
-                            </TouchableOpacity>
+                            </TouchableOpacity> */}
                         </View>
                         <View style={[nstyles.nrow, { marginTop: 12 }]}>
                             <TouchableOpacity style={styles.viewTime} onPress={this._openDatePickTu}>
@@ -853,10 +788,9 @@ const styles = StyleSheet.create({
         backgroundColor: colors.white,
         // backgroundColor: colors.redStar,
         borderColor: colors.veryLightPinkFour,
-        borderWidth: 0.2,
+        borderWidth: 1,
         borderRadius: 3,
-        padding: 9,
-        paddingTop: 7,
+        padding: 10,
     },
     viewTotalStudents: {
         ...nstyles.nrow,
