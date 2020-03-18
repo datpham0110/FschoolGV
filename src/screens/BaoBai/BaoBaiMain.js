@@ -310,7 +310,7 @@ export default class BaoBaiMain extends Component {
                                 style={{ paddingHorizontal: 50, marginTop: 10 }}
                             />
                         </View> : <View style={[nrow, { justifyContent: 'center', marginBottom: 10 }]}>
-                                <View style={[nrow, { height: 52, justifyContent: 'center' }]}>
+                                {/* <View style={[nrow, { height: 52, justifyContent: 'center' }]}>
                                     <ButtonCom
                                         colorChange={[colors.lightSalmon, colors.salmonTwo]}
                                         onPress={this._submit(5)}
@@ -319,7 +319,7 @@ export default class BaoBaiMain extends Component {
                                         style={{ paddingHorizontal: 30, marginTop: 10 }}
                                     />
                                 </View>
-                                <View style={{ width: 10 }} />
+                                <View style={{ width: 10 }} /> */}
                                 <View style={[nrow, { height: 52, justifyContent: 'center' }]}>
                                     <ButtonCom
                                         colorChange={[colors.lightSalmon, colors.salmonTwo]}
