@@ -68,7 +68,7 @@ class Login extends Component {
     return (
       <ScrollView style={{ height: nheight, width: nwidth }}>
         <ImageBackground
-          style={{ height: nheight, width: nwidth }} resizeMode="stretch" source={Images.bgLogin}  >
+          style={{ height: nheight, width: nwidth }} resizeMode="stretch" source={Images.bgYSchool}>
           <View style={([nstyles.ncontainerX], {
             marginTop: nheight / 5, flex: 1
           })}>
@@ -133,7 +133,7 @@ class Login extends Component {
             <TouchableOpacity onPress={() => Utils.goscreen(this, 'Modal_HoTroKhachHang')}>
               <Text style={{
                 alignSelf: "center", marginBottom: 40, textDecorationLine: 'underline', fontWeight: 'bold'
-              }}>Liên hệ với chăm sóc khách hàng</Text>
+              }}>Liên hệ với nhà trường</Text>
             </TouchableOpacity>
           </View>
         </ImageBackground >

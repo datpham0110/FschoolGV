@@ -139,13 +139,20 @@ export default class ThemGhiChuu extends Component {
         if (optionsCus == undefined || optionsCus == null)
             optionsCus = {};
         response = (res) => {
-            Utils.nlog('images', res)
             if (res.iscancel) {
             }
             else if (res.error) {
             }
             else {
-                this.setState({ image: res });
+                // Utils.nlog('this.state.imagethis.state.imagethis.state.image', this.state.image)
+                if (this.state.image.length == 0) {
+                    this.setState({ image: res });
+                } else {
+                    let data = this.state.image;
+                    data = data.concat(res);
+                    this.setState({ image: data });
+                }
+
             }
         }
         let options = {

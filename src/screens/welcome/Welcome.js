@@ -8,7 +8,7 @@ import HeaderCom from '../../components/HeaderCom';
 import { nkey } from '../../app/keys/keyStore';
 import { nstyles, nwidth } from '../../styles/styles';
 import { Images } from '../../images';
-import { sizes, reText } from '../../styles/size';
+import { sizes, reText, fs } from '../../styles/size';
 import { colors } from '../../styles/color';
 import { ThongBaoInsertUpdate } from '../../apis/getNotifycation';
 import { nGlobalKeys } from '../../app/keys/globalKey';
@@ -195,7 +195,7 @@ class Welcome extends Component {
 		return (
 			<View style={[nstyles.ncontainerX, { backgroundColor: colors.white }]}>
 				<HeaderCom
-					titleText={ROOTGlobal.dataUser.TenChiNhanh}
+					titleText={'Trường FPT Polytechnic'}
 					nthis={this}
 					iconLeft={Images.icMenu1}
 					onPressLeft={this._open}
@@ -203,12 +203,12 @@ class Welcome extends Component {
 				<LinearGradient
 					start={{ x: 0, y: 0 }}
 					end={{ x: 1, y: 0 }}
-					colors={isTransparent ? [colors.nocolor, colors.nocolor] : ['#84D3A5', '#2FBACF']}
+					colors={isTransparent ? [colors.nocolor, colors.nocolor] : [colors.greenyBlue, colors.darkSkyBlue]}
 					style={{ height: 130 }}>
 				</LinearGradient >
 				<View style={{ top: -130, flex: 1 }} >
 					<View style={{ paddingVertical: 10, paddingHorizontal: 15, alignItems: 'center' }}>
-						<Text style={{ fontSize: reText(16), fontWeight: '700', color: 'white', fontStyle: 'italic' }}>{'Giáo viên:  '}{infoUser.FullName}</Text>
+						<Text style={{ fontSize: fs(20), fontWeight: '700', color: 'white', fontStyle: 'italic' }}>{'Giáo viên:  '}{'Lê Phạm Tuấn Kiệt'}</Text>
 					</View>
 					<View style={[nstyles.nbody, { marginHorizontal: 10, backgroundColor: 'white', borderRadius: 6 }]}>
 						<View style={[nstyles.nrow, { flexWrap: 'wrap', justifyContent: 'center', marginTop: 5 }]}>

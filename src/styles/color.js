@@ -1,8 +1,8 @@
 export const colors = {
 	darkGreenBlue: '#2b815f',
 	greenBlue: '#00b197',
-	greenyBlue: '#3db693',
-	darkSkyBlue: '#42c5e5',
+	greenyBlue: '#0e6b92',
+	darkSkyBlue: '#04a3c6',
 	//--New MamNon
 	colorGreenOne1: '#18b0a3',
 	colorGreenTwo1: '#8ac47c',

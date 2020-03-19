@@ -59,7 +59,7 @@ export default class HeaderCom extends Component {
 			<LinearGradient
 				start={{ x: 0, y: 0 }}
 				end={{ x: 1, y: 0 }}
-				colors={isTransparent ? [colors.nocolor, colors.nocolor] : ['#84D3A5', '#2FBACF']}
+				colors={isTransparent ? [colors.nocolor, colors.nocolor] : [colors.greenyBlue, colors.darkSkyBlue]}
 				style={[
 					nstyles.nhead,
 					{ ...style, height: height },

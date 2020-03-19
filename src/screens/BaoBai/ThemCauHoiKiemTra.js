@@ -117,14 +117,13 @@ export default class ThemCauHoiKiemTra extends Component {
                             <View style={{
                                 borderColor: colors.veryLightPinkThree, borderWidth: 0.5,
                                 flex: 1,
-                                paddingBottom: 18,
-                                borderRadius: 3, padding: 3, paddingVertical: 5, height: 50, marginLeft: 5, minHeight: 50
+                                borderRadius: 3, marginLeft: 5
                             }}>
                                 <TextInput
                                     ref={ref => this.INPUT = ref}
                                     placeholder={'Nội dung câu trả lời A'}
                                     multiline={true}
-                                    style={{ flex: 1, textAlignVertical: 'top', marginLeft: 5 }}
+                                    style={{ flex: 1, textAlignVertical: 'top', height: 70, marginLeft: 5 }}
                                     onChangeText={(textA) => this.setState({ textA })}
                                     value={textA}
                                 />
@@ -132,7 +131,7 @@ export default class ThemCauHoiKiemTra extends Component {
                             <TouchableOpacity style={{ flexDirection: 'row', alignItems: 'center', marginLeft: 20 }} onPress={() => this.setState({ dapAn: 'A' })}>
                                 <View
                                     style={[nstyles.nstyles.nIcon12, nstyles.nstyles.nmiddle, {
-                                        borderColor: 'green', borderWidth: 0.5, width: sizes.reSize(20), height: sizes.reSize(20),
+                                        borderColor: 'green', borderWidth: 1, width: sizes.reSize(20), height: sizes.reSize(20),
                                         borderRadius: 2, backgroundColor: this.state.dapAn == 'A' ? 'green' : 'white'
                                     }]}>
                                     <Image source={Images.icCheckBlue} style={{ width: sizes.reSize(18), height: sizes.reSize(18), tintColor: colors.white }}
@@ -146,14 +145,13 @@ export default class ThemCauHoiKiemTra extends Component {
                             <View style={{
                                 borderColor: colors.veryLightPinkThree, borderWidth: 0.5,
                                 flex: 1,
-                                paddingBottom: 18,
-                                borderRadius: 3, padding: 3, paddingVertical: 5, height: 50, marginLeft: 5, minHeight: 50
+                                borderRadius: 3, marginLeft: 5
                             }}>
                                 <TextInput
                                     ref={ref => this.INPUT = ref}
                                     placeholder={'Nội dung câu trả lời B'}
                                     multiline={true}
-                                    style={{ flex: 1, textAlignVertical: 'top', marginLeft: 5 }}
+                                    style={{ flex: 1, textAlignVertical: 'top', height: 70, marginLeft: 5 }}
                                     onChangeText={(textB) => this.setState({ textB })}
                                     value={textB}
                                 />
@@ -161,7 +159,7 @@ export default class ThemCauHoiKiemTra extends Component {
                             <TouchableOpacity style={{ flexDirection: 'row', alignItems: 'center', marginLeft: 20 }} onPress={() => this.setState({ dapAn: 'B' })}>
                                 <View
                                     style={[nstyles.nstyles.nIcon12, nstyles.nstyles.nmiddle, {
-                                        borderColor: 'green', borderWidth: 0.5, width: sizes.reSize(20), height: sizes.reSize(20),
+                                        borderColor: 'green', borderWidth: 1, width: sizes.reSize(20), height: sizes.reSize(20),
                                         borderRadius: 2, backgroundColor: this.state.dapAn == 'B' ? 'green' : 'white'
                                     }]}>
                                     <Image source={Images.icCheckBlue} style={{ width: sizes.reSize(18), height: sizes.reSize(18), tintColor: colors.white }}
@@ -174,14 +172,13 @@ export default class ThemCauHoiKiemTra extends Component {
                             <View style={{
                                 borderColor: colors.veryLightPinkThree, borderWidth: 0.5,
                                 flex: 1,
-                                paddingBottom: 18,
-                                borderRadius: 3, padding: 3, paddingVertical: 5, height: 50, marginLeft: 5, minHeight: 50
+                                borderRadius: 3, marginLeft: 5
                             }}>
                                 <TextInput
                                     ref={ref => this.INPUT = ref}
                                     placeholder={'Nội dung câu trả lời C'}
                                     multiline={true}
-                                    style={{ flex: 1, textAlignVertical: 'top', marginLeft: 5 }}
+                                    style={{ flex: 1, textAlignVertical: 'top', height: 70, marginLeft: 5 }}
                                     onChangeText={(textC) => this.setState({ textC })}
                                     value={textC}
                                 />
@@ -189,7 +186,7 @@ export default class ThemCauHoiKiemTra extends Component {
                             <TouchableOpacity style={{ flexDirection: 'row', alignItems: 'center', marginLeft: 20 }} onPress={() => this.setState({ dapAn: 'C' })}>
                                 <View
                                     style={[nstyles.nstyles.nIcon12, nstyles.nstyles.nmiddle, {
-                                        borderColor: 'green', borderWidth: 0.5, width: sizes.reSize(20), height: sizes.reSize(20),
+                                        borderColor: 'green', borderWidth: 1, width: sizes.reSize(20), height: sizes.reSize(20),
                                         borderRadius: 2, backgroundColor: this.state.dapAn == 'C' ? 'green' : 'white'
                                     }]}>
                                     <Image source={Images.icCheckBlue} style={{ width: sizes.reSize(18), height: sizes.reSize(18), tintColor: colors.white }}
@@ -203,15 +200,13 @@ export default class ThemCauHoiKiemTra extends Component {
                             <View style={{
                                 borderColor: colors.veryLightPinkThree, borderWidth: 0.5,
                                 flex: 1,
-                                paddingBottom: 18,
-                                borderRadius: 3, padding: 3, paddingVertical: 5, height: 50, marginLeft: 5,
-                                minHeight: 50,
+                                borderRadius: 3, marginLeft: 5
                             }}>
                                 <TextInput
                                     ref={ref => this.INPUT = ref}
                                     placeholder={'Nội dung câu trả lời D'}
                                     multiline={true}
-                                    style={{ flex: 1, textAlignVertical: 'top', marginLeft: 5 }}
+                                    style={{ flex: 1, textAlignVertical: 'top', height: 70, marginLeft: 5 }}
                                     onChangeText={(textD) => this.setState({ textD })}
                                     value={textD}
                                 />
@@ -221,7 +216,7 @@ export default class ThemCauHoiKiemTra extends Component {
                             <TouchableOpacity style={{ flexDirection: 'row', alignItems: 'center', marginLeft: 20 }} onPress={() => this.setState({ dapAn: 'D' })}>
                                 <View
                                     style={[nstyles.nstyles.nIcon12, nstyles.nstyles.nmiddle, {
-                                        borderColor: 'green', borderWidth: 0.5, width: sizes.reSize(20), height: sizes.reSize(20),
+                                        borderColor: 'green', borderWidth: 1, width: sizes.reSize(20), height: sizes.reSize(20),
                                         borderRadius: 2, backgroundColor: this.state.dapAn == 'D' ? 'green' : 'white'
                                     }]}>
                                     <Image source={Images.icCheckBlue} style={{ width: sizes.reSize(18), height: sizes.reSize(18), tintColor: colors.white }}

@@ -250,7 +250,7 @@ class InfomationAccount extends Component {
                 multiline={true}
                 style={[nstyles.ntextinput, { maxHeight: 100, flex: 1, textAlign: 'right' }]}
                 onChangeText={(text) => this.fullname = text}
-              >{dataTK.FullName}</TextInput>
+              >{'Lê Phạm Tuấn Kiệt'}</TextInput>
               {/* <Text style={{ fontSize: sizes.sText16, fontWeight: '400' }}>{dataTK.FullName}</Text> */}
             </View>
             <View
@@ -266,7 +266,7 @@ class InfomationAccount extends Component {
                 style={[nstyles.ntextinput, { maxHeight: 100 }]}
                 onChangeText={(chucvu) => this.setState({ chucvu })}
               >{'Giáo viên'}</TextInput> */}
-              <Text style={{ fontSize: sizes.sText13, textAlign: 'right' }}>{dataTK.ChucVu}</Text>
+              <Text style={{ fontSize: sizes.sText13, textAlign: 'right' }}>{'Giáo viên chủ nhiệm'}</Text>
             </View>
             {this.state.show == false ? <TouchableOpacity onPress={() => this.setState({ show: !this.state.show })}
               style={{
@@ -277,7 +277,7 @@ class InfomationAccount extends Component {
                 Lớp phụ trách
               </Text>
               <Text numberOfLines={1} style={{ fontSize: sizes.sText13, flex: 1, textAlign: 'right' }}>
-                {dataTK.LopPhuTrach}</Text>
+                {'11A1'}</Text>
               <View style={{ width: 5 }} />
               <Image resizeMode="contain" source={Images.icNext}
                 style={[nstyles.nIcon10, { tintColor: colors.brownishGreyTwo }]}
@@ -291,7 +291,7 @@ class InfomationAccount extends Component {
                   Lớp phụ trách
               </Text>
                 <Text style={{ fontSize: sizes.sText13, flex: 1, textAlign: 'right' }}>
-                  {dataTK.LopPhuTrach}</Text>
+                  {'11A1'}</Text>
                 <View style={{ width: 5 }} />
                 <Image resizeMode="contain" source={Images.icDropDown}
                   style={[nstyles.nIcon10, { tintColor: colors.brownishGreyTwo }]}

@@ -28,6 +28,7 @@ export default class ChiTietHSBaobai extends Component {
         this.reloadData();
     }
     reloadData = async () => {
+        Utils.nlog('--------------------------------------reloadData')
         let res = await ChiTiet_ThongBao_BaoBai(this.dataBaoBai.IDThongBao, this.dataBaoBai.BaiKiemTra.LoaiBaiKT, this.dataBaoBai.BaiKiemTra.IDBaiKT, this.dataList.IDLop);
         Utils.showMsgBoxOK
         if (res.status == 1 && res.data != null) {

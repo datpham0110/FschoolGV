@@ -343,12 +343,14 @@ export default class EditBaoBai extends Component {
             else if (res.error) {
             }
             else {
-                this.setState({ image: res });
-                //--dữ liệu media trả về là 1 item or 1 mảng item
-                //--Xử lý dữ liệu trong đây-----
-                //Utils.nlog('img', res);
-                // this._uploadAvatar(res[0]);
-                //-----
+                if (this.state.image == undefined) {
+                    this.setState({ image: res });
+                } else {
+                    let daa = this.state.image;
+                    daa = daa.concat(res);
+                    this.setState({ image: daa });
+                }
+
             }
         }
         let options = {
@@ -398,6 +400,7 @@ export default class EditBaoBai extends Component {
         this.setState({ image });
     }
     _showAllImageHotel111 = (arrImage, index) => () => {
+        Utils.nlog('_showAllImageHotel111', arrImage, index)
         const imagesURL = [];
         for (let index = 0; index < arrImage.length; index++) {
             const item = arrImage[index];
@@ -428,14 +431,15 @@ export default class EditBaoBai extends Component {
         this.setState({ linkVideo: Link, tenVideo: tenVideo }, () => this._getIDYoutube(Link))
     }
     _renderItemCauHoi = (item, index) => {
+        console.log('_renderItemCauHoi', item)
         return (
-            <View>
-                <TouchableOpacity onPress={this._showAllImageHotel111(item.item, item.index)}>
-                    <Image
-                        resizeMode="cover" source={{ uri: item.item.uri }}
-                        tintColorLeft={colors.black_11}
-                        style={{ width: sizes.reSize(120), height: sizes.reSize(120), marginRight: 20, marginBottom: 15 }} />
-                </TouchableOpacity>
+            <View
+            // onPress={this._showAllImageHotel111(item.item, item.index)}
+            >
+                <Image
+                    resizeMode="cover" source={{ uri: item.item.uri }}
+                    tintColorLeft={colors.black_11}
+                    style={{ width: sizes.reSize(120), height: sizes.reSize(120), marginRight: 20, marginBottom: 15 }} />
             </View>
         )
     }
@@ -753,7 +757,7 @@ export default class EditBaoBai extends Component {
                         <ActivityIndicator color={colors.white} size='large' />
                     </View> : null
                 }
-            </View >
+            </View>
         );
     }
 }

@@ -44,8 +44,9 @@ export default class AddCauHoi extends Component {
         };
         Utils.goscreen(this, 'sc_ViewImageListShow', { ListImages: imagesURL, index });
     }
-    _deleteImage = () => {
-        this.setState({ image: [] });
+    _deleteImage = (nindex) => () => {
+        const image = this.state.image.filter((item, index) => nindex !== index);
+        this.setState({ image });
     }
     _themCauHoi = () => {
         Utils.nlog('-------------- _themCauHoi', this.state.image)
@@ -76,7 +77,7 @@ export default class AddCauHoi extends Component {
                 tintColorLeft={colors.black_11}
                 style={{ width: sizes.reSize(120), height: sizes.reSize(120), marginRight: 20, marginBottom: 15 }} />
             <TouchableOpacity
-                onPress={this._deleteImage}
+                onPress={this._deleteImage(index)}
                 style={{ position: 'absolute', right: 20, top: 0, backgroundColor: 'rgba(0,0,0,0)', alignItems: 'flex-end', zIndex: 3 }}>
                 <View style={[nstyles.nstyles.nIcon20, { borderRadius: sizes.reSize(10), backgroundColor: colors.white }]}>
                     <Image resizeMode='contain' style={[nstyles.nstyles.nIcon20, { tintColor: '#707070' }]} source={Images.icCancelTour} />
@@ -101,13 +102,14 @@ export default class AddCauHoi extends Component {
                 //--lỗi khi chon media
             }
             else {
-                // const listImages = this.state.listImages.concat(res)
-                this.setState({ image: res });
-                //--dữ liệu media trả về là 1 item or 1 mảng item
-                //--Xử lý dữ liệu trong đây-----
-                //Utils.nlog('img', res);
-                // this._uploadAvatar(res[0]);
-                //-----
+                if (this.state.image.length == 0) {
+                    this.setState({ image: res });
+                } else {
+                    let dataImage = this.state.image;
+                    dataImage = dataImage.concat(res);
+                    this.setState({ image: dataImage });
+                }
+
             }
         }
         let options = {
@@ -123,7 +125,7 @@ export default class AddCauHoi extends Component {
     render() {
         var { textGChu, soCauHoi, valueCauHoi } = this.state
         const { nrow, nIcon20 } = nstyles.nstyles;
-        console.log('this.IsCoBaiKiemTra', this.countCauHoi)
+        console.log('this.IsCoBaiKiemTra', this.countCauHoi, this.state.image)
         return (
             <View
                 style={{
@@ -132,8 +134,6 @@ export default class AddCauHoi extends Component {
                     alignItems: "center",
                     justifyContent: "center"
                 }} >
-
-
                 <View
                     style={{
                         backgroundColor: colors.white,
@@ -148,7 +148,7 @@ export default class AddCauHoi extends Component {
                         <Text style={{ fontWeight: 'bold', fontSize: sizes.fs(20), color: colors.colorGreenThere1 }}>Bài kiểm tra</Text>
                         {/* <View style={[stBaoBaiDetail.container, { flexDirection: 'row' }]}> */}
                         {
-                            this.countCauHoi > 0 ? null : <View style={{
+                            this.countCauHoi > 0 || this.state.image.length > 0 ? null : <View style={{
                                 flexDirection: 'row',
                                 alignItems: 'center',
                                 // justifyContent: 'space-between',

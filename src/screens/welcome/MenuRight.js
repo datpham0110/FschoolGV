@@ -105,7 +105,7 @@ class MenuRight extends Component {
 							style={{ width: Width(23), height: Width(23), borderRadius: Width(23) / 2 }} />
 						<Text
 							style={[{ justifyContent: "center", color: "white", marginTop: 10, fontSize: sizes.reText(24) }]}>
-							{infoUser.FullName}
+							{'Lê Phạm Tuấn Kiệt'}
 						</Text>
 					</View>
 					<View style={{

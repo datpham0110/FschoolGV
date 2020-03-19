@@ -93,18 +93,21 @@ export default class ChitietLichSuBaoBai extends Component {
         )
     }
     getIDVideo = (string) => {
+        Utils.nlog('-------------------------------')
         if (string == null) return;
         const index = string.lastIndexOf('=');
+        Utils.nlog('-------------------------------index', index)
         const index1 = string.lastIndexOf('/');
+        Utils.nlog('-------------------------------index1', index1)
         if (index != -1 || index1 != -1) {
             if (index != -1) {
                 const id = string.slice(index + 1);
-                // this.idVideo = id;
+                this.idVideo = id;
                 return this.idVideo;
             };
             if (index1 != -1) {
                 const id = string.slice(index1 + 1);
-                // this.idVideo = id;
+                this.idVideo = id;
                 return this.idVideo;
             };
         };
@@ -135,6 +138,7 @@ export default class ChitietLichSuBaoBai extends Component {
     }
     render() {
         var { data, tongSoDaTraLoi, tongSoClass, listImage, showVideo } = this.state
+        Utils.nlog('------------------------data.LinkVideo', data.LinkVideo)
         return (
             <View style={[nstyles.nstyles.ncontainerX, { backgroundColor: colors.whitegay }]}>
                 <HeaderCom
@@ -169,7 +173,7 @@ export default class ChitietLichSuBaoBai extends Component {
                         </View>
                     </View>
                     {data.LinkVideo != null ?
-                        < TouchableOpacity onPress={() => this.setState({ showVideo: !showVideo })} style={{ backgroundColor: 'white', marginTop: 10 }}>
+                        <TouchableOpacity onPress={() => this.setState({ showVideo: !showVideo })} style={{ backgroundColor: 'white', marginTop: 10 }}>
                             <View style={[nstyles.nstyles.nrow, { alignItems: 'center', paddingHorizontal: 20, paddingVertical: 15 }]}>
                                 <Image resizeMode='contain' style={nstyles.nstyles.nIcon30} source={Images.icLinkVideo} />
                                 <View style={{ width: 10 }} />
@@ -195,47 +199,23 @@ export default class ChitietLichSuBaoBai extends Component {
                     {
                         data.IsCoBaiKiemTra == true ? <Text style={{ textAlign: 'center', fontWeight: 'bold', marginTop: 10 }}>{data.BaiKiemTra.TieuDeBaiKT}</Text> : null}
                     {this.state.loadBaiKiemTra == 1 ?
-                        // <FlatList
-                        //     style={{ flex: 1 }}
-                        //     contentContainerStyle={{ paddingHorizontal: 10 }}
-                        //     showsVerticalScrollIndicator={false}
-                        //     data={this.dataCauHoi}
-                        //     renderItem={this._renderItemCauHoi}
-                        //     extraData={this.state}
-                        //     keyExtractor={(item, index) => item.IDRow.toString()}
-                        // />
                         <FlatList
                             showsVerticalScrollIndicator={false}
                             data={data.BaiKiemTra.data.BaoBai}
                             renderItem={this._renderItemCauHoi4TL}
                             keyExtractor={(item, index) => index.toString()}
                             ItemSeparatorComponent={this.renderSeparator}
-                        // extraData={danhSachCauHoi.length}
                         />
                         :
-                        //  <View style={[nstyles.nstyles.nrow, { flexWrap: 'wrap', flex: 1 }]}>
-                        //     {this.state.listHinhAnh.map(this._renderImage)}
-                        // </View>}
                         <FlatList
                             style={{ marginTop: 10 }}
                             data={this.state.listHinhAnh}
                             renderItem={this._renderImage}
-                            // ListEmptyComponent={<ListEmpty textempty={'Chưa có học sinh làm bài tập'} />}
-                            // showsVerticalScrollIndicator={false}
                             extraData={this.state.listHinhAnh}
                             keyExtractor={(item, index) => index.toString()}
                         />}
-
-                    {/* <FlatList
-                        data={this.state.data}
-                        renderItem={this.renderItem}
-                        ListEmptyComponent={<ListEmpty textempty={'Chưa có học sinh làm bài tập'} />}
-                        showsVerticalScrollIndicator={false}
-                        extraData={this.state.data}
-                        keyExtractor={(item, index) => index.toString()}
-                    /> */}
                 </ScrollView>
-            </View >
+            </View>
         );
     }
 }

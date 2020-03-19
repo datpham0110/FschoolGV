@@ -39,7 +39,7 @@ export default class ChiTietThuMoiSuKien extends Component {
         this.setState({ listPhanHoi, listdata })
     }
     renderItem = ({ item, index }) => {
-
+        Utils.nlog('------------------------renderItem', item)
         return (
             <View>
                 <View style={{ marginBottom: 10 }} >
@@ -55,7 +55,7 @@ export default class ChiTietThuMoiSuKien extends Component {
                         <View style={{ marginLeft: 8, flex: 1 }}>
                             <Text style={{ color: '#4caf50', textAlign: 'right', fontSize: sizes.fs(16) }}>{item.TenTrangThaiTMSK}</Text>
                             {
-                                item.NgayPhanHoi != null ? <Text style={{ paddingTop: 6, color: colors.brownishGrey, textAlign: 'right', fontSize: sizes.fs(14) }}>{item.NgayPhanHoi}</Text> : null
+                                item.NgayPhanHoi != null ? <Text style={{ paddingTop: 6, color: colors.brownishGrey, textAlign: 'right', fontSize: sizes.fs(14) }}>{Moment(item.NgayPhanHoi, 'DD/MM/YYYY HH:mm:ss').format("DD/MM/YYYY HH:mm")}</Text> : null
                             }
                         </View>
 

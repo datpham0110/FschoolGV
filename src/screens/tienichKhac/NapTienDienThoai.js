@@ -31,7 +31,7 @@ export default class NapTienDienThoai extends Component {
     }
     render() {
         return (
-            <View style={[nstyles.ncontainerX, {  backgroundColor: 'white' }]}>
+            <View style={[nstyles.ncontainerX, { backgroundColor: 'white' }]}>
                 <HeaderCom
                     nthis={this}
                     iconLeft={Images.icBackBlue}
@@ -74,7 +74,7 @@ export default class NapTienDienThoai extends Component {
                                         styleTouchable={stHoctap.shadow}
                                         txtStyle={[stHoctap.stext, { paddingHorizontal: 13 }]}
                                         text={item}
-                                        colorChange={this.state.itemClick.includes(index) ? ['#84D3A5', '#2FBACF'] : ['#e0dede', '#e0dede']}
+                                        colorChange={this.state.itemClick.includes(index) ? [colors.greenyBlue, colors.darkSkyBlue] : ['#e0dede', '#e0dede']}
                                         Linear={true}
                                     />)}
                                 </View>
@@ -85,7 +85,7 @@ export default class NapTienDienThoai extends Component {
                     <View style={[nstyles.nrow, { height: Height(8), justifyContent: 'center' }]}>
                         <ButtonCom
                             onPress={() => Utils.goscreen(this, 'sc_ChiTietGiaodich')}
-                            colorChange={['#84D3A5', '#2FBACF']}
+                            colorChange={[colors.greenyBlue, colors.darkSkyBlue]}
                             Linear={true}
                             style={{ marginTop: 10 }}
                             text={"Tiếp tục"}

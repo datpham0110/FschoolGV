@@ -85,7 +85,7 @@ export default class ChiTietGiaodich extends Component {
 
                 <ButtonCom
                     onPress={() => Utils.goscreen(this, 'sc_ThanhToan')}
-                    colorChange={['#84D3A5', '#2FBACF']}
+                    colorChange={[colors.greenyBlue, colors.darkSkyBlue]}
                     Linear={true}
                     style={{ marginTop: 10 }}
                     text={"Thanh toán"}

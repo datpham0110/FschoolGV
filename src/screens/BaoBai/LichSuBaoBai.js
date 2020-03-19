@@ -81,8 +81,7 @@ export default class LichSuBaoBai extends Component {
             <TouchableOpacity onPress={() => this.goChiTiet(item)} style={{ backgroundColor: ColorBrg, paddingHorizontal: 20, paddingVertical: 10 }}>
                 <View style={nstyles.nstyles.nrow}>
                     <Image source={Images.icBell} resizeMode='contain' />
-                    <View style={{ width: 10 }} />
-                    <View>
+                    <View style={{ paddingHorizontal: 10 }}>
                         {/* <Text style={{ fontSize: sizes.fs(18), fontWeight: 'bold' }}>Tiêu đề: {item.TieuDe}</Text> */}
                         <Text style={{ fontSize: sizes.fs(18), fontWeight: 'bold' }}>{item.NoiDung}</Text>
                         {/* <Text style={{ fontSize: sizes.fs(16), marginTop: 5 }}>Loại bài kiểm tra: {item.LoaiBaiKT == 0 ? 'Hình ảnh' : 'Trắc nghiệm'}</Text> */}
@@ -109,7 +108,7 @@ export default class LichSuBaoBai extends Component {
         )
     }
     render() {
-        console.log('dasasddsadasd', this.valuListLop)
+        // console.log('dasasddsadasd', this.valuListLop)
         return (
             <View style={[nstyles.nstyles.ncontainerX, { backgroundColor: colors.whitegay }]}>
                 <HeaderCom
@@ -117,7 +116,7 @@ export default class LichSuBaoBai extends Component {
                     iconLeft={Images.icBackBlue}
                     titleText={this.type != 4 ? 'Danh sách báo bài' : 'Danh sách thư mời sự kiện'}
                 />
-                <View style={[nstyles.nstyles.nbody, { marginHorizontal: 10 }]}>
+                <View style={[nstyles.nstyles.nbody, {}]}>
                     <FlatList
                         showsVerticalScrollIndicator={false}
                         ListEmptyComponent={<ListEmpty textempty={'Không có dữ liệu'} />}
@@ -133,7 +132,7 @@ export default class LichSuBaoBai extends Component {
                         }
                     />
                 </View>
-            </View >
+            </View>
         );
     }
 }

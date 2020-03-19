@@ -58,7 +58,7 @@ export default class TraTruoc extends Component {
                                 styleTouchable={stHoctap.shadow}
                                 txtStyle={[stHoctap.stext, { paddingHorizontal: 13 }]}
                                 text={item}
-                                colorChange={this.state.itemClick.includes(index) ? ['#84D3A5', '#2FBACF'] : ['#e0dede', '#e0dede']}
+                                colorChange={this.state.itemClick.includes(index) ? [colors.greenyBlue, colors.darkSkyBlue] : ['#e0dede', '#e0dede']}
                                 Linear={true}
                             />)}
                         </View>
@@ -80,7 +80,7 @@ export default class TraTruoc extends Component {
                     </View>
                 </View>
                 <ButtonCom
-                    colorChange={['#84D3A5', '#2FBACF']}
+                    colorChange={[colors.greenyBlue, colors.darkSkyBlue]}
                     Linear={true}
                     style={{ marginTop: 10 }}
                     text={"Tiếp tục"}

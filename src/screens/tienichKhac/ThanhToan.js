@@ -103,7 +103,7 @@ export default class ThanhToan extends Component {
                     </View>
                 </View>
                 <ButtonCom
-                    colorChange={['#84D3A5', '#2FBACF']}
+                    colorChange={[colors.greenyBlue, colors.darkSkyBlue]}
                     Linear={true}
                     style={{ marginTop: 10 }}
                     text={"Trang chủ"}
