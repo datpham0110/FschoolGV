@@ -19,6 +19,7 @@ const { width, height } = Dimensions.get('window');
 import { ListChatLop } from "../../apis/chat";
 import { appConfig } from '../../app/Config';
 import { Version } from '../../apis/apiLogin';
+import firebase from 'react-native-firebase';
 const Pulse = require('react-native-pulse').default;
 
 
@@ -46,6 +47,15 @@ class Welcome extends Component {
 		Utils.nlog('menu', res)
 
 	}
+	connetFireBase() {
+		firebase.auth()
+			.signInAnonymously()
+			.then(credential => {
+				if (credential) {
+					console.log('default app user ->', credential.user.toJSON());
+				}
+			});
+	}
 	_logout = () => {
 		Utils.nsetStore(nkey.token, '');
 		Utils.nsetStore(nkey.nameuser, '');
@@ -55,7 +65,8 @@ class Welcome extends Component {
 
 	_clickMenu = (route: String, param: Object) => () => {
 		if (param) Utils.goscreen(this, route, param);
-		else Utils.goscreen(this, route);
+		else if (route) Utils.goscreen(this, route);
+		else Utils.showMsgBoxOK(this, 'Chức năng đang cập nhật')
 	};
 
 	_open = () => {
@@ -214,35 +225,13 @@ class Welcome extends Component {
 						<View style={[nstyles.nrow, { flexWrap: 'wrap', justifyContent: 'center', marginTop: 5 }]}>
 							{this.renderItemMenuTop(Images.icHomeDd, 'sc_Diemdanh', 'Điểm danh')}
 							{this.renderItemMenuTop(Images.icHomeBaoBai, 'sc_BaoBaiMain', 'Báo bài', { type: 2 })}
-							{this.renderItemMenuTop(Images.icHomeChat, 'sc_ChatStack', 'Trao đổi', this._countTraoDoi(this.props.listClassChat))}
-							{this.renderItemMenuTop(Images.bgHocPhi, 'sc_HocPhi', 'Học phí')}
+							{this.renderItemMenuTop(Images.icHomeChat, '', 'Trao đổi', this._countTraoDoi(this.props.listClassChat))}
+							{this.renderItemMenuTop(Images.bgHocPhi, '', 'Học phí')}
 							{this.renderItemMenuTop(Images.icNotifycation1, 'sc_notification', 'Gửi thông báo', { type: 1 })}
-							{this.renderItemMenuTop(Images.icThpiKhoaBieu1, 'sc_ThoiKhoaBieuHome', 'Thời khoá biểu')}
-							{this.renderItemMenuTop(Images.icKhaosat, 'sc_KhaoSatHome', 'Khảo sát')}
-							{this.renderItemMenuTop(Images.icoCam, 'sc_KhaoSatHome', 'Camera')}
+							{this.renderItemMenuTop(Images.icThpiKhoaBieu1, '', 'Thời khoá biểu')}
+							{this.renderItemMenuTop(Images.icKhaosat, '', 'Khảo sát')}
+							{this.renderItemMenuTop(Images.icoCam, '', 'Camera')}
 						</View>
-						{/* menu 2 */}
-						{/* <View style={[nstyles.nrow, { marginTop: 5, alignItems: 'center', justifyContent: 'center' }]}>
-							<TouchableOpacity onPress={() => Utils.goscreen(this, 'sc_GocHocTapStack', { nthisApp })} >
-								<Image source={Images.icGochocTap} resizeMode='contain' style={{ width: width * 0.26, height: width * 0.26 }} />
-							</TouchableOpacity>
-							<View style={{ width: 15 }} />
-							<TouchableOpacity onPress={() => Utils.goscreen(this, 'sc_GocHoatDongStack')}>
-								<Image source={Images.icGocHoatDong} resizeMode='contain' style={{ width: width * 0.26, height: width * 0.26 }} />
-							</TouchableOpacity>
-							<View style={{ width: 15 }} />
-							<TouchableOpacity onPress={() => Utils.goscreen(this, 'sc_KhaoSatHome')}>
-								<Image source={Images.icKhaosat} resizeMode='contain' style={{ width: width * 0.26, height: width * 0.26 }} />
-							</TouchableOpacity>
-						</View> */}
-						{/* menu 3 */}
-						{/* <View style={{ marginHorizontal: 10, marginTop: 15, marginBottom: 10 }}>
-							{this.renderItemMenuBot(Images.icNotifycation1, 'sc_notification', 'Gửi thông báo', { type: 1 })}
-							{this.renderItemMenuBot(Images.iconMail1, 'sc_notification', 'Thư mời - Sự kiện', { type: 4 })}
-							{this.renderItemMenuBot(Images.icThpiKhoaBieu1, 'sc_ThoiKhoaBieuHome', 'Thời khoá biểu')}
-							{this.renderItemMenuBot(Images.icKhac, 'sc_TienichHome', 'Các tiện ích khác')}
-							{this.renderItemMenuBot(Images.icCall, 'sc_HoTroKhachHang', 'Hỗ trợ 24/7')}
-						</View> */}
 					</View>
 				</View>
 			</View >
@@ -256,12 +245,3 @@ const mapStateToProps = state => ({
 });
 
 export default Utils.connectRedux(Welcome, mapStateToProps, true);
-
-const stWelcome = StyleSheet.create({
-	titleGrp: {
-		fontSize: sizes.sText20,
-		marginLeft: 15,
-		fontWeight: '500',
-		marginTop: 20
-	}
-});
