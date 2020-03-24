@@ -16,28 +16,62 @@ import Utils from "../../app/Utils";
 import { nkey } from "../../app/keys/keyStore";
 import { Images } from "../../images";
 import { reText } from "../../styles/size";
-
+import { appConfig } from "../../app/Config"
+import * as firebase from 'firebase'
+import IsLoading from "../../components/IsLoading";
+const Firebase = firebase.initializeApp(appConfig)
 export default class EnterYourPhoneNumber extends React.Component {
   constructor(props) {
     super(props);
-    this.phonenumber = "";
+    this.email = "";
+    this.password = ""
     this.state = {};
   }
 
-  _submit = async () => {
-    if (this.phonenumber.toString().trim().length == 0) {
-      Utils.showMsgBoxOK(
-        this,
-        "Thông báo",
-        "Tên tài khoản không được để trống",
-        "Đóng"
-      );
+  // _submit = async () => {
+  //   if (this.email.toString().trim().length == 0) {
+  //     Utils.showMsgBoxOK(
+  //       this,
+  //       "Thông báo",
+  //       "Tên tài khoản không được để trống",
+  //       "Đóng"
+  //     );
+  //     return;
+  //   }
+  //   Utils.nsetStore(nkey.phonenumber, this.phonenumber.toString().trim());
+  //   Utils.goscreen(this, "sc_AuthLogin");
+  // };
+  _singup = async () => {
+    this.nLoading.show()
+    let res = await Firebase.auth().createUserWithEmailAndPassword(this.email, this.password).catch(function (error) {
+      // Handle Errors here.
+      var errorCode = error.code;
+      var errorMessage = error.message;
+      // ...
+      Utils.nlog('error', errorCode, errorMessage)
+      Utils.nlog('_singup', error)
+    })
+
+  }
+  _login = async () => {
+    if (this.email.length < 1) {
+      Utils.showMsgBoxOK(this, 'Tên tài khoản không được để trống')
       return;
     }
-    Utils.nsetStore(nkey.phonenumber, this.phonenumber.toString().trim());
-    Utils.goscreen(this, "sc_AuthLogin");
-  };
+    if (this.password.length != 6) {
+      Utils.showMsgBoxOK(this, 'Password phải có 6 số')
+      return;
+    }
+    // this.nLoading.show()
+    let res = await Firebase.auth().signInWithEmailAndPassword(this.email, this.password).catch((error) => Utils.showMsgBoxOK(this,'Vui lòng kiểm tra lại'))
+    Utils.nlog('_login', res)
+    // var errorCode = error.code;
+    // var errorMessage = error.message;
 
+    // Utils.showMsgBoxOK(this, 'errorCode', errorMessage)
+    Utils.goscreen(this, "sc_Welcome");
+    // this.nLoading.hide();
+  }
   render() {
     return (
       <ImageBackground
@@ -53,11 +87,8 @@ export default class EnterYourPhoneNumber extends React.Component {
             <View
               style={{ justifyContent: "center", marginLeft: nwidth / 5, marginRight: nwidth / 5 }}>
               <Text
-                style={{ fontWeight: "800", textAlign: "center", fontSize: reText(24), marginBottom: 10 }}>
+                style={{ fontWeight: "800", textAlign: "center", fontSize: reText(20), marginBottom: 10 }}>
                 Nhập tên tài khoản
-            </Text>
-              <Text style={{ textAlign: "center" }}>
-                Dùng tài khoản đã được nhà trường cung cấp
             </Text>
             </View>
             <View
@@ -68,18 +99,38 @@ export default class EnterYourPhoneNumber extends React.Component {
               }}
             >
               <Input
+                showIcon={true}
+                icon={Images.icUser}
                 placeholder={"Nhập tên tài khoản"}
-                onChangeText={text => (this.phonenumber = text)}
+                onChangeText={text => (this.email = text)}
+                iconStyle={{ marginRight: 10, tintColor: "gray" }}
+              />
+              <Input
+                secureTextEntry={true}
+                placeholder={"Nhập mật khẩu"}
+                onChangeText={text => (this.password = text)}
+                showIcon={true}
+                icon={Images.icLock}
+                iconStyle={{ marginRight: 10, tintColor: "gray" }}
               />
               <ButtonCom
-                onPress={this._submit}
+                onPress={this._login}
                 Linear={true}
                 style={{ marginTop: 10, backgroundColor: colors.colorPink }}
-                text={"TIẾP TỤC"}
+                text={"Đăng nhập"}
+              />
+              <ButtonCom
+                onPress={this._singup}
+                Linear={true}
+                style={{ marginTop: 10, backgroundColor: colors.colorPink }}
+                text={"Đăng ký"}
               />
             </View>
           </View>
         </ScrollView>
+        <IsLoading ref={(ref) => {
+          this.nLoading = ref
+        }} />
       </ImageBackground>
 
     );

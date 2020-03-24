@@ -100,8 +100,8 @@ class MenuRight extends Component {
 					<View style={{ alignItems: "center", paddingTop: 30 + paddingTopMul, paddingBottom: 20, backgroundColor: colors.colorGreenOne1, }}>
 						<Image
 							resizeMode="cover"
-							defaultSource={Images.icPhotoBlack}
-							source={{ uri: appConfig.domain + infoUser.Avatar }}
+							source={Images.icPhotoBlack}
+							// source={{ uri: appConfig.domain + infoUser.Avatar }}
 							style={{ width: Width(23), height: Width(23), borderRadius: Width(23) / 2 }} />
 						<Text
 							style={[{ justifyContent: "center", color: "white", marginTop: 10, fontSize: sizes.reText(24) }]}>
