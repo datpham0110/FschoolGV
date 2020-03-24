@@ -140,12 +140,12 @@ class Welcome extends Component {
 		);
 	}
 
-	componentDidMount() {
-		this._checkVersion();
-		this.postNotification();
-		this._getMenu();
-		this._loadListDataRedux();
-	}
+	// componentDidMount() {
+	// 	this._checkVersion();
+	// 	this.postNotification();
+	// 	this._getMenu();
+	// 	this._loadListDataRedux();
+	// }
 
 	_checkVersion = async () => {
 		let res = await Version();
@@ -217,11 +217,11 @@ class Welcome extends Component {
 					colors={isTransparent ? [colors.nocolor, colors.nocolor] : [colors.greenyBlue, colors.darkSkyBlue]}
 					style={{ height: 130 }}>
 				</LinearGradient >
-				<View style={{ top: -130, flex: 1 }} >
+				<View style={{ marginTop: -130, flex: 1 }} >
 					<View style={{ paddingVertical: 10, paddingHorizontal: 15, alignItems: 'center' }}>
 						<Text style={{ fontSize: fs(20), fontWeight: '700', color: 'white', fontStyle: 'italic' }}>{'Giáo viên:  '}{'Lê Phạm Tuấn Kiệt'}</Text>
 					</View>
-					<View style={[nstyles.nbody, { marginHorizontal: 10, backgroundColor: 'white', borderRadius: 6 }]}>
+					<ScrollView showsVerticalScrollIndicator={false} style={{ marginHorizontal: 10, backgroundColor: 'white', borderRadius: 6 }}>
 						<View style={[nstyles.nrow, { flexWrap: 'wrap', justifyContent: 'center', marginTop: 5 }]}>
 							{this.renderItemMenuTop(Images.icHomeDd, 'sc_Diemdanh', 'Điểm danh')}
 							{this.renderItemMenuTop(Images.icHomeBaoBai, 'sc_BaoBaiMain', 'Báo bài', { type: 2 })}
@@ -232,7 +232,7 @@ class Welcome extends Component {
 							{this.renderItemMenuTop(Images.icKhaosat, '', 'Khảo sát')}
 							{this.renderItemMenuTop(Images.icoCam, '', 'Camera')}
 						</View>
-					</View>
+					</ScrollView>
 				</View>
 			</View >
 		);
