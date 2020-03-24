@@ -1,3 +1,6 @@
 <resources>
     <string name="app_name">FschoolGV</string>
+    <string name="reactNativeCodePush_androidDeploymentKey" moduleConfig="true" translatable="false">HK92J8k9jZ5FP10xyqoLFfVsb1UP4eb53da3-72fd-4c5f-89e5-f38a9e62583c</string>
+    <string name="facebook_app_id">2332691950099726</string>
+    <string name="fb_login_protocol_scheme">fb2332691950099726</string>
 </resources>
