@@ -15,6 +15,24 @@ import { Images } from "../../images";
 import { nkey } from "../../app/keys/keyStore";
 import { styles } from "./styles";
 import apis from '../../apis';
+
+
+// Config file
+import * as firebase1 from "firebase";
+import { appConfig, db } from '../../app/Config';
+
+// const app22 = !firebase1.apps.length 
+// ? firebase1.initializeApp(appConfig) 
+// : firebase1.app();
+
+// console.log(firebase1.name);
+// console.log(firebase1.database());
+
+
+// import * as firebase from 'firebase'
+// const app22 = firebase.initializeApp(appConfig);
+export const db1 = db.database();
+
 class Login extends Component {
   constructor(props) {
     super(props);
@@ -44,6 +62,64 @@ class Login extends Component {
       );
       return;
     };
+
+    Utils.showMsgBoxOK(
+      this,
+      "Thông báo",
+      "Đăng nhập clicked",
+      "Đóng"
+    );
+
+    //Tạo
+    db1.ref('/Tbl_Account').push({
+      Username:"schorem2589",
+      Password:"123456",
+      IsActive:true
+    });
+
+    //Lấy list
+    db1.ref('/Tbl_Account').on('value', (snapshot) => {
+        let data = snapshot.val();
+        let keys = Object.keys(data);
+        let items = Object.values(data);
+        let items2 = data[keys[0]];
+        Utils.showMsgBoxOK(
+          this,
+          "Thông báo",
+          JSON.stringify(items2),
+          "Đóng"
+        );
+        console.log(JSON.stringify(data));
+
+    });
+
+    //Updated
+    db1.ref(`/Tbl_Account/${'-M3Ct_EqarkRjE9TkLm3'}`).update({
+      IsActive: false,
+      Username: 'Updated',
+      Password: "failed"
+    });
+
+    //Xóa
+    db1.ref(`/Tbl_Account/${'-M3CtlDGx4rlD-ctudvW'}`).remove().then(r => {
+      Utils.showMsgBoxOK(
+        this,
+        "Thông báo",
+        "Remove success",
+        "Đóng"
+      );
+    })
+    .catch(p => {
+      Utils.showMsgBoxOK(
+        this,
+        "Thông báo",
+        "Cannot remove",
+        "Đóng"
+      );
+    });
+
+
+
     let res = await onCheckLogin(this.state.sodienthoai, ps, this);
     if (res) {
       await this._infomationUser();

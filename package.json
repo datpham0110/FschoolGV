@@ -33,7 +33,7 @@
     "react-native-iphone-x-helper": "^1.2.1",
     "react-native-keyboard-aware-scroll-view": "^0.8.0",
     "react-native-linear-gradient": "^2.5.5",
-    "react-native-maps": "^0.25.0",
+    "react-native-maps": "^0.27.1",
     "react-native-network-info": "^5.2.1",
     "react-native-onesignal": "^3.5.0",
     "react-native-permissions": "^1.2.1",
