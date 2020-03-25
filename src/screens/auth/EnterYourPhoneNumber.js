@@ -19,7 +19,7 @@ import { reText } from "../../styles/size";
 import { appConfig } from "../../app/Config"
 import * as firebase from 'firebase'
 import IsLoading from "../../components/IsLoading";
-const Firebase = firebase.initializeApp(appConfig)
+//const Firebase = firebase.initializeApp(appConfig)
 export default class EnterYourPhoneNumber extends React.Component {
   constructor(props) {
     super(props);
@@ -43,14 +43,14 @@ export default class EnterYourPhoneNumber extends React.Component {
   // };
   _singup = async () => {
     this.nLoading.show()
-    let res = await Firebase.auth().createUserWithEmailAndPassword(this.email, this.password).catch(function (error) {
-      // Handle Errors here.
-      var errorCode = error.code;
-      var errorMessage = error.message;
-      // ...
-      Utils.nlog('error', errorCode, errorMessage)
-      Utils.nlog('_singup', error)
-    })
+    // let res = await Firebase.auth().createUserWithEmailAndPassword(this.email, this.password).catch(function (error) {
+    //   // Handle Errors here.
+    //   var errorCode = error.code;
+    //   var errorMessage = error.message;
+    //   // ...
+    //   Utils.nlog('error', errorCode, errorMessage)
+    //   Utils.nlog('_singup', error)
+    // })
 
   }
   _login = async () => {
