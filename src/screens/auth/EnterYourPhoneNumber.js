@@ -25,22 +25,23 @@ export default class EnterYourPhoneNumber extends React.Component {
     super(props);
     this.email = "";
     this.password = ""
+    this.phonenumber = ""
     this.state = {};
   }
 
-  // _submit = async () => {
-  //   if (this.email.toString().trim().length == 0) {
-  //     Utils.showMsgBoxOK(
-  //       this,
-  //       "Thông báo",
-  //       "Tên tài khoản không được để trống",
-  //       "Đóng"
-  //     );
-  //     return;
-  //   }
-  //   Utils.nsetStore(nkey.phonenumber, this.phonenumber.toString().trim());
-  //   Utils.goscreen(this, "sc_AuthLogin");
-  // };
+  _submit = async () => {
+    if (this.phonenumber.toString().trim().length == 0) {
+      Utils.showMsgBoxOK(
+        this,
+        "Thông báo",
+        "Tên tài khoản không được để trống",
+        "Đóng"
+      );
+      return;
+    }
+    Utils.nsetStore(nkey.phonenumber, this.phonenumber.toString().trim());
+    Utils.goscreen(this, "sc_AuthLogin");
+  };
   _singup = async () => {
     this.nLoading.show()
     // let res = await Firebase.auth().createUserWithEmailAndPassword(this.email, this.password).catch(function (error) {
@@ -63,7 +64,7 @@ export default class EnterYourPhoneNumber extends React.Component {
       return;
     }
     // this.nLoading.show()
-    let res = await Firebase.auth().signInWithEmailAndPassword(this.email, this.password).catch((error) => Utils.showMsgBoxOK(this,'Vui lòng kiểm tra lại'))
+    let res = await Firebase.auth().signInWithEmailAndPassword(this.email, this.password).catch((error) => Utils.showMsgBoxOK(this, 'Vui lòng kiểm tra lại'))
     Utils.nlog('_login', res)
     // var errorCode = error.code;
     // var errorMessage = error.message;
@@ -102,7 +103,7 @@ export default class EnterYourPhoneNumber extends React.Component {
                 showIcon={true}
                 icon={Images.icUser}
                 placeholder={"Nhập tên tài khoản"}
-                onChangeText={text => (this.email = text)}
+                onChangeText={text => (this.phonenumber = text)}
                 iconStyle={{ marginRight: 10, tintColor: "gray" }}
               />
               <Input
@@ -114,7 +115,7 @@ export default class EnterYourPhoneNumber extends React.Component {
                 iconStyle={{ marginRight: 10, tintColor: "gray" }}
               />
               <ButtonCom
-                onPress={this._login}
+                onPress={this._submit}
                 Linear={true}
                 style={{ marginTop: 10, backgroundColor: colors.colorPink }}
                 text={"Đăng nhập"}

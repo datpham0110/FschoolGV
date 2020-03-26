@@ -57,12 +57,12 @@ class RootScreen extends Component {
     if (phonenumber)
       setTimeout(() => {
         this.setStatusBar(false);
-        Utils.goscreen(this, "sc_AuthLogin");
+        Utils.goscreen(this, "sc_Welcome");
       }, 1200);
     else
       setTimeout(() => {
         this.setStatusBar(false);
-        Utils.goscreen(this, "sc_EnterYourPhoneNumber");
+        Utils.goscreen(this, "sc_Welcome");
       }, 1200);
   };
 

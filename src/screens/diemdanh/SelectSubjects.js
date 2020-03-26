@@ -12,7 +12,8 @@ import { MonHocList } from '../../apis/danhmuc';
 import { ROOTGlobal } from "../../app/data/dataGlobal";
 import { Width } from "../../styles/styles";
 import { ScrollView } from "react-native-gesture-handler";
-
+export const db1 = db.database();
+import { db } from '../../app/Config';
 export default class SelectSubjects extends Component {
     constructor(props) {
         super(props);
@@ -22,15 +23,27 @@ export default class SelectSubjects extends Component {
         };
     }
     componentDidMount() {
-        this.getMonHocList();
+        // this.getMonHocList();
+        this.dsMonHocTest()
     }
 
-    getMonHocList = async () => {
-        let res = await MonHocList()
-        if (res.status == 1) {
-            listSubjects = res.data
-            this.setState({ listSubjects })
-        }
+    // getMonHocList = async () => {
+    //     let res = await MonHocList()
+    //     if (res.status == 1) {
+    //         listSubjects = res.data
+    //         this.setState({ listSubjects })
+    //     }
+    // }
+    dsMonHocTest = async () => {
+        //   //Lấy list
+        db1.ref('/Tbl_MonHoc').on('value', (snapshot) => {
+            let data = snapshot.val();
+            let keys = Object.keys(data);
+            let items = Object.values(data);
+            let items2 = data[keys[0]];
+            Utils.nlog('dsMonHocTest', items, items2)
+            this.setState({ listSubjects: items })
+        });
     }
     renderItem = ({ item, index }) => {
         return (
