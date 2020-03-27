@@ -31,7 +31,7 @@ import { appConfig, db } from '../../app/Config';
 
 // import * as firebase from 'firebase'
 // const app22 = firebase.initializeApp(appConfig);
-// export const db1 = db.database();
+export const db1 = db.database();
 
 class Login extends Component {
   constructor(props) {
@@ -46,6 +46,7 @@ class Login extends Component {
   }
   _getData = async () => {
     let phone = await Utils.ngetStore(nkey.phonenumber);
+    Utils.nlog('phone', phone)
     if (phone != null) {
       this.setState({ sodienthoai: phone });
     }
@@ -61,6 +62,20 @@ class Login extends Component {
       );
       return;
     };
+    // db1.ref('/Tbl_Account').on('value', (snapshot) => {
+    //   let data = snapshot.val();
+    //   let keys = Object.keys(data);
+    //   let items = Object.values(data);
+    //   let items2 = data[keys[0]];
+    //   Utils.nlog('keys', data)
+
+    //   Utils.showMsgBoxOK(
+    //     this,
+    //     "Thông báo",
+    //     JSON.stringify(items2),
+    //     "Đóng"
+    //   );
+    // });
     let res = await onCheckLogin(this.state.sodienthoai, ps, this);
     if (res) {
       await this._infomationUser();
