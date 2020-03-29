@@ -15,7 +15,7 @@ export const Images = {
 	bgDiemDanh: require('./imgApp/bgDiemDanh.png'),
 	icMenu1: require('./imgApp/icMenu1.png'),
 	icBell1: require('./imgApp/icBell1.png'),
-
+	icFSchool: require('./imgApp/FSchool.png'),
 	icNotifycation1: require('./imgApp/icNotifycation1.png'),
 	iconMail1: require('./imgApp/iconMail1.png'),
 	icThpiKhoaBieu1: require('./imgApp/icThpiKhoaBieu1.png'),

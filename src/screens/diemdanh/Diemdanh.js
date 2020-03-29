@@ -12,7 +12,8 @@ import { DiemDanh_Update } from "../../apis/thanhtoan";
 import { ROOTGlobal } from '../../app/data/dataGlobal';
 import DatePicker from 'react-native-datepicker'
 import { MonHocList } from '../../apis/danhmuc';
-
+export const db1 = db.database();
+import { db } from '../../app/Config';
 const { width } = Dimensions.get("window");
 export default class Diemdanh extends Component {
     constructor(props) {
@@ -64,6 +65,7 @@ export default class Diemdanh extends Component {
 
     componentDidMount() {
         this.getMonHocList()
+        this.dsHocSinh()
     }
     // Load list môn học
     getMonHocList = async () => {
@@ -73,7 +75,18 @@ export default class Diemdanh extends Component {
             this.setState({ listMonHoc })
         }
     }
-
+    ///Listhocsinh từ fireBase
+    dsHocSinh = async () => {
+        //   //Lấy list
+        db1.ref('/Tbl_HocSinh').on('value', (snapshot) => {
+            let data = snapshot.val();
+            let keys = Object.keys(data);
+            let items = Object.values(data);
+            let items2 = data[keys[0]];
+            Utils.nlog('dsHocSinh', items, items2)
+            // this.setState({ listSubjects: items })
+        });
+    }
 
     loadListClass = () => {
         Utils.goscreen(this, 'sc_AddNewClass', { idLop: this.onloadData })
@@ -110,7 +123,7 @@ export default class Diemdanh extends Component {
         }
         this.setState({ listGheRender: arr, listHS: [], valuMonHoc: 'Chọn môn học' })
         if (flag == 0) {
-            this.setState({ listGheRender: arr, tenLop: idLop.TenNhomKH, nameLop: idLop.TenNhomKH, valuListLop: idLop, loaiLop: flag, nameSubject: 'Chọn môn học', subjectsSelected: null });
+            this.setState({ listGheRender: arr, tenLop: idLop.TenLop, nameLop: idLop.TenLop, valuListLop: idLop, loaiLop: flag, nameSubject: 'Chọn môn học', subjectsSelected: null });
         } else {
             let tenMonHoc = '';
             for (let i = 0; i < this.state.listMonHoc.length; i++) {
@@ -120,7 +133,7 @@ export default class Diemdanh extends Component {
                     break;
                 }
             }
-            this.setState({ listGheRender: arr, tenLop: idLop.TenNhomKH, nameLop: idLop.TenNhomKH, valuListLop: idLop, loaiLop: flag, tenLopLoai2: tenMonHoc });
+            this.setState({ listGheRender: arr, tenLop: idLop.TenLop, nameLop: idLop.TenLop, valuListLop: idLop, loaiLop: flag, tenLopLoai2: tenMonHoc });
             this.Listdiemdanh(idLop, flag, idLop.IDMonHoc);
         }
     }

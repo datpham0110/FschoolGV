@@ -46,11 +46,11 @@ class Login extends Component {
   }
   _getData = async () => {
     let phone = await Utils.ngetStore(nkey.phonenumber);
+    Utils.nlog('phone', phone)
     if (phone != null) {
       this.setState({ sodienthoai: phone });
     }
   };
-
   _submit = async () => {
     let ps = this.password.toString().trim();
     if (ps.length < 1) {
@@ -62,64 +62,20 @@ class Login extends Component {
       );
       return;
     };
+    // db1.ref('/Tbl_Account').on('value', (snapshot) => {
+    //   let data = snapshot.val();
+    //   let keys = Object.keys(data);
+    //   let items = Object.values(data);
+    //   let items2 = data[keys[0]];
+    //   Utils.nlog('keys', data)
 
-    Utils.showMsgBoxOK(
-      this,
-      "Thông báo",
-      "Đăng nhập clicked",
-      "Đóng"
-    );
-
-    //Tạo
-    db1.ref('/Tbl_Account').push({
-      Username:"schorem2589",
-      Password:"123456",
-      IsActive:true
-    });
-
-    //Lấy list
-    db1.ref('/Tbl_Account').on('value', (snapshot) => {
-        let data = snapshot.val();
-        let keys = Object.keys(data);
-        let items = Object.values(data);
-        let items2 = data[keys[0]];
-        Utils.showMsgBoxOK(
-          this,
-          "Thông báo",
-          JSON.stringify(items2),
-          "Đóng"
-        );
-        console.log(JSON.stringify(data));
-
-    });
-
-    //Updated
-    db1.ref(`/Tbl_Account/${'-M3Ct_EqarkRjE9TkLm3'}`).update({
-      IsActive: false,
-      Username: 'Updated',
-      Password: "failed"
-    });
-
-    //Xóa
-    db1.ref(`/Tbl_Account/${'-M3CtlDGx4rlD-ctudvW'}`).remove().then(r => {
-      Utils.showMsgBoxOK(
-        this,
-        "Thông báo",
-        "Remove success",
-        "Đóng"
-      );
-    })
-    .catch(p => {
-      Utils.showMsgBoxOK(
-        this,
-        "Thông báo",
-        "Cannot remove",
-        "Đóng"
-      );
-    });
-
-
-
+    //   Utils.showMsgBoxOK(
+    //     this,
+    //     "Thông báo",
+    //     JSON.stringify(items2),
+    //     "Đóng"
+    //   );
+    // });
     let res = await onCheckLogin(this.state.sodienthoai, ps, this);
     if (res) {
       await this._infomationUser();
@@ -129,6 +85,84 @@ class Login extends Component {
       Utils.showMsgBoxOK(this, 'Thông báo', 'Lỗi kết nối', 'Đóng')
     }
   };
+
+  // _submit = async () => {
+  //   let ps = this.password.toString().trim();
+  //   if (ps.length < 1) {
+  //     Utils.showMsgBoxOK(
+  //       this,
+  //       "Thông báo",
+  //       "Mật khẩu không được để trống!",
+  //       "Đóng"
+  //     );
+  //     return;
+  //   };
+
+  //   Utils.showMsgBoxOK(
+  //     this,
+  //     "Thông báo",
+  //     "Đăng nhập clicked",
+  //     "Đóng"
+  //   );
+
+  //   //Tạo
+  //   db1.ref('/Tbl_MonHoc').push({
+  //     IdMonHoc: "01",
+  //     TenMonHoc: "Toán",
+  //   });
+
+  //   //Lấy list
+  //   db1.ref('/Tbl_Account').on('value', (snapshot) => {
+  //     let data = snapshot.val();
+  //     let keys = Object.keys(data);
+  //     let items = Object.values(data);
+  //     let items2 = data[keys[0]];
+  //     Utils.showMsgBoxOK(
+  //       this,
+  //       "Thông báo",
+  //       JSON.stringify(items2),
+  //       "Đóng"
+  //     );
+  //     console.log(JSON.stringify(data));
+
+  //   });
+
+  //   //Updated
+  //   db1.ref(`/Tbl_Account/${'-M3Ct_EqarkRjE9TkLm3'}`).update({
+  //     IsActive: false,
+  //     Username: 'Updated',
+  //     Password: "failed"
+  //   });
+
+  //   //Xóa
+  //   db1.ref(`/Tbl_Account/${'-M3Jo3NHXQ5V3lS34B_k'}`).remove().then(r => {
+  //     Utils.showMsgBoxOK(
+  //       this,
+  //       "Thông báo",
+  //       "Remove success",
+  //       "Đóng"
+  //     );
+  //   })
+  //     .catch(p => {
+  //       Utils.showMsgBoxOK(
+  //         this,
+  //         "Thông báo",
+  //         "Cannot remove",
+  //         "Đóng"
+  //       );
+  //     });
+
+
+
+  //   let res = await onCheckLogin(this.state.sodienthoai, ps, this);
+  //   if (res) {
+  //     await this._infomationUser();
+  //     Utils.nsetStore(nkey.password, ps);
+  //     Utils.goscreen(this, "sc_Welcome");
+  //   } else {
+  //     Utils.showMsgBoxOK(this, 'Thông báo', 'Lỗi kết nối', 'Đóng')
+  //   }
+  // };
 
   _infomationUser = async () => {
     let res = await apis.Hosonguoidung.NguoiDungContact()

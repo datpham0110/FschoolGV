@@ -6,7 +6,7 @@ export const dbFB = db.database();
 
 const _PREFIX = '/Tbl_Account';
 
-function _GetListAccount(){
+async function _GetListAccount() {
     dbFB.ref(_PREFIX).on('value', (snapshot) => {
         let data = snapshot.val();
         let keys = Object.keys(data);
@@ -23,30 +23,30 @@ function _GetListAccount(){
     });
 }
 
-function _Create_Account(p){
+async function _Create_Account(p) {
     dbFB.ref(_PREFIX).push({
         Username: p["Username"],
         Password: p["Password"],
         IsActive: p["IsActive"]
-      });
+    });
 }
 
-function _Update_Account(pKey,p){
+async function _Update_Account(pKey, p) {
     dbFB.ref(`${_PREFIX}/${pKey}`).update({
         IsActive: p["IsActive"],
         Username: p["Username"],
         Password: p["Password"]
-      });
+    });
 }
 
-function _Delete_Account(pKey){
+async function _Delete_Account(pKey) {
     //Xóa
     dbFB.ref(`${_PREFIX}/${pKey}`).remove().then(r => {
         return true;
-      })
-      .catch(p => {
-        return false
-      });
+    })
+        .catch(p => {
+            return false
+        });
 }
 
 export {
