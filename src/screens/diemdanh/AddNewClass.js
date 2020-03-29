@@ -12,7 +12,8 @@ import ListEmpty from "../../components/ListEmpty";
 import { ROOTGlobal } from "../../app/data/dataGlobal";
 import { Width } from "../../styles/styles";
 import { ScrollView } from "react-native-gesture-handler";
-
+export const db1 = db.database();
+import { db } from '../../app/Config';
 export default class AddNewClass extends Component {
     constructor(props) {
         super(props);
@@ -24,17 +25,28 @@ export default class AddNewClass extends Component {
         };
     }
     componentDidMount() {
-        this.DSLop();
+        // this.DSLop();
+        this.dsLopTest();
     }
-
-    DSLop = async () => {
-        let res = await LopHoc_List_App(ROOTGlobal.IdCN)
-        if (res.status == 1) {
-            listLopChinhQuy = res.data.LopChinhQuy;
-            listLopKyNang = res.data.LopKyNang
-        }
-        this.setState({ listLopChinhQuy, listLopKyNang })
+    dsLopTest = async () => {
+        //   //Lấy list
+        db1.ref('/Tbl_LopHoc').on('value', (snapshot) => {
+            let data = snapshot.val();
+            let keys = Object.keys(data);
+            let items = Object.values(data);
+            let items2 = data[keys[0]];
+            Utils.nlog('dsLopTest', items)
+            this.setState({ listLopChinhQuy: items })
+        });
     }
+    // DSLop = async () => {
+    //     let res = await LopHoc_List_App(ROOTGlobal.IdCN)
+    //     if (res.status == 1) {
+    //         listLopChinhQuy = res.data.LopChinhQuy;
+    //         listLopKyNang = res.data.LopKyNang
+    //     }
+    //     this.setState({ listLopChinhQuy, listLopKyNang })
+    // }
     renderItemlistLopChinhQuy = ({ item, index }) => {
         return (
             <View style={[nstyles.nstyles.nrow, { marginVertical: 5 }]}>
@@ -43,7 +55,7 @@ export default class AddNewClass extends Component {
                 <View style={{ width: Width(74), justifyContent: 'center' }}>
                     <ButtonCom
                         onPress={() => this._handleOK(item, 0)}
-                        text={item.TenNhomKH}
+                        text={item.TenLop}
                         txtStyle={{ color: 'white', flex: 1 }}
                         style={{ borderRadius: 6, backgroundColor: '#84d3a5', alignItems: 'center' }}
                     />
@@ -51,22 +63,7 @@ export default class AddNewClass extends Component {
             </View >
         )
     }
-    renderItemlistLopKyNang = ({ item, index }) => {
-        return (
-            <View style={[nstyles.nstyles.nrow, { marginVertical: 5 }]}>
-                <Image source={Images.icTopHotels} resizeMode='contain' />
-                <View style={{ width: 8 }} />
-                <View style={{ width: Width(74), justifyContent: 'center' }}>
-                    <ButtonCom
-                        onPress={() => this._handleOK(item, 1)}
-                        text={item.TenNhomKH}
-                        txtStyle={{ color: 'white', flex: 1 }}
-                        style={{ borderRadius: 6, backgroundColor: colors.colorSunflower, alignItems: 'center' }}
-                    />
-                </View>
-            </View >
-        )
-    }
+
     _handleOK = (data, flag) => {
         this.idLop(data, flag);
         Utils.goback(this)
@@ -109,21 +106,7 @@ export default class AddNewClass extends Component {
                                 keyExtractor={(item, index) => index.toString()}
                             />
                         </View>
-                        <View style={{ flex: 1 }}>
-                            <FlatList
-                                showsVerticalScrollIndicator={false}
-                                data={listLopKyNang}
-                                renderItem={this.renderItemlistLopKyNang}
-                                keyExtractor={(item, index) => index.toString()}
-                            />
-                        </View>
                     </ScrollView>
-                    {/* <ButtonCom
-                        onPress={() => Utils.goscreen(this, 'sc_NewLopDiemDanh', { reloadData: this.reloadData })}
-                        text={"Lớp tạo mới"}
-                        txtStyle={{ color: 'white' }}
-                        style={{ paddingHorizontal: 65, marginTop: 15, marginBottom: 20, borderRadius: 3, backgroundColor: '#f8b199' }}
-                    /> */}
                 </View>
             </View >
         );

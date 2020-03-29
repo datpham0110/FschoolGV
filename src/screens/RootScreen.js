@@ -57,7 +57,7 @@ class RootScreen extends Component {
     if (phonenumber)
       setTimeout(() => {
         this.setStatusBar(false);
-        Utils.goscreen(this, "sc_AuthLogin");
+        Utils.goscreen(this, "sc_Welcome");
       }, 1200);
     else
       setTimeout(() => {
@@ -111,11 +111,11 @@ class RootScreen extends Component {
           alignItems: "center"
         }}
         resizeMode="stretch"
-        source={Images.bgYSSplashScreen}
+        source={Images.bgYSchool}
       >
         <Image
           resizeMode="contain"
-          source={Images.logoYSchool}
+          source={Images.icFSchool}
           style={{
             width: nwidth * 0.3,
             height: nwidth * 0.3,
@@ -127,13 +127,13 @@ class RootScreen extends Component {
             fontSize: reText(30),
             fontWeight: "500",
             textAlign: "center",
-            color: colors.greenBlue
+            color: colors.darkSkyBlue
           }}
         >
-          Trường em - Yshool
+          Trường FPT - Fshool
         </Text>
-        <Text style={{ marginTop: 15, fontSize: reText(18), color: colors.darkGreenBlue }}>Phần mềm tương tác</Text>
-        <Text style={{ fontSize: reText(18), color: colors.darkGreenBlue }}>Phụ huynh - Nhà trường</Text>
+        <Text style={{ marginTop: 15, fontSize: reText(18), color: colors.greenyBlue }}>Phần mềm tương tác</Text>
+        <Text style={{ fontSize: reText(18), color: colors.greenyBlue }}>Phụ huynh - Nhà trường</Text>
         <ActivityIndicator size="large" color={colors.darkGreenBlue} style={{ marginTop: 20 }} />
       </ImageBackground>
     );
