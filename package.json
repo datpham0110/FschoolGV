@@ -20,7 +20,7 @@
     "react": "16.8.6",
     "react-native": "0.60.5",
     "react-native-24h-timepicker": "^1.1.0",
-    "react-native-camera": "^3.8.0",
+    "react-native-camera": "^3.21.0",
     "react-native-code-push": "^5.6.0",
     "react-native-dash": "0.0.9",
     "react-native-datepicker": "^1.7.2",
