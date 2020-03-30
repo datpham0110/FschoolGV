@@ -27,6 +27,14 @@ export default class EnterYourPhoneNumber extends React.Component {
     this.phonenumber = ""
     this.state = {};
   }
+
+  componentDidMount(){
+    //----------------------------------------------------------------
+    Utils.goscreen(this, "sc_Welcome");
+
+  }
+
+
   _ktdulieu = () => {
     if (!this.phonenumber.trim()) {
       Utils.showMsgBoxOK(this, 'Thông báo', 'Vui lòng nhập tên đăng nhập', 'Đóng');
