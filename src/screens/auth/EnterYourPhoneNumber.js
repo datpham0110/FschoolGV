@@ -15,9 +15,6 @@ import { colors } from "../../styles/color";
 import Utils from "../../app/Utils";
 import { nkey } from "../../app/keys/keyStore";
 import { Images } from "../../images";
-import { reText } from "../../styles/size";
-import { appConfig } from "../../app/Config"
-import * as firebase from 'firebase'
 import IsLoading from "../../components/IsLoading";
 export const db1 = db.database();
 import { db } from '../../app/Config';
@@ -31,71 +28,30 @@ export default class EnterYourPhoneNumber extends React.Component {
     this.state = {};
   }
   _ktdulieu = () => {
+    if (!this.phonenumber.trim()) {
+      Utils.showMsgBoxOK(this, 'Thông báo', 'Vui lòng nhập tên đăng nhập', 'Đóng');
+      return;
+    };
     const ref = db1.ref('/Tbl_Account')
     ref.orderByChild('Username')
       .equalTo(this.phonenumber)
       .once('value')
-      .then(function (snapshot) {
-        var value = snapshot.val();
-        Utils.nlog('_ktdulieu', value)
+      .then((snapshot) => {
+        const value = snapshot.val();
+        if (value == null) {
+          Utils.showMsgBoxOK(this, 'Thông báo', 'Tài khoản không tồn tại')
+        } else {
+          // const keys = Object.keys(value);
+          const data = value[Object.keys(value)[0]];
+          if (data.Password == this.password.trim()) {
+            // Utils.nsetStore(phonenumber, this.phonenumber.toString().trim());
+            Utils.goscreen(this, "sc_Welcome");
+          } else {
+            Utils.showMsgBoxOK(this, 'Thông báo', 'Mật khẩu không đúng', 'Đóng')
+          };
+        };
       })
   }
-
-  _submit = async () => {
-    if (this.phonenumber.toString().trim().length == 0) {
-      Utils.showMsgBoxOK(
-        this,
-        "Thông báo",
-        "Tên tài khoản không được để trống",
-        "Đóng"
-      );
-      return;
-    }
-    const ref = db1.ref('/Tbl_Account')
-    ref.orderByChild('Username').equalTo(this.phonenumber).once('value').then(function (snapshot) {
-      var value = snapshot.val();
-      Utils.nlog('_ktdulieu', value)
-
-
-    })
-    if (value == null) {
-      Utils.showMsgBoxOK(this, 'Thông báo', 'Tài khoản không tồn tại')
-      return;
-    }
-    Utils.nsetStore(nkey.phonenumber, this.phonenumber.toString().trim());
-    Utils.goscreen(this, "sc_AuthLogin");
-  };
-  // _singup = async () => {
-  //   this.nLoading.show()
-  //   // let res = await Firebase.auth().createUserWithEmailAndPassword(this.email, this.password).catch(function (error) {
-  //   //   // Handle Errors here.
-  //   //   var errorCode = error.code;
-  //   //   var errorMessage = error.message;
-  //   //   // ...
-  //   //   Utils.nlog('error', errorCode, errorMessage)
-  //   //   Utils.nlog('_singup', error)
-  //   // })
-
-  // }
-  // _login = async () => {
-  //   if (this.email.length < 1) {
-  //     Utils.showMsgBoxOK(this, 'Tên tài khoản không được để trống')
-  //     return;
-  //   }
-  //   if (this.password.length != 6) {
-  //     Utils.showMsgBoxOK(this, 'Password phải có 6 số')
-  //     return;
-  //   }
-  //   // this.nLoading.show()
-  //   let res = await Firebase.auth().signInWithEmailAndPassword(this.email, this.password).catch((error) => Utils.showMsgBoxOK(this, 'Vui lòng kiểm tra lại'))
-  //   Utils.nlog('_login', res)
-  //   // var errorCode = error.code;
-  //   // var errorMessage = error.message;
-
-  //   // Utils.showMsgBoxOK(this, 'errorCode', errorMessage)
-  //   Utils.goscreen(this, "sc_Welcome");
-  //   // this.nLoading.hide();
-  // }
   render() {
     return (
       <ImageBackground
@@ -126,22 +82,22 @@ export default class EnterYourPhoneNumber extends React.Component {
               }}
             >
               <Input
-                // showIcon={true}
-                // icon={Images.icUser}
+                showIcon={true}
+                icon={Images.icUser}
                 placeholder={"Nhập tên tài khoản"}
                 onChangeText={text => (this.phonenumber = text)}
                 iconStyle={{ marginRight: 10, tintColor: "gray" }}
               />
-              {/* <Input
+              <Input
                 secureTextEntry={true}
                 placeholder={"Nhập mật khẩu"}
                 onChangeText={text => (this.password = text)}
                 showIcon={true}
                 icon={Images.icLock}
                 iconStyle={{ marginRight: 10, tintColor: "gray" }}
-              /> */}
+              />
               <ButtonCom
-                onPress={this._submit}
+                onPress={this._ktdulieu}
                 Linear={true}
                 style={{ marginTop: 10, backgroundColor: colors.colorPink }}
                 text={"Đăng nhập"}
