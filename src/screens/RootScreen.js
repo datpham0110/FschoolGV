@@ -19,6 +19,8 @@ import { appConfig } from "../app/Config";
 import { nGlobalKeys } from "../app/keys/globalKey";
 import { reText } from "../styles/size";
 import apis from '../apis';
+export const db1 = db.database();
+import { db } from '../app/Config';
 
 // --Màn hình Welcome
 class RootScreen extends Component {
@@ -45,25 +47,51 @@ class RootScreen extends Component {
     let phonenumber = await Utils.ngetStore(nkey.phonenumber, null);
     let password = await Utils.ngetStore(nkey.password, null);
     if (phonenumber != null && password != null) {
-      const res = await onCheckLogin(phonenumber, password);
-      if (res) {
-        await this._infomationUser();
-        Utils.goscreen(this, "sc_Welcome");
-        return;
-      } else {
-        Utils.nsetStore(nkey.password, null);
-      };
-    };
-    if (phonenumber)
-      setTimeout(() => {
-        this.setStatusBar(false);
-        Utils.goscreen(this, "sc_Welcome");
-      }, 1200);
-    else
+      const ref = db1.ref('/Tbl_Account');
+      ref.orderByChild('Username')
+        .equalTo(phonenumber)
+        .once('value')
+        .then((snapshot) => {
+          const value = snapshot.val();
+          Utils.nlog('-------------------value',value)
+          if (value == null) {
+            setTimeout(() => {
+              this.setStatusBar(false);
+              Utils.goscreen(this, "sc_EnterYourPhoneNumber");
+            }, 1000);
+          } else {
+            const data = value[Object.keys(value)[0]];
+            if (data.Password == password) {
+              setTimeout(() => {
+                this.setStatusBar(false);
+                Utils.goscreen(this, "sc_Welcome");
+              }, 1000);
+            } else {
+              setTimeout(() => {
+                this.setStatusBar(false);
+                Utils.goscreen(this, "sc_EnterYourPhoneNumber");
+              }, 1000);
+            }
+          }
+        });
+        Utils.nlog('------------------- end if')
+
+    } else {
       setTimeout(() => {
         this.setStatusBar(false);
         Utils.goscreen(this, "sc_EnterYourPhoneNumber");
-      }, 1200);
+      }, 1000);
+    }
+    // if (phonenumber)
+    //   setTimeout(() => {
+    //     this.setStatusBar(false);
+    //     Utils.goscreen(this, "sc_Welcome");
+    //   }, 1200);
+    // else
+    //   setTimeout(() => {
+    //     this.setStatusBar(false);
+    //     Utils.goscreen(this, "sc_EnterYourPhoneNumber");
+    //   }, 1200);
   };
 
   _infomationUser = async () => {

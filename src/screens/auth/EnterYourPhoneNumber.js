@@ -18,6 +18,7 @@ import { Images } from "../../images";
 import IsLoading from "../../components/IsLoading";
 export const db1 = db.database();
 import { db } from '../../app/Config';
+
 //const Firebase = firebase.initializeApp(appConfig)
 export default class EnterYourPhoneNumber extends React.Component {
   constructor(props) {
@@ -29,13 +30,9 @@ export default class EnterYourPhoneNumber extends React.Component {
   }
 
   componentDidMount(){
-    //----------------------------------------------------------------
-    Utils.goscreen(this, "sc_Welcome");
-
   }
 
-
-  _ktdulieu = () => {
+  _ktdulieu =  () => {
     if (!this.phonenumber.trim()) {
       Utils.showMsgBoxOK(this, 'Thông báo', 'Vui lòng nhập tên đăng nhập', 'Đóng');
       return;
@@ -49,10 +46,10 @@ export default class EnterYourPhoneNumber extends React.Component {
         if (value == null) {
           Utils.showMsgBoxOK(this, 'Thông báo', 'Tài khoản không tồn tại')
         } else {
-          // const keys = Object.keys(value);
           const data = value[Object.keys(value)[0]];
           if (data.Password == this.password.trim()) {
-            // Utils.nsetStore(phonenumber, this.phonenumber.toString().trim());
+            Utils.nsetStore(nkey.phonenumber, this.phonenumber);
+           Utils.nsetStore(nkey.password, this.password);
             Utils.goscreen(this, "sc_Welcome");
           } else {
             Utils.showMsgBoxOK(this, 'Thông báo', 'Mật khẩu không đúng', 'Đóng')
