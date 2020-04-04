@@ -4,7 +4,7 @@ import { colors, sizes } from '../../styles';
 import { nstyles } from '../../styles/styles';
 import HeaderCom from '../../components/HeaderCom';
 import { Images } from '../../images';
-import { reText } from '../../styles/size';
+import { reText, fs } from '../../styles/size';
 import { DiemDanhList } from '../../apis/thanhtoan';
 import Utils from '../../app/Utils';
 import ButtonCom from '../../components/Button/ButtonCom';
@@ -49,7 +49,7 @@ export default class Diemdanh extends Component {
             tenLopLoai2: 'Chọn lớp',
             isSoDoHopLe: false,
             subjectsSelected: null,
-            listHocSinh: ''
+            listHocSinh: []
         };
         this.dayInMonth = new Date().getDate();
         this.monthInYear = new Date().getMonth() + 1;
@@ -84,12 +84,12 @@ export default class Diemdanh extends Component {
             let items = Object.values(data);
             // let items2 = data[keys[0]];
             if (items != null) {
-                for(let i = 0; i < items.length; i++){
+                for (let i = 0; i < items.length; i++) {
                     items[i].isDiemDanh = -1
-                } 
+                }
                 Utils.nlog('dsHocSinh------------', items)
                 this.setState({ listHocSinh: items })
-            }else{
+            } else {
                 Utils.showMsgBoxOK(this, 'Thông báo', 'Không có học sinh để hiển thị', 'Đóng')
             }
         });
@@ -313,7 +313,7 @@ export default class Diemdanh extends Component {
         }
     }
     isEnoughAllStudentsChange = () => {
-        if(this.state.isEnoughAllStudents) return;
+        if (this.state.isEnoughAllStudents) return;
         this.setState({ isEnoughAllStudents: !this.state.isEnoughAllStudents })
         data2 = this.state.listHocSinh;
         for (let i = 0; i < data2.length; i++) {
@@ -321,7 +321,7 @@ export default class Diemdanh extends Component {
         }
         this.setState({ listHocSinh: data2 })
     }
-    demSoHocSinh = ( idloai) => {
+    demSoHocSinh = (idloai) => {
         let count = 0;
         for (let i = 0; i < this.state.listHocSinh.length; i++) {
             if (this.state.listHocSinh[i].isDiemDanh == idloai)
@@ -526,29 +526,29 @@ export default class Diemdanh extends Component {
     //     }
     // }
 
-    _touchItemDiemDanh = (value) => {    
-        let isDiemdanh = value.isDiemDanh == -1 ? 1:value.isDiemDanh == 2 ? 1 : 2 ;
-        if(isDiemDanh == 2) this.setState({ isEnoughAllStudents: false })
+    _touchItemDiemDanh = (value) => {
+        let isDiemdanh = value.isDiemDanh == -1 ? 1 : value.isDiemDanh == 2 ? 1 : 2;
+        if (isDiemDanh == 2) this.setState({ isEnoughAllStudents: false })
         let listHS = this.state.listHocSinh;
-        for(let i = 0; i < listHS.length; i++){
-            if(listHS[i].IDHocSinh == value.IDHocSinh){
+        for (let i = 0; i < listHS.length; i++) {
+            if (listHS[i].IDHocSinh == value.IDHocSinh) {
                 listHS[i].isDiemDanh = isDiemdanh;
-                this.setState({listHocSinh: listHS})
+                this.setState({ listHocSinh: listHS })
                 break;
             }
         }
     }
 
-    _renderItem = ({item, index}) => {
+    _renderItem = ({ item, index }) => {
         Utils.nlog('-----------------_renderItem', item)
         var borderColor = colors.ViewTopArea
-            if (item.isDiemDanh == -1) {
-                borderColor = colors.ViewTopArea;
-            } else if (item.isDiemDanh == 1) {
-                borderColor = 'green';
-            } else {
-                borderColor = 'red';
-            }
+        if (item.isDiemDanh == -1) {
+            borderColor = colors.ViewTopArea;
+        } else if (item.isDiemDanh == 1) {
+            borderColor = 'green';
+        } else {
+            borderColor = 'red';
+        }
         return (
             <View style={[styles.viewItemStudent, { paddingHorizontal: 5 }]}>
                 <TouchableOpacity onPress={() => this._touchItemDiemDanh(item)}>
@@ -645,7 +645,7 @@ export default class Diemdanh extends Component {
                     onPressLeft={this._back}
                 />
                 <ScrollView
-                style={{backgroundColor: 'white'}}
+                    style={{ flex: 1, backgroundColor: 'white' }}
                     showsHorizontalScrollIndicator={false}>
                     <View style={[styles.body, { backgroundColor: colors.white, borderRadius: 4, paddingHorizontal: 18, paddingVertical: 18, alignItems: 'center' }]}>
                         <View style={[nstyles.nrow, { flex: 1, alignItems: 'center', justifyContent: 'space-between' }]}>
@@ -707,22 +707,22 @@ export default class Diemdanh extends Component {
                                 </TouchableOpacity>
                             </View>
                         </View>
-                        
-                    <View style={styles.viewTotalStudents}>
-                        <Text style={styles.textThuNgayThang}>{'Tổng số học sinh: ' + this.state.listHocSinh.length}</Text>
-                        <View style={{ width: 20 }} />
-                        <View style={[nstyles.nrow, { flex: 1, alignItems: 'center', justifyContent: 'flex-end' }]}>
-                            <Text style={[styles.textThuNgayThang, { fontWeight: 'bold' }]}>{'Đủ tất cả'}</Text>
-                            <Switch
-                                style={styles.switchEnoughAllStudents}
-                                thumbColor={colors.azure}
-                                value={isEnoughAllStudents}
-                                onValueChange={this.isEnoughAllStudentsChange} />
+
+                        <View style={styles.viewTotalStudents}>
+                            <Text style={styles.textThuNgayThang}>{'Tổng số học sinh: ' + this.state.listHocSinh.length}</Text>
+                            <View style={{ width: 20 }} />
+                            <View style={[nstyles.nrow, { flex: 1, alignItems: 'center', justifyContent: 'flex-end' }]}>
+                                <Text style={[styles.textThuNgayThang, { fontWeight: 'bold' }]}>{'Đủ tất cả'}</Text>
+                                <Switch
+                                    style={styles.switchEnoughAllStudents}
+                                    thumbColor={colors.azure}
+                                    value={isEnoughAllStudents}
+                                    onValueChange={this.isEnoughAllStudentsChange} />
+                            </View>
                         </View>
-                    </View>
-                    <View style={[nstyles.nrow, { paddingVertical: 5, backgroundColor: 'white', marginBottom: 10 }]}>
+                        <View style={[nstyles.nrow, { paddingVertical: 5, backgroundColor: 'white', marginBottom: 10 }]}>
                             <View style={nstyles.nrow}>
-                                <Text style={[styles.stext, { color: 'green', marginLeft: 10, textAlign: 'left' }]}>{'Có mặt: ' + this.demSoHocSinh( 1)}  </Text>
+                                <Text style={[styles.stext, { color: 'green', marginLeft: 10, textAlign: 'left' }]}>{'Có mặt: ' + this.demSoHocSinh(1)}  </Text>
                             </View>
                             <View style={{ height: 10 }} />
                             <View style={[nstyles.nrow]}>
@@ -730,28 +730,29 @@ export default class Diemdanh extends Component {
                             </View>
                         </View>
                     </View>
-                        <FlatList
-                                data={listHocSinh}
-                                numColumns={4}
-                                renderItem={this._renderItem}
-                                keyExtractor={(item, index) => index.toString()}
-                                extraData={this.state}
-                            />
-                    <View style={{flex: 1}}>
-                    </View>
-                    <View style={{ backgroundColor: 'white' }}>
-                        <ButtonCom
-                            colorChange={[colors.lightSalmon, colors.salmonTwo]}
-                            onPress={this._submit}
-                            Linear={true}
-                            text={"Xác nhận"}
-                            style={{ paddingHorizontal: 65, marginTop: 15, marginBottom: 20 }} /> 
-                           
-                    </View>
-                    {this.state.isLoading ? <View style={[nstyles.nmiddle, { position: 'absolute', width: '100%', height: '100%', backgroundColor: colors.black_20 }]}>
-                        <ActivityIndicator color={colors.white} size='large' />
-                    </View> : null}
+                    {this.state.nameSubject == 'Chọn môn học' && this.state.tenLopLoai2 == 'Chọn lớp' ?
+                        <Text style={{ textAlign: 'center', fontSize: fs(16), fontWeight: '500' }}>Vui lòng chọn lớp vào môn học</Text> : <FlatList
+                            data={listHocSinh}
+                            numColumns={4}
+                            renderItem={this._renderItem}
+                            keyExtractor={(item, index) => index.toString()}
+                            extraData={this.state}
+                        />}
+
+
                 </ScrollView>
+                <View style={{ backgroundColor: 'white' }}>
+                    <ButtonCom
+                        colorChange={[colors.lightSalmon, colors.salmonTwo]}
+                        onPress={this._submit}
+                        Linear={true}
+                        text={"Xác nhận"}
+                        style={{ marginHorizontal: 30, paddingHorizontal: 65, marginTop: 15, marginBottom: 20 }} />
+
+                </View>
+                {this.state.isLoading ? <View style={[nstyles.nmiddle, { position: 'absolute', width: '100%', height: '100%', backgroundColor: colors.black_20 }]}>
+                    <ActivityIndicator color={colors.white} size='large' />
+                </View> : null}
             </View>
         );
     }
