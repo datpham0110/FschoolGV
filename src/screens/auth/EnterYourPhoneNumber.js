@@ -29,10 +29,10 @@ export default class EnterYourPhoneNumber extends React.Component {
     this.state = {};
   }
 
-  componentDidMount(){
+  componentDidMount() {
   }
 
-  _ktdulieu =  () => {
+  _ktdulieu = () => {
     if (!this.phonenumber.trim()) {
       Utils.showMsgBoxOK(this, 'Thông báo', 'Vui lòng nhập tên đăng nhập', 'Đóng');
       return;
@@ -49,7 +49,7 @@ export default class EnterYourPhoneNumber extends React.Component {
           const data = value[Object.keys(value)[0]];
           if (data.Password == this.password.trim()) {
             Utils.nsetStore(nkey.phonenumber, this.phonenumber);
-           Utils.nsetStore(nkey.password, this.password);
+            Utils.nsetStore(nkey.password, this.password);
             Utils.goscreen(this, "sc_Welcome");
           } else {
             Utils.showMsgBoxOK(this, 'Thông báo', 'Mật khẩu không đúng', 'Đóng')
@@ -60,24 +60,13 @@ export default class EnterYourPhoneNumber extends React.Component {
   render() {
     return (
       <ImageBackground
-        style={{
-          height: nheight,
-          width: nwidth
-        }}
+        style={{ height: nheight, width: nwidth }}
         resizeMode="stretch"
-        source={Images.bgYSchool}
-      >
+        source={Images.bgYSchool} >
         <ScrollView>
           <View style={([nstyles.ncontainerX], { marginTop: nheight / 5 })}>
             <View style={{ alignItems: 'center' }}>
               <Image source={Images.icFSchool} resizeMode='contain' style={nstyles.nIcon120} />
-            </View>
-            <View
-              style={{ justifyContent: "center", marginLeft: nwidth / 5, marginRight: nwidth / 5 }}>
-              {/* <Text
-                style={{ fontWeight: "800", textAlign: "center", fontSize: reText(20), marginBottom: 10 }}>
-                Nhập tên tài khoản
-              </Text> */}
             </View>
             <View
               style={{
@@ -107,12 +96,6 @@ export default class EnterYourPhoneNumber extends React.Component {
                 style={{ marginTop: 10, backgroundColor: colors.colorPink }}
                 text={"Đăng nhập"}
               />
-              {/* <ButtonCom
-                onPress={this._singup}
-                Linear={true}
-                style={{ marginTop: 10, backgroundColor: colors.colorPink }}
-                text={"Đăng ký"}
-              /> */}
             </View>
           </View>
         </ScrollView>

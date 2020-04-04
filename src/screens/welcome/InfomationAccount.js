@@ -204,8 +204,7 @@ class InfomationAccount extends Component {
               <TouchableOpacity onPress={this._goMediapicker}>
                 <Image
                   resizeMode="cover"
-                  // source={{ uri: this.checkChangeAvatar ? this.state.avatar : appConfig.domain + this.state.avatar }}
-                  source={Images.icPhotoBlack}
+                  source={Images.imgProfile}
                   tintColorLeft={colors.black_11}
                   style={{ width: 106, height: 106, borderRadius: 53, backgroundColor: colors.black_16 }} />
               </TouchableOpacity>
@@ -218,7 +217,7 @@ class InfomationAccount extends Component {
               <Text style={{ flex: 1, fontSize: sizes.sText17, fontWeight: 'bold' }}>
                 Tài khoản
               </Text>
-              <Text style={{ fontSize: sizes.sText16, color: '#808080' }}>{'dataTK.Username'}</Text>
+              <Text style={{ fontSize: sizes.sText16, color: '#808080' }}>{'dat1234'}</Text>
             </View>
             <TouchableOpacity
               style={{
@@ -261,11 +260,6 @@ class InfomationAccount extends Component {
               <Text style={{ flex: 1, fontSize: sizes.sText17, fontWeight: 'bold' }}>
                 Chức vụ
               </Text>
-              {/* <TextInput
-                multiline={true}
-                style={[nstyles.ntextinput, { maxHeight: 100 }]}
-                onChangeText={(chucvu) => this.setState({ chucvu })}
-              >{'Giáo viên'}</TextInput> */}
               <Text style={{ fontSize: sizes.sText13, textAlign: 'right' }}>{'Giáo viên chủ nhiệm'}</Text>
             </View>
             {this.state.show == false ? <TouchableOpacity onPress={() => this.setState({ show: !this.state.show })}
@@ -316,7 +310,7 @@ class InfomationAccount extends Component {
                 multiline={true}
                 style={[nstyles.ntextinput, { maxHeight: 100, flex: 1, textAlign: 'right' }]}
                 onChangeText={(phonenumber) => this.setState({ phonenumber })}
-              >{'dataTK.PhoneNumber'}</TextInput>
+              >{'093456789'}</TextInput>
               {/* <Text style={{ color: '#808080', fontSize: sizes.sText13 }}>{dataTK.PhoneNumber}</Text> */}
             </View>
             <View style={{
@@ -330,7 +324,7 @@ class InfomationAccount extends Component {
                 multiline={true}
                 style={[nstyles.ntextinput, { maxHeight: 100, flex: 1, textAlign: 'right' }]}
                 onChangeText={(email) => this.setState({ email })}
-              >{'dataTK.Email'}</TextInput>
+              >{'dat@gmail.com'}</TextInput>
               {/* <Text style={{ color: '#808080', fontSize: sizes.sText13 }}>{dataTK.Email}</Text> */}
             </View>
             <View style={{ flexDirection: "row", alignItems: "center", marginBottom: 5, justifyContent: 'space-between' }} >
@@ -341,7 +335,7 @@ class InfomationAccount extends Component {
                 multiline={true}
                 style={[nstyles.ntextinput, { flex: 1, maxHeight: 100, textAlign: 'right' }]}
                 onChangeText={(DiaChi) => this.setState({ DiaChi })}
-              >{this.props.infoUser.DiaChi}</TextInput>
+              >{'Nam kỳ khởi nghĩa'}</TextInput>
             </View>
           </View>
           <View style={[nstyles.nrow, { height: Height(8), justifyContent: 'center' }]}>

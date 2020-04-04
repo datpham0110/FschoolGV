@@ -13,6 +13,8 @@ import { BaoBai_Send_App_V2 } from "../../apis/thanhtoan";
 import { ROOTGlobal } from "../../app/data/dataGlobal";
 import { MonHocList } from "../../apis/danhmuc";
 import { Picker } from "native-base";
+export const db1 = db.database();
+import { db } from '../../app/Config';
 import { nGlobalKeys } from "../../app/keys/globalKey";
 export default class EditBaoBai extends Component {
     constructor(props) {
@@ -57,14 +59,16 @@ export default class EditBaoBai extends Component {
         Utils.nlog('this.nameLop', this.nameLop)
         this.getMonHocList()
     }
-
     getMonHocList = async () => {
-        let res = await MonHocList()
-        Utils.nlog('getMonHocList', res)
-        if (res.status == 1) {
-            listMonHoc = res.data
-            this.setState({ listMonHoc })
-        }
+        //   //Lấy list
+        db1.ref('/Tbl_MonHoc').on('value', (snapshot) => {
+            let data = snapshot.val();
+            let keys = Object.keys(data);
+            let items = Object.values(data);
+            let items2 = data[keys[0]];
+            Utils.nlog('dsMonHocTest', items, items2)
+            this.setState({ listMonHoc: items })
+        });
     }
     getListmonhoc = async (valIdLop) => {
         this.setState({ valuMonHoc: valIdLop });
@@ -182,22 +186,6 @@ export default class EditBaoBai extends Component {
         Utils.nlog('----------------------------------_doneEditText_doneEditText')
         // this.checkFix = false;
         this.setState({ checkFix: false })
-        // const listBB = this.state.listBB.map(item => {
-        //     if (item.id == id) {
-        //         if ((this.state.image == undefined || this.state.image.length == 0) && this.state.textGChu.trim().length == 0) {
-        //             Utils.showMsgBoxOK(this, 'Thông báo', 'Lưu thất bại. Nội dung và hình ảnh không được để trống', 'Đóng')
-        //             return item;
-        //         }
-        //         if (this.state.textGChu == 'Báo bài hình' && this.state.image.length == 0) {
-        //             Utils.showMsgBoxOK(this, 'Thông báo', 'Lưu thất bại. Vui lòng thêm hình ảnh', 'Đóng')
-        //             return item;
-        //         }
-        //         item.NoiDung = this.state.textGChu;
-        //         item.MonHoc = this.state.valuMonHoc;
-        //         item.listLinkImage = this.state.image;
-        //     }
-        //     return item;
-        // });
         const bb = this.state.listBB[0];
         if ((this.state.image == undefined || this.state.image.length == 0) && this.state.textGChu.trim().length == 0) {
             Utils.showMsgBoxOK(this, 'Thông báo', 'Lưu thất bại. Nội dung và hình ảnh không được để trống', 'Đóng')
@@ -214,6 +202,7 @@ export default class EditBaoBai extends Component {
         Utils.setGlobal(nGlobalKeys.baobai, bb)
         this.setState({ bb });
     }
+
     renderSeparator = () => {
         return (
             <View style={[nstyles.nstyles.nrow, { height: 1, width: '100%' }]}>
@@ -222,6 +211,8 @@ export default class EditBaoBai extends Component {
             </View>
         );
     };
+
+    
     BaobaiHT = () => {
         Utils.goscreen(this, 'sc_BaoBaiHT', { type: 2 });
     }

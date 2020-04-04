@@ -16,7 +16,8 @@ import { ROOTGlobal } from "../../app/data/dataGlobal";
 import { nGlobalKeys } from "../../app/keys/globalKey";
 import { RootLang } from "../../app/data/locales";
 const { width, height } = Dimensions.get('window');
-
+export const db1 = db.database();
+import { db } from '../../app/Config';
 export default class BaoBaiMain extends Component {
     constructor(props) {
         super(props);
@@ -35,7 +36,7 @@ export default class BaoBaiMain extends Component {
             listTruong: [],
             listLop: [],
             valuListTruong: ROOTGlobal.IdCN,
-            valuListLop: 'Mam non',
+            valuListLop: 'Lớp 1A',
             listHS: [],
             newDate: new Date,
             txtEmpty: 'Không có dữ liệu',
@@ -48,37 +49,53 @@ export default class BaoBaiMain extends Component {
         this.DSLop();
     }
     DSLop = async () => {
-        let res = await ListLop(this.state.valuListTruong)
-        if (res.status == 1) {
-            listLop = res.data
-            this.setState({ listLop, txtEmpty: RootLang.lang.loading }, () => {
-                if (listLop.length != 0) {
-                    let tempId = listLop[0].IDNhomKH;
-                    this.lop = listLop[0].TenNhomKH;
-                    this.GetHocSinhList(tempId)
-                };
-            });
-        } else {
-            Utils.showMsgBoxOK(this, 'Thông báo', res.error.message)
-        }
+        //   //Lấy list
+        db1.ref('/Tbl_LopHoc').on('value', (snapshot) => {
+            let data = snapshot.val();
+            let keys = Object.keys(data);
+            let items = Object.values(data);
+            let items2 = data[keys[0]];
+            Utils.nlog('dsLopTest', items)
+            this.setState({ listLop: items })
+            let tempId = items[0].IDLop
+            this.GetHocSinhList(tempId)
+        });
     }
     GetHocSinhList = async (valIdLop) => {
-        var { valuListTruong } = this.state;
-        this.state.listLop.findIndex(item => {
-            if (item.IDNhomKH == valIdLop) this.lop = item.TenNhomKH
+        //   //Lấy list
+        db1.ref('/Tbl_HocSinh').on('value', (snapshot) => {
+            let data = snapshot.val();
+            // let keys = Object.keys(data);
+            let items = Object.values(data);
+            // let items2 = data[keys[0]];
+            if (items != null) {
+                for (let i = 0; i < items.length; i++) {
+                    items[i].isDiemDanh = -1
+                }
+                Utils.nlog('dsHocSinh------------', items)
+                this.setState({ listHS: items, valuListLop: valIdLop })
+            } else {
+                Utils.showMsgBoxOK(this, 'Thông báo', 'Không có học sinh để hiển thị', 'Đóng')
+            }
         });
-        this.setState({ valuListLop: valIdLop, itemClick: [] });
-        Utils.setGlobal(nGlobalKeys.baobai, []);
-        this.clickAll = false;
-        let res = await HocSinhList(valuListTruong, valIdLop)
-        if (res.status == 1) {
-            const listHS = res.data
-            this.setState({ listHS })
-        } else {
-            this.setState({ listHS: [] })
-            Utils.showMsgBoxOK(this, 'Thông báo', res.error.message)
-        }
     }
+    // GetHocSinhList = async (valIdLop) => {
+    //     var { valuListTruong } = this.state;
+    //     this.state.listLop.findIndex(item => {
+    //         if (item.IDNhomKH == valIdLop) this.lop = item.TenNhomKH
+    //     });
+    //     this.setState({ valuListLop: valIdLop, itemClick: [] });
+    //     Utils.setGlobal(nGlobalKeys.baobai, []);
+    //     this.clickAll = false;
+    //     let res = await HocSinhList(valuListTruong, valIdLop)
+    //     if (res.status == 1) {
+    //         const listHS = res.data
+    //         this.setState({ listHS })
+    //     } else {
+    //         this.setState({ listHS: [] })
+    //         Utils.showMsgBoxOK(this, 'Thông báo', res.error.message)
+    //     }
+    // }
     _clickItem = (id) => () => {
         const itemClick = this.state.itemClick.slice();
         if (itemClick.includes(id)) {
@@ -272,7 +289,7 @@ export default class BaoBaiMain extends Component {
                                         this.GetHocSinhList(val);
                                     }}>
                                     {listLop.map((item, index) =>
-                                        <Picker.Item key={index} label={item.TenNhomKH} value={item.IDNhomKH} />
+                                        <Picker.Item key={index} label={item.TenLop} value={item.IDLop} />
                                     )}
                                 </Picker>
                             </View>

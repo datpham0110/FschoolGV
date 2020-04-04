@@ -63,12 +63,7 @@ class Welcome extends Component {
 		Utils.goscreen(this, 'sc_EnterYourPhoneNumber');
 	};
 
-	_clickMenu = (route: String, param: Object) => () => {
-		if (param) Utils.goscreen(this, route, param);
-		else if (route) Utils.goscreen(this, route);
-		else Utils.showMsgBoxOK(this, 'Chức năng đang cập nhật')
-	};
-
+	
 	_open = () => {
 		this.props.navigation.openDrawer();
 	};
@@ -80,7 +75,11 @@ class Welcome extends Component {
 		Utils.setGlobal(nGlobalKeys.deviceToken, res.data.DevicesToken);
 		Utils.nlog('device', ROOTGlobal.dataUser.IdUser)
 	}
-
+	_clickMenu = (route: String, param: Object) => () => {
+		if (param) Utils.goscreen(this, route, param);
+		else if (route) Utils.goscreen(this, route);
+		else Utils.showMsgBoxOK(this, 'Chức năng đang cập nhật')
+	};
 	renderItemMenuTop = (icon, routerName = '', name = '', param = false, countNotify = 0) => {
 		let sizeItemTop = nwidth * 0.4;
 		return (
