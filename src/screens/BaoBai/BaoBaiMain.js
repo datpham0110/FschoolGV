@@ -79,23 +79,6 @@ export default class BaoBaiMain extends Component {
             }
         });
     }
-    // GetHocSinhList = async (valIdLop) => {
-    //     var { valuListTruong } = this.state;
-    //     this.state.listLop.findIndex(item => {
-    //         if (item.IDNhomKH == valIdLop) this.lop = item.TenNhomKH
-    //     });
-    //     this.setState({ valuListLop: valIdLop, itemClick: [] });
-    //     Utils.setGlobal(nGlobalKeys.baobai, []);
-    //     this.clickAll = false;
-    //     let res = await HocSinhList(valuListTruong, valIdLop)
-    //     if (res.status == 1) {
-    //         const listHS = res.data
-    //         this.setState({ listHS })
-    //     } else {
-    //         this.setState({ listHS: [] })
-    //         Utils.showMsgBoxOK(this, 'Thông báo', res.error.message)
-    //     }
-    // }
     _clickItem = (id) => () => {
         const itemClick = this.state.itemClick.slice();
         if (itemClick.includes(id)) {
@@ -327,16 +310,6 @@ export default class BaoBaiMain extends Component {
                                 style={{ paddingHorizontal: 50, marginTop: 10 }}
                             />
                         </View> : <View style={[nrow, { justifyContent: 'center', marginBottom: 10 }]}>
-                                {/* <View style={[nrow, { height: 52, justifyContent: 'center' }]}>
-                                    <ButtonCom
-                                        colorChange={[colors.lightSalmon, colors.salmonTwo]}
-                                        onPress={this._submit(5)}
-                                        Linear={true}
-                                        text={"Gửi ghi chú"}
-                                        style={{ paddingHorizontal: 30, marginTop: 10 }}
-                                    />
-                                </View>
-                                <View style={{ width: 10 }} /> */}
                                 <View style={[nrow, { height: 52, justifyContent: 'center' }]}>
                                     <ButtonCom
                                         colorChange={[colors.lightSalmon, colors.salmonTwo]}

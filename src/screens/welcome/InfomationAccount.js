@@ -189,10 +189,7 @@ class InfomationAccount extends Component {
           nthis={this}
           titleText={"Thông tin tài khoản"}
         />
-        <KeyboardAwareScrollView
-          extraHeight={50}
-          keyboardShouldPersistTaps={'always'}
-        >
+        <KeyboardAwareScrollView extraHeight={50} keyboardShouldPersistTaps={'always'}>
           <View style={{
             flexDirection: "column", marginVertical: 10, marginHorizontal: nwidth * 0.05,
             backgroundColor: colors.white, padding: 20, borderTopLeftRadius: 6, borderTopRightRadius: 6
@@ -208,7 +205,6 @@ class InfomationAccount extends Component {
                   tintColorLeft={colors.black_11}
                   style={{ width: 106, height: 106, borderRadius: 53, backgroundColor: colors.black_16 }} />
               </TouchableOpacity>
-
             </View>
             <View style={{
               flexDirection: "row", height: nwidth * 0.12, alignItems: "center", borderBottomWidth: 1,
@@ -250,7 +246,6 @@ class InfomationAccount extends Component {
                 style={[nstyles.ntextinput, { maxHeight: 100, flex: 1, textAlign: 'right' }]}
                 onChangeText={(text) => this.fullname = text}
               >{'Lê Phạm Tuấn Kiệt'}</TextInput>
-              {/* <Text style={{ fontSize: sizes.sText16, fontWeight: '400' }}>{dataTK.FullName}</Text> */}
             </View>
             <View
               style={{
