@@ -358,6 +358,18 @@ export default class Diemdanh extends Component {
     //     };
     //     this.setState({ isLoading: false });
     // }
+
+    //---Firebase Submit diemdanh
+    // _submit = async () => {
+    //     db1.ref('/Tbl_DiemDanh').push({
+    //         MaDiemDanh: "MaDiemDanh",
+    //         NgayDiemDanh: "NgayDiemDanh",
+    //         NgayTao: "IDHocSinh",
+    //         IDHocSinh: "IDHocSinh",
+    //         isDiemDanh: "isDiemDanh"
+    //     });
+    // }
+
     _submit = async () => {
         for (let i = 0; i < this.state.listHS.length; i++) {
             if (this.state.listHS[i].Ngay[this.dayInMonth - 1] == -1) {

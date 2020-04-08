@@ -63,7 +63,7 @@ class Welcome extends Component {
 		Utils.goscreen(this, 'sc_EnterYourPhoneNumber');
 	};
 
-	
+
 	_open = () => {
 		this.props.navigation.openDrawer();
 	};
@@ -205,7 +205,7 @@ class Welcome extends Component {
 		return (
 			<View style={[nstyles.ncontainerX, { backgroundColor: colors.white }]}>
 				<HeaderCom
-					titleText={'Trường FPT Polytechnic'}
+					titleText={'Trường Tiểu học Sao Mai'}
 					nthis={this}
 					iconLeft={Images.icMenu1}
 					onPressLeft={this._open}
