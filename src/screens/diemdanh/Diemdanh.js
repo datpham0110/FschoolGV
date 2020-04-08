@@ -539,12 +539,15 @@ export default class Diemdanh extends Component {
     // }
 
     _touchItemDiemDanh = (value) => {
-        let isDiemdanh = value.isDiemDanh == -1 ? 1 : value.isDiemDanh == 2 ? 1 : 2;
+
+        let isDiemDanh = value.isDiemDanh == -1 ? 1 : value.isDiemDanh == 2 ? 1 : 2;
         if (isDiemDanh == 2) this.setState({ isEnoughAllStudents: false })
         let listHS = this.state.listHocSinh;
         for (let i = 0; i < listHS.length; i++) {
             if (listHS[i].IDHocSinh == value.IDHocSinh) {
-                listHS[i].isDiemDanh = isDiemdanh;
+                Utils.nlog('-----------------listHS[i].IDHocSinh', listHS[i].IDHocSinh)
+                Utils.nlog('-----------------isDiemdanh', isDiemDanh)
+                listHS[i].isDiemDanh = isDiemDanh;
                 this.setState({ listHocSinh: listHS })
                 break;
             }
@@ -743,7 +746,8 @@ export default class Diemdanh extends Component {
                         </View>
                     </View>
                     {this.state.nameSubject == 'Chọn môn học' && this.state.tenLopLoai2 == 'Chọn lớp' ?
-                        <Text style={{ textAlign: 'center', fontSize: fs(16), fontWeight: '500' }}>Vui lòng chọn lớp vào môn học</Text> : <FlatList
+                        <Text style={{ textAlign: 'center', fontSize: fs(16), fontWeight: '500' }}>Vui lòng chọn lớp vào môn học</Text> : 
+                        <FlatList
                             data={listHocSinh}
                             numColumns={4}
                             renderItem={this._renderItem}
