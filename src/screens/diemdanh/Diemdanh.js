@@ -77,12 +77,9 @@ export default class Diemdanh extends Component {
     }
     ///Listhocsinh từ fireBase
     dsHocSinh = async () => {
-        //   //Lấy list
         db1.ref('/Tbl_HocSinh').on('value', (snapshot) => {
             let data = snapshot.val();
-            // let keys = Object.keys(data);
             let items = Object.values(data);
-            // let items2 = data[keys[0]];
             if (items != null) {
                 for (let i = 0; i < items.length; i++) {
                     items[i].isDiemDanh = -1
@@ -359,49 +356,49 @@ export default class Diemdanh extends Component {
     //     this.setState({ isLoading: false });
     // }
     _submit = async () => {
-        for (let i = 0; i < this.state.listHS.length; i++) {
-            if (this.state.listHS[i].Ngay[this.dayInMonth - 1] == -1) {
+        for (let i = 0; i < this.state.listHocSinh.length; i++) {
+            Utils.nlog('----------------this.state.listHocSinh[i].isDiemDanh', this.state.listHocSinh[i].isDiemDanh)
+            if (this.state.listHocSinh[i].isDiemDanh == -1) {
                 Utils.showMsgBoxOK(this, 'Thông báo', 'Phải điểm danh hết tất cả học sinh trong lớp', 'Đóng');
                 return;
             }
         }
-
         if (this.state.dateGioRa < this.state.dateGioVao) {
             Utils.showMsgBoxOK(this, 'Thông báo', 'Giờ vào không được lớn hơn giờ ra', 'Đóng')
             return;
         }
-
-        if (this.state.dateGioRa == '16:30' && this.state.dateGioVao == this.state.dateGioVaoFlag && this.state.isCapNhat == false) {
-            Utils.showMsgBoxYesNo(this, 'Thông báo', 'Giờ vào giờ ra hiện tại đang mặc định. Bạn có muốn tiếp tục không?', 'Tiếp tục', 'Quay lại', this._themDiemDanh, () => { return; })
-        } else {
-            let danhSachHocSinh = this.state.listHS
-            for (let i = 0; i < danhSachHocSinh.length; i++) {
-                danhSachHocSinh[i].NgayDiemDanh = this.dayInMonth + '/' + this.monthInYear + '/' + this.year;
-                danhSachHocSinh[i].GioVao = this.state.dateGioVao;
-                danhSachHocSinh[i].GioRa = this.state.dateGioRa;
-            }
-            var data = {
-                Chot: true,
-                TongNgayHoc: this.state.DiemDanhData.TongNgayHoc,
-                IDLopHoc: this.state.valuListLop.IDNhomKH,
-                NgayChot: this.dayInMonth + '/' + this.monthInYear + '/' + this.year,
-                ChiTiet: danhSachHocSinh
-            };
-            this.setState({ isLoading: true });
-            let res;
-            if (this.state.loaiLop == 0) {
-                res = await DiemDanh_Update(data, this.state.loaiLop, this.state.subjectsSelected.IdMonHoc);
-            } else {
-                res = await DiemDanh_Update(data, this.state.loaiLop, this.state.valuListLop.IDMonHoc);
-            }
-            if (res.status == 1) {
-                this.setState({ isCapNhat: true })
-                Utils.showMsgBoxOK(this, 'Thành Công', 'Xác nhận điểm danh thành công', 'Đóng', () => { Utils.goback(this) });
-            } else {
-                Utils.showMsgBoxOK(this, 'Thất Bại', 'Điểm danh không thành công', 'Đóng');
-            };
-            this.setState({ isLoading: false });
-        }
+        // if (this.state.dateGioRa == '16:30' && this.state.dateGioVao == this.state.dateGioVaoFlag && this.state.isCapNhat == false) {
+        //     Utils.showMsgBoxYesNo(this, 'Thông báo', 'Giờ vào giờ ra hiện tại đang mặc định. Bạn có muốn tiếp tục không?', 'Tiếp tục', 'Quay lại', this._themDiemDanh, () => { return; })
+        // } else {
+            let listHocSinh = this.state.listHocSinh;
+            Utils.nlog('--------------------listHocSinh',listHocSinh)
+            // for (let i = 0; i < danhSachHocSinh.length; i++) {
+            //     danhSachHocSinh[i].NgayDiemDanh = this.dayInMonth + '/' + this.monthInYear + '/' + this.year;
+            //     danhSachHocSinh[i].GioVao = this.state.dateGioVao;
+            //     danhSachHocSinh[i].GioRa = this.state.dateGioRa;
+            // }
+            // var data = {
+            //     Chot: true,
+            //     TongNgayHoc: this.state.DiemDanhData.TongNgayHoc,
+            //     IDLopHoc: this.state.valuListLop.IDNhomKH,
+            //     NgayChot: this.dayInMonth + '/' + this.monthInYear + '/' + this.year,
+            //     ChiTiet: danhSachHocSinh
+            // };
+            // this.setState({ isLoading: true });
+            // let res;
+            // if (this.state.loaiLop == 0) {
+            //     res = await DiemDanh_Update(data, this.state.loaiLop, this.state.subjectsSelected.IdMonHoc);
+            // } else {
+            //     res = await DiemDanh_Update(data, this.state.loaiLop, this.state.valuListLop.IDMonHoc);
+            // }
+            // if (res.status == 1) {
+            //     this.setState({ isCapNhat: true })
+            //     Utils.showMsgBoxOK(this, 'Thành Công', 'Xác nhận điểm danh thành công', 'Đóng', () => { Utils.goback(this) });
+            // } else {
+            //     Utils.showMsgBoxOK(this, 'Thất Bại', 'Điểm danh không thành công', 'Đóng');
+            // };
+            // this.setState({ isLoading: false });
+        // }
     }
     // _updateDiemDanh = async () => {
     //     let danhSachHocSinh = this.state.listHS
@@ -527,14 +524,11 @@ export default class Diemdanh extends Component {
     // }
 
     _touchItemDiemDanh = (value) => {
-
         let isDiemDanh = value.isDiemDanh == -1 ? 1 : value.isDiemDanh == 2 ? 1 : 2;
         if (isDiemDanh == 2) this.setState({ isEnoughAllStudents: false })
         let listHS = this.state.listHocSinh;
         for (let i = 0; i < listHS.length; i++) {
             if (listHS[i].IDHocSinh == value.IDHocSinh) {
-                Utils.nlog('-----------------listHS[i].IDHocSinh', listHS[i].IDHocSinh)
-                Utils.nlog('-----------------isDiemdanh', isDiemDanh)
                 listHS[i].isDiemDanh = isDiemDanh;
                 this.setState({ listHocSinh: listHS })
                 break;
@@ -543,7 +537,6 @@ export default class Diemdanh extends Component {
     }
 
     _renderItem = ({ item, index }) => {
-        Utils.nlog('-----------------_renderItem', item)
         var borderColor = colors.ViewTopArea
         if (item.isDiemDanh == -1) {
             borderColor = colors.ViewTopArea;
