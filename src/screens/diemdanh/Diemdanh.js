@@ -356,15 +356,17 @@ export default class Diemdanh extends Component {
     // }
 
     //---Firebase Submit diemdanh
-    // _submit = async () => {
-    //     db1.ref('/Tbl_DiemDanh').push({
-    //         MaDiemDanh: "MaDiemDanh",
-    //         NgayDiemDanh: "NgayDiemDanh",
-    //         NgayTao: "IDHocSinh",
-    //         IDHocSinh: "IDHocSinh",
-    //         isDiemDanh: "isDiemDanh"
-    //     });
-    // }
+    _send = async (item) => {
+        Utils.nlog('--------------------item',item)
+        db1.ref('/Tbl_DiemDanh').push({
+            // MaDiemDanh: "MaDiemDanh",
+            NgayDiemDanh: item.NgayDiemDanh,
+            NgayTao: item.IDHocSinh,
+            IDHocSinh: item.IDHocSinh,
+            isDiemDanh: item.isDiemDanh
+        });
+
+    }
 
     _submit = async () => {
         for (let i = 0; i < this.state.listHocSinh.length; i++) {
@@ -382,6 +384,16 @@ export default class Diemdanh extends Component {
         // } else {
             let listHocSinh = this.state.listHocSinh;
             Utils.nlog('--------------------listHocSinh',listHocSinh)
+            for(let i = 0; i< listHocSinh.length; i++){
+                let item = {
+                    NgayDiemDanh:  this.dayInMonth + '/' + this.monthInYear + '/' + this.year,
+                    NgayTao:  this.dayInMonth + '/' + this.monthInYear + '/' + this.year,
+                    IDHocSinh: listHocSinh[i].IDHocSinh,
+                    isDiemDanh: listHocSinh[i].isDiemDanh
+                }
+                this._send(item)
+            }
+            
             // for (let i = 0; i < danhSachHocSinh.length; i++) {
             //     danhSachHocSinh[i].NgayDiemDanh = this.dayInMonth + '/' + this.monthInYear + '/' + this.year;
             //     danhSachHocSinh[i].GioVao = this.state.dateGioVao;
