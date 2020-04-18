@@ -415,78 +415,7 @@ export default class Diemdanh extends Component {
             this.setState({ isLoading: false });
         }
     }
-    // _updateDiemDanh = async () => {
-    //     let danhSachHocSinh = this.state.listHS
-    //     if (this.state.itemChildCapNhat.Ngay[this.dayInMonth - 1] != this.statusDiemDanhTrung) {
-    //         for (let i = 0; i < danhSachHocSinh.length; i++) {
-    //             danhSachHocSinh[i].NgayDiemDanh = this.dayInMonth + '/' + this.monthInYear + '/' + this.year;
-    //         }
-    //         var data = {
-    //             Chot: true,
-    //             TongNgayHoc: this.state.DiemDanhData.TongNgayHoc,
-    //             IDLopHoc: this.state.valuListLop.IDNhomKH,
-    //             NgayChot: this.dayInMonth + '/' + this.monthInYear + '/' + this.year,
-    //             ChiTiet: danhSachHocSinh
-    //         };
-    //         this.setState({ isLoading: true });
-    //         let res
-    //         if (this.state.loaiLop == 0) {
-    //             res = await DiemDanh_Update(data, this.state.loaiLop, this.state.subjectsSelected.IdMonHoc);
-    //         } else {
-    //             res = await DiemDanh_Update(data, this.state.loaiLop, this.state.valuListLop.IDMonHoc);
-    //         }
-    //         this.setState({
-    //             isLoading: false,
-    //             flagCapNhat: false,
-    //             itemChildCapNhat: null
-    //         });
-    //         if (res.status == 1) {
-    //             Utils.showMsgBoxOK(this, 'Thành Công', 'Cập nhật điểm danh thành công', 'Đóng', () => Utils.goback(this));
-    //         } else {
-    //             Utils.showMsgBoxOK(this, 'Thất Bại', 'Cập nhật điểm danh không thành công', 'Đóng', () => Utils.goback(this));
-    //         };
-    //     } else {
-    //         Utils.showMsgBoxOK(this, 'Thông báo', 'Điểm danh chưa thay đổi', 'Đóng')
-    //     }
-    // }
-    // _update = async () => {
-    //     if (this.state.dateGioRa == '16:30') {
-    //         Utils.showMsgBoxYesNo(this, 'Thông báo', 'Giờ vào giờ ra hiện tại đang mặc định. Bạn có muốn tiếp tục không?', 'Tiếp tục', 'Quay lại', this._updateDiemDanh, () => { return; })
-    //     } else {
-    //         let danhSachHocSinh = this.state.listHS
-    //         if (this.state.itemChildCapNhat.Ngay[this.dayInMonth - 1] != this.statusDiemDanhTrung) {
-    //             for (let i = 0; i < danhSachHocSinh.length; i++) {
-    //                 danhSachHocSinh[i].NgayDiemDanh = this.dayInMonth + '/' + this.monthInYear + '/' + this.year;
-    //             }
-    //             var data = {
-    //                 Chot: true,
-    //                 TongNgayHoc: this.state.DiemDanhData.TongNgayHoc,
-    //                 IDLopHoc: this.state.valuListLop.IDNhomKH,
-    //                 NgayChot: this.dayInMonth + '/' + this.monthInYear + '/' + this.year,
-    //                 ChiTiet: danhSachHocSinh
-    //             };
-    //             this.setState({ isLoading: true });
-    //             let res
-    //             if (this.state.loaiLop == 0) {
-    //                 res = await DiemDanh_Update(data, this.state.loaiLop, this.state.subjectsSelected.IdMonHoc);
-    //             } else {
-    //                 res = await DiemDanh_Update(data, this.state.loaiLop, this.state.valuListLop.IDMonHoc);
-    //             }
-    //             this.setState({
-    //                 isLoading: false,
-    //                 flagCapNhat: false,
-    //                 itemChildCapNhat: null
-    //             });
-    //             if (res.status == 1) {
-    //                 Utils.showMsgBoxOK(this, 'Thành Công', 'Cập nhật điểm danh thành công', 'Đóng', () => Utils.goback(this));
-    //             } else {
-    //                 Utils.showMsgBoxOK(this, 'Thất Bại', 'Cập nhật điểm danh không thành công', 'Đóng', () => Utils.goback(this));
-    //             };
-    //         } else {
-    //             Utils.showMsgBoxOK(this, 'Thông báo', 'Điểm danh chưa thay đổi', 'Đóng')
-    //         }
-    //     }
-    // }
+    
     _openDatePickTu = () => {
         if (this.state.listHS.length > 0) {
             if (this.state.isCapNhat == true) {
@@ -509,37 +438,7 @@ export default class Diemdanh extends Component {
             this.DatePicker2.onPressDate()
         }
     }
-    // reloadData = (flag) => {
-    //     if (this.state.loaiLop == 0) {
-    //         this.Listdiemdanh(this.state.valuListLop, this.state.loaiLop, this.state.subjectsSelected.IdMonHoc);
-    //     } else {
-    //         Utils.nlog('-------------- reloadData', this.state.valuListLop, this.state.loaiLop, this.state.valuListLop.IDMonHoc)
-    //         this.Listdiemdanh(this.state.valuListLop, this.state.loaiLop, this.state.valuListLop.IDMonHoc);
-    //     }
-    // }
-    // goSD = (loaiLop) => {
-    //     Utils.nlog('--------------------', this.state.subjectsSelected)
-    //     if (this.state.subjectsSelected == null) {
-    //         Utils.showMsgBoxOK(this, 'Thông báo', 'Bạn phải chọn môn học để sắp xếp sơ đồ', 'Đóng')
-    //     } else {
-    //         if (loaiLop == 0) {
-    //             Utils.goscreen(this, 'Modal_SodoDiemDanh', { loaiLop: this.state.loaiLop, valuListLop: this.state.valuListLop.IDNhomKH, listHSTruyenQua: this.state.listHS, reloadData: this.reloadData, IdMonHoc: this.state.subjectsSelected.IdMonHoc }) //valuMonHoc
-    //         } else {
-    //             Utils.goscreen(this, 'Modal_SodoDiemDanh', { loaiLop: this.state.loaiLop, valuListLop: this.state.valuListLop.IDNhomKH, listHSTruyenQua: this.state.listHS, reloadData: this.reloadData, IdMonHoc: this.state.valuListLop.IDMonHoc })
-    //         }
-    //     }
-
-    // }
-    // _back = () => {
-    //     if (this.state.itemChildCapNhat != null) {
-    //         Utils.showMsgBoxYesNo(this, 'Thông báo', 'Bạn có chắc chắn muốn thoát khi chưa lưu cập nhật điểm danh', 'Đồng ý', 'Huỷ', () => Utils.goback(this))
-    //     } else {
-    //         Utils.goback(this)
-    //     }
-    // }
-
     _touchItemDiemDanh = (value) => {
-
         let isDiemDanh = value.isDiemDanh == -1 ? 1 : value.isDiemDanh == 2 ? 1 : 2;
         if (isDiemDanh == 2) this.setState({ isEnoughAllStudents: false })
         let listHS = this.state.listHocSinh;
@@ -575,76 +474,6 @@ export default class Diemdanh extends Component {
             </View>
         );
     }
-    // ItemStudent = (item, index, itemDay) => {
-    //     if (item.IDHocSinh != 'null') {
-    //         var borderColor = colors.ViewTopArea
-    //         if (item.Ngay[itemDay] == -1) {
-    //             borderColor = colors.ViewTopArea;
-    //         }
-    //         else if (item.Ngay[itemDay] == 1) {
-    //             borderColor = 'green';
-    //         } else if (item.Ngay[itemDay] == 3) {
-    //             borderColor = 'blue';
-    //         } else if (item.Ngay[itemDay] == 2) {
-    //             borderColor = 'blue';
-    //         } else if (item.Ngay[itemDay] == 4)
-    //             borderColor = 'orange';
-    //         else
-    //             borderColor = 'red';
-    //         return (
-    //             <View style={[styles.viewItemStudent, { paddingHorizontal: 5 }]}>
-    //                 <TouchableOpacity
-    //                     onPress={() => this._clickItem(item, index, itemDay)}
-    //                 >
-    //                     <View style={[styles.viewSelectStudent, { borderColor: borderColor }]} />
-    //                 </TouchableOpacity>
-    //                 <Text style={styles.textNameStudent}>
-    //                     {Utils.splitName(item.TenHocSinh)}
-    //                 </Text>
-    //             </View>
-    //         )
-    //     } 
-    // }
-    // renderDate = itemDay => {
-    //     var { isEnoughAllStudents, listHocSinh } = this.state;
-    //     return (
-    //         <View style={[styles.viewTitle, { paddingTop: -10, flex: 1 }]}>
-    //             <View style={styles.viewTotalStudents}>
-    //                 <Text style={styles.textThuNgayThang}>{'Tổng số học sinh: ' + this.state.listHS.length}</Text>
-    //                 <View style={{ width: 20 }} />
-    //                 <View style={[nstyles.nrow, { flex: 1, alignItems: 'center', justifyContent: 'flex-end' }]}>
-    //                     <Text style={[styles.textThuNgayThang, { fontWeight: 'bold' }]}>{'Đủ tất cả'}</Text>
-    //                     <Switch
-    //                         style={styles.switchEnoughAllStudents}
-    //                         thumbColor={colors.azure}
-    //                         value={isEnoughAllStudents}
-    //                         onValueChange={this.isEnoughAllStudentsChange} />
-    //                 </View>
-    //             </View>
-    //             <View style={[nstyles.nrow, { paddingVertical: 5, backgroundColor: 'white', marginBottom: 10 }]}>
-    //                 <View style={[nstyles.nrow]}>
-    //                     <Text style={[styles.stext, { color: colors.blue, marginLeft: 10, textAlign: 'left' }]}>{'Vắng có phép: ' + this.demSoHocSinh(this.dayInMonth - 1, 2)}  </Text>
-    //                 </View>
-    //                 <View style={{ height: 10 }} />
-    //                 <View style={nstyles.nrow}>
-    //                     <Text style={[styles.stext, { color: 'green', marginLeft: 10, textAlign: 'left' }]}>{'Có mặt: ' + this.demSoHocSinh(this.dayInMonth - 1, 1)}  </Text>
-    //                 </View>
-    //                 <View style={{ height: 10 }} />
-    //                 <View style={[nstyles.nrow]}>
-    //                     <Text style={[styles.stext, { color: 'red', marginLeft: 10, textAlign: 'left' }]}>{'Vắng không phép: ' + this.demSoHocSinh(this.dayInMonth - 1, 0)}</Text>
-    //                 </View>
-    //             </View>
-    //                 <FlatList
-    //                     data={listHocSinh}
-    //                     numColumns={4}
-    //                     renderItem={({ item, index }) => this.renderItem(item, index, itemDay)}
-    //                     keyExtractor={(item, index) => index.toString()}
-    //                     extraData={this.state}
-    //                     ListEmptyComponent={<ListEmpty textempty={'Không có dữ liệu'} />}
-    //                 />
-    //         </View>
-    //     )
-    // }
 
     render() {
         var { isCapNhat, isEnoughAllStudents, nameSubject, listMonHoc, tenLop, nameLop, listHocSinh } = this.state
@@ -724,8 +553,16 @@ export default class Diemdanh extends Component {
                         </View>
 
                         <View style={styles.viewTotalStudents}>
-                            <Text style={styles.textThuNgayThang}>{'Tổng số học sinh: ' + this.state.listHocSinh.length}</Text>
-                            <View style={{ width: 20 }} />
+                        <View style={[nstyles.nrow, { backgroundColor: 'white'}]}>
+                            <View style={nstyles.nrow}>
+                                <Text style={[styles.stext, { color: 'green', marginLeft: 10, textAlign: 'left' }]}>{'Có mặt: ' + this.demSoHocSinh(1)}  </Text>
+                            </View>
+                            <View style={{ height: 10 }} />
+                            <View style={[nstyles.nrow]}>
+                                <Text style={[styles.stext, { color: 'red', marginLeft: 10, textAlign: 'left' }]}>{'Vắng mặt: ' + this.demSoHocSinh(2)}</Text>
+                            </View>
+                        </View>
+                            {/* <Text style={styles.textThuNgayThang}>{'Tổng số học sinh: ' + this.state.listHocSinh.length}</Text> */}
                             <View style={[nstyles.nrow, { flex: 1, alignItems: 'center', justifyContent: 'flex-end' }]}>
                                 <Text style={[styles.textThuNgayThang, { fontWeight: 'bold' }]}>{'Đủ tất cả'}</Text>
                                 <Switch
@@ -735,15 +572,7 @@ export default class Diemdanh extends Component {
                                     onValueChange={this.isEnoughAllStudentsChange} />
                             </View>
                         </View>
-                        <View style={[nstyles.nrow, { paddingVertical: 5, backgroundColor: 'white', marginBottom: 10 }]}>
-                            <View style={nstyles.nrow}>
-                                <Text style={[styles.stext, { color: 'green', marginLeft: 10, textAlign: 'left' }]}>{'Có mặt: ' + this.demSoHocSinh(1)}  </Text>
-                            </View>
-                            <View style={{ height: 10 }} />
-                            <View style={[nstyles.nrow]}>
-                                <Text style={[styles.stext, { color: 'red', marginLeft: 10, textAlign: 'left' }]}>{'Vắng mặt: ' + this.demSoHocSinh(2)}</Text>
-                            </View>
-                        </View>
+                       
                     </View>
                     {this.state.nameSubject == 'Chọn môn học' && this.state.tenLopLoai2 == 'Chọn lớp' ?
                         <Text style={{ textAlign: 'center', fontSize: fs(16), fontWeight: '500' }}>Vui lòng chọn lớp vào môn học</Text> : 
