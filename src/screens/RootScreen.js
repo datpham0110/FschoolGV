@@ -158,7 +158,7 @@ class RootScreen extends Component {
             color: colors.darkSkyBlue
           }}
         >
-          Trường FPT - Fshool
+          Trường Mầm Non - Fshool
         </Text>
         <Text style={{ marginTop: 15, fontSize: reText(18), color: colors.greenyBlue }}>Phần mềm tương tác</Text>
         <Text style={{ fontSize: reText(18), color: colors.greenyBlue }}>Phụ huynh - Nhà trường</Text>
