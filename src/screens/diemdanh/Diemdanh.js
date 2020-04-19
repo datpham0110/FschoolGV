@@ -77,17 +77,13 @@ export default class Diemdanh extends Component {
     }
     ///Listhocsinh từ fireBase
     dsHocSinh = async () => {
-        //   //Lấy list
         db1.ref('/Tbl_HocSinh').on('value', (snapshot) => {
             let data = snapshot.val();
-            // let keys = Object.keys(data);
             let items = Object.values(data);
-            // let items2 = data[keys[0]];
             if (items != null) {
                 for (let i = 0; i < items.length; i++) {
                     items[i].isDiemDanh = -1
                 }
-                Utils.nlog('dsHocSinh------------', items)
                 this.setState({ listHocSinh: items })
             } else {
                 Utils.showMsgBoxOK(this, 'Thông báo', 'Không có học sinh để hiển thị', 'Đóng')
@@ -360,60 +356,71 @@ export default class Diemdanh extends Component {
     // }
 
     //---Firebase Submit diemdanh
-    // _submit = async () => {
-    //     db1.ref('/Tbl_DiemDanh').push({
-    //         MaDiemDanh: "MaDiemDanh",
-    //         NgayDiemDanh: "NgayDiemDanh",
-    //         NgayTao: "IDHocSinh",
-    //         IDHocSinh: "IDHocSinh",
-    //         isDiemDanh: "isDiemDanh"
-    //     });
-    // }
+    _send = async (item) => {
+        Utils.nlog('--------------------item',item)
+        db1.ref('/Tbl_DiemDanh').push({
+            // MaDiemDanh: "MaDiemDanh",
+            NgayDiemDanh: item.NgayDiemDanh,
+            NgayTao: item.IDHocSinh,
+            IDHocSinh: item.IDHocSinh,
+            isDiemDanh: item.isDiemDanh
+        });
+
+    }
 
     _submit = async () => {
-        for (let i = 0; i < this.state.listHS.length; i++) {
-            if (this.state.listHS[i].Ngay[this.dayInMonth - 1] == -1) {
+        for (let i = 0; i < this.state.listHocSinh.length; i++) {
+            if (this.state.listHocSinh[i].isDiemDanh == -1) {
                 Utils.showMsgBoxOK(this, 'Thông báo', 'Phải điểm danh hết tất cả học sinh trong lớp', 'Đóng');
                 return;
             }
         }
-
         if (this.state.dateGioRa < this.state.dateGioVao) {
             Utils.showMsgBoxOK(this, 'Thông báo', 'Giờ vào không được lớn hơn giờ ra', 'Đóng')
             return;
         }
-
-        if (this.state.dateGioRa == '16:30' && this.state.dateGioVao == this.state.dateGioVaoFlag && this.state.isCapNhat == false) {
-            Utils.showMsgBoxYesNo(this, 'Thông báo', 'Giờ vào giờ ra hiện tại đang mặc định. Bạn có muốn tiếp tục không?', 'Tiếp tục', 'Quay lại', this._themDiemDanh, () => { return; })
-        } else {
-            let danhSachHocSinh = this.state.listHS
-            for (let i = 0; i < danhSachHocSinh.length; i++) {
-                danhSachHocSinh[i].NgayDiemDanh = this.dayInMonth + '/' + this.monthInYear + '/' + this.year;
-                danhSachHocSinh[i].GioVao = this.state.dateGioVao;
-                danhSachHocSinh[i].GioRa = this.state.dateGioRa;
+        // if (this.state.dateGioRa == '16:30' && this.state.dateGioVao == this.state.dateGioVaoFlag && this.state.isCapNhat == false) {
+        //     Utils.showMsgBoxYesNo(this, 'Thông báo', 'Giờ vào giờ ra hiện tại đang mặc định. Bạn có muốn tiếp tục không?', 'Tiếp tục', 'Quay lại', this._themDiemDanh, () => { return; })
+        // } else {
+            let listHocSinh = this.state.listHocSinh;
+            Utils.nlog('--------------------listHocSinh',listHocSinh)
+            for(let i = 0; i< listHocSinh.length; i++){
+                let item = {
+                    NgayDiemDanh:  this.dayInMonth + '/' + this.monthInYear + '/' + this.year,
+                    NgayTao:  this.dayInMonth + '/' + this.monthInYear + '/' + this.year,
+                    IDHocSinh: listHocSinh[i].IDHocSinh,
+                    isDiemDanh: listHocSinh[i].isDiemDanh
+                }
+                this._send(item)
             }
-            var data = {
-                Chot: true,
-                TongNgayHoc: this.state.DiemDanhData.TongNgayHoc,
-                IDLopHoc: this.state.valuListLop.IDNhomKH,
-                NgayChot: this.dayInMonth + '/' + this.monthInYear + '/' + this.year,
-                ChiTiet: danhSachHocSinh
-            };
-            this.setState({ isLoading: true });
-            let res;
-            if (this.state.loaiLop == 0) {
-                res = await DiemDanh_Update(data, this.state.loaiLop, this.state.subjectsSelected.IdMonHoc);
-            } else {
-                res = await DiemDanh_Update(data, this.state.loaiLop, this.state.valuListLop.IDMonHoc);
-            }
-            if (res.status == 1) {
-                this.setState({ isCapNhat: true })
-                Utils.showMsgBoxOK(this, 'Thành Công', 'Xác nhận điểm danh thành công', 'Đóng', () => { Utils.goback(this) });
-            } else {
-                Utils.showMsgBoxOK(this, 'Thất Bại', 'Điểm danh không thành công', 'Đóng');
-            };
-            this.setState({ isLoading: false });
-        }
+            
+            // for (let i = 0; i < danhSachHocSinh.length; i++) {
+            //     danhSachHocSinh[i].NgayDiemDanh = this.dayInMonth + '/' + this.monthInYear + '/' + this.year;
+            //     danhSachHocSinh[i].GioVao = this.state.dateGioVao;
+            //     danhSachHocSinh[i].GioRa = this.state.dateGioRa;
+            // }
+            // var data = {
+            //     Chot: true,
+            //     TongNgayHoc: this.state.DiemDanhData.TongNgayHoc,
+            //     IDLopHoc: this.state.valuListLop.IDNhomKH,
+            //     NgayChot: this.dayInMonth + '/' + this.monthInYear + '/' + this.year,
+            //     ChiTiet: danhSachHocSinh
+            // };
+            // this.setState({ isLoading: true });
+            // let res;
+            // if (this.state.loaiLop == 0) {
+            //     res = await DiemDanh_Update(data, this.state.loaiLop, this.state.subjectsSelected.IdMonHoc);
+            // } else {
+            //     res = await DiemDanh_Update(data, this.state.loaiLop, this.state.valuListLop.IDMonHoc);
+            // }
+            // if (res.status == 1) {
+            //     this.setState({ isCapNhat: true })
+            //     Utils.showMsgBoxOK(this, 'Thành Công', 'Xác nhận điểm danh thành công', 'Đóng', () => { Utils.goback(this) });
+            // } else {
+            //     Utils.showMsgBoxOK(this, 'Thất Bại', 'Điểm danh không thành công', 'Đóng');
+            // };
+            // this.setState({ isLoading: false });
+        // }
     }
     
     _openDatePickTu = () => {
@@ -444,8 +451,6 @@ export default class Diemdanh extends Component {
         let listHS = this.state.listHocSinh;
         for (let i = 0; i < listHS.length; i++) {
             if (listHS[i].IDHocSinh == value.IDHocSinh) {
-                Utils.nlog('-----------------listHS[i].IDHocSinh', listHS[i].IDHocSinh)
-                Utils.nlog('-----------------isDiemdanh', isDiemDanh)
                 listHS[i].isDiemDanh = isDiemDanh;
                 this.setState({ listHocSinh: listHS })
                 break;
@@ -454,7 +459,6 @@ export default class Diemdanh extends Component {
     }
 
     _renderItem = ({ item, index }) => {
-        Utils.nlog('-----------------_renderItem', item)
         var borderColor = colors.ViewTopArea
         if (item.isDiemDanh == -1) {
             borderColor = colors.ViewTopArea;
