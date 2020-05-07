@@ -87,21 +87,15 @@ export default class EditBaoBai extends Component {
         // const listBB = this.state.listBB.slice();
         const listBB = []
         listBB.push(
-            // const bb =
             {
                 TenThongBao: tenthongbao,
-                IDThongBao: '',
                 MonHoc: valuMonHoc,
                 NoiDung: textGChu == '' ? 'Báo bài hình' : textGChu,
                 TieuDe: tieude,
-                HieuLucDen: '',
-                IDLoai: 2,
-                IDChiNhanh: ROOTGlobal.IdCN,
                 listLinkImage: this.state.image,
-                id: this.index,
                 IsCoBaiKiemTra: false,
                 linkVideo: '',
-                BaiKiemTra: '',
+                BaiKiemTra: [],
                 TieuDeVideo: '',
                 IDLopHoc: this.valuListLop
             }
@@ -212,7 +206,7 @@ export default class EditBaoBai extends Component {
         );
     };
 
-    
+
     BaobaiHT = () => {
         Utils.goscreen(this, 'sc_BaoBaiHT', { type: 2 });
     }
@@ -283,28 +277,18 @@ export default class EditBaoBai extends Component {
                                 };
                             }
                             item.BaiKiemTra = {
-                                "baiKiemTra": {
-                                    "IDBaiKT": "",
-                                    "TieuDe": tenBaiKiemTra,
-                                    "TongSoLuongCauHoi": soCauHoi,
-                                    "TongDaNop": 0,
-                                    "IDThongBao": '',
-                                    "LoaiBaiKT": flagCauHoi
-                                },
+                                TongSoLuongCauHoi: soCauHoi,
+                                LoaiBaiKT: flagCauHoi,
+                                TieuDe: tenBaiKiemTra,
                                 listCauHoi: listImageCauHoi,
                                 listCauHoiBaoBai: listCauHoiBaoBai
                             }
                         } else {
                             item.BaiKiemTra = {
-                                "baiKiemTra": {
-                                    "IDBaiKT": "",
-                                    "TieuDe": tenBaiKiemTra,
-                                    "TongSoLuongCauHoi": danhSachCauHoi.length,
-                                    "TongDaNop": 0,
-                                    "IDThongBao": '',
-                                    "LoaiBaiKT": flagCauHoi
-                                },
+                                TieuDe: tenBaiKiemTra,
+                                TongSoLuongCauHoi: danhSachCauHoi.length,
                                 listCauHoi: '',
+                                LoaiBaiKT: flagCauHoi,
                                 listCauHoiBaoBai: danhSachCauHoi
                             }
                         }
@@ -312,17 +296,26 @@ export default class EditBaoBai extends Component {
                     listBBB.push(item);
                 }
                 Utils.nlog('-------------BaoBai_Send_App_V2', listBBB)
-                let res = await BaoBai_Send_App_V2(listBBB, listChild, this.nameLop);
-                Utils.nlog('-------------BaoBai_Send_App_V2', res)
-                if (res.status == 1) {
-                    Utils.setGlobal(nGlobalKeys.baobai, [])
-                    Utils.showMsgBoxOK(this, 'Thông báo', 'Gửi báo bài thành công', 'OK', this.BaobaiHT);
-                } else {
-                    Utils.showMsgBoxOK(this, 'Thông báo', 'Gửi báo bài thất bại vui lòng thử lại sau.', 'OK');
-                };
+                let listHocSinh = listChild;
+                Utils.nlog('--------------------listHocSinh', listHocSinh)
+                for (let i = 0; i < listHocSinh.length; i++) {
+                    let item = {
+                        dataBaoBai: listBBB,
+                        TenHocSinh: listHocSinh[i].TenHocSinh,
+                    }
+                    this._send(item)
+                }
                 this.setState({ isLoading: false });
             }
         )
+    }
+    _send = async (item) => {
+        Utils.nlog('--------------------item', item)
+        db1.ref('/Tbl_BaoBai').push({
+            dataBaoBai: item.dataBaoBai,
+            TenHocSinh: item.TenHocSinh,
+        });
+        Utils.showMsgBoxOK(this, 'Thông báo', 'Gửi báo bài thành công')
     }
     _goMediapicker = (optionsCus) => {
         if (optionsCus == undefined || optionsCus == null)
@@ -546,6 +539,7 @@ export default class EditBaoBai extends Component {
     render() {
         var { textGChu, listBB, checkBB, valuMonHoc, listMonHoc, textLink, IsCoBaiKiemTra, listCauHoi, linkVideo, tenVideo, tenBaiKiemTra, flagCauHoi, danhSachCauHoi } = this.state
         const { nrow, nIcon20 } = nstyles.nstyles;
+        console.log('danhsachhocsinh', listChild, danhSachCauHoi, linkVideo)
         return (
             <View style={[nstyles.nstyles.ncontainerX, { backgroundColor: colors.whitegay }]}>
                 <HeaderCom

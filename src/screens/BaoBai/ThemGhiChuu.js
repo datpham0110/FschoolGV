@@ -9,7 +9,8 @@ import styles from './styles';
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { BaoBaiSend, BaoBai_Send_App_V2 } from "../../apis/thanhtoan";
 import { ROOTGlobal } from "../../app/data/dataGlobal";
-
+export const db1 = db.database();
+import { db } from '../../app/Config';
 export default class ThemGhiChuu extends Component {
     constructor(props) {
         super(props);
@@ -97,7 +98,7 @@ export default class ThemGhiChuu extends Component {
         // let tenthongbao = this.type == 4 ? 'Thư mời sự kiện' : this.type == 5 ? 'Kết quả học tập' : 'Báo bài'
         let tenthongbao = this.type == 4 ? 'Thư mời sự kiện' : this.type == 5 ? 'Kết quả học tập' : this.type == 1 ? 'Thông báo' : this.type == 3 ? 'Học phí' : 'Báo bài'
         let tieude = this.type == 1 ? 'Thông báo' : "Ghi chú"
-        const listBB = [{
+        const listBB = {
             TenThongBao: tenthongbao,
             IDThongBao: '',
             TieuDe: tieude,
@@ -108,21 +109,37 @@ export default class ThemGhiChuu extends Component {
             IDChiNhanh: ROOTGlobal.IdCN,
             listLinkImage,
             IDLopHoc: this.valuListLop
-        }];
+        };
         // IDLoai: 1: Thông báo
         // 2: Báo bài
         // 3: Thông báo học phí
         // 4: Thông báo điểm danh
         // 5: Ghi chú
-        let res = await BaoBai_Send_App_V2(listBB, this.listChild, this.nameLop);
-        if (res.status == 1) {
-            Utils.showMsgBoxOK(this, 'Thông báo', 'Gửi nội dung thành công', 'OK', this.BaobaiHT);
-        } else {
-            Utils.showMsgBoxOK(this, 'Thông báo', 'Có lỗi xảy ra vui lòng thử lại sau', 'OK');
-        };
+        let listHocSinh = this.listChild;
+        Utils.nlog('--------------------listHocSinh', listHocSinh, listLinkImage)
+        for (let i = 0; i < listHocSinh.length; i++) {
+            let item = {
+                dataThongBao: listBB,
+                TenHocSinh: listHocSinh[i].TenHocSinh,
+            }
+            this._send(item)
+        }
+        // let res = await BaoBai_Send_App_V2(listBB, this.listChild, this.nameLop);
+        // if (res.status == 1) {
+        //     Utils.showMsgBoxOK(this, 'Thông báo', 'Gửi nội dung thành công', 'OK', this.BaobaiHT);
+        // } else {
+        //     Utils.showMsgBoxOK(this, 'Thông báo', 'Có lỗi xảy ra vui lòng thử lại sau', 'OK');
+        // };
         this.setState({ isLoading: false });
     }
-
+    _send = async (item) => {
+        Utils.nlog('--------------------item', item)
+        db1.ref('/Tbl_ThongBao').push({
+            dataThongBao: item.dataThongBao,
+            TenHocSinh: item.TenHocSinh,
+        });
+        Utils.showMsgBoxOK(this, 'Thông báo', 'Gửi nội dung thành công')
+    }
     sendBaobai = () => {
         var { save, textGChu, image } = this.state
         if (!textGChu && !image.length > 0) {
@@ -214,6 +231,7 @@ export default class ThemGhiChuu extends Component {
     render() {
         var { textGChu, save } = this.state
         const { nrow } = nstyles.nstyles;
+        Utils.nlog('this.listChild', this.listChild, textGChu)
         return (
             <View style={[nstyles.nstyles.ncontainerX, { backgroundColor: colors.whitegay }]}>
                 <HeaderCom

@@ -65,9 +65,7 @@ export default class BaoBaiMain extends Component {
         //   //Lấy list
         db1.ref('/Tbl_HocSinh').on('value', (snapshot) => {
             let data = snapshot.val();
-            // let keys = Object.keys(data);
             let items = Object.values(data);
-            // let items2 = data[keys[0]];
             if (items != null) {
                 for (let i = 0; i < items.length; i++) {
                     items[i].isDiemDanh = -1
@@ -147,7 +145,7 @@ export default class BaoBaiMain extends Component {
             for (let i = 0; i < this.state.listHS.length; i++) {
                 for (let j = 0; j < this.state.itemClick.length; j++) {
                     if (i == this.state.itemClick[j]) {
-                        data.push(this.state.listHS[i].IDHocSinh)
+                        data.push(this.state.listHS[i])
                         break;
                     };
                 };
@@ -303,8 +301,6 @@ export default class BaoBaiMain extends Component {
                             <ButtonCom
                                 colorChange={[colors.lightSalmon, colors.salmonTwo]}
                                 onPress={this.type == 9 ? this._submit(9) : this.type == 1 ? this._submit(1) : this.type == 4 ? this._submit(7) : this._submit(8)}
-
-                                // onPress={this.type == 9 ? this._submit(9) : this.type == 1 ? this._submit(3) : this.type == 4 ? this._submit(7) : this._submit(8)}
                                 Linear={true}
                                 text={"Tiếp tục"}
                                 style={{ paddingHorizontal: 50, marginTop: 10 }}

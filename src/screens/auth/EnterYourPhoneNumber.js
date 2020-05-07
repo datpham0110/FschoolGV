@@ -50,7 +50,7 @@ export default class EnterYourPhoneNumber extends React.Component {
           if (data.Password == this.password.trim()) {
             Utils.nsetStore(nkey.phonenumber, this.phonenumber);
             Utils.nsetStore(nkey.password, this.password);
-            Utils.goscreen(this, "sc_Welcome");
+            Utils.goscreen(this, "sc_Welcome", { data: data });
           } else {
             Utils.showMsgBoxOK(this, 'Thông báo', 'Mật khẩu không đúng', 'Đóng')
           };

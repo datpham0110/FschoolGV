@@ -22,11 +22,14 @@ export default class AddCauHoi extends Component {
         }
         this.countCauHoi = Utils.ngetParam(this, 'countCauHoi');
         this.dataReturn = Utils.ngetParam(this, 'dataReturn', () => { });
-        this.valueLoaiBaiKK = [{
-            id: 0, title: 'Hình ảnh'
-        }, {
-            id: 1, title: 'Câu hỏi trắc nghiệm'
-        }]
+        this.valueLoaiBaiKK = [
+            {
+                id: 0, title: 'Hình ảnh'
+            },
+            {
+                id: 1, title: 'Câu hỏi trắc nghiệm'
+            }
+        ]
     }
 
 

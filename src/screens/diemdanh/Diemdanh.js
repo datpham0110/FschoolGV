@@ -110,7 +110,6 @@ export default class Diemdanh extends Component {
     // data môn return
     returnSubjects = (item) => {
         this.setState({ nameSubject: item.TenMonHoc, subjectsSelected: item })
-        this.Listdiemdanh(this.state.valuListLop, this.state.loaiLop, item.IdMonHoc);
 
     }
 
@@ -137,177 +136,14 @@ export default class Diemdanh extends Component {
                 }
             }
             this.setState({ listGheRender: arr, tenLop: idLop.TenLop, nameLop: idLop.TenLop, valuListLop: idLop, loaiLop: flag, tenLopLoai2: tenMonHoc });
-            this.Listdiemdanh(idLop, flag, idLop.IDMonHoc);
         }
     }
     // Select môn học
-    getListmonhoc = async (valIdLop) => {
-        for (let i = 0; i < this.state.listMonHoc.length; i++) {
-            if (this.state.listMonHoc[i].TenMonHoc == valIdLop) {
-                this.setState({ subjectsSelected: this.state.listMonHoc[i] });
-                if (this.state.nameLop != 'Chọn lớp') {
-                    this.Listdiemdanh(this.state.valuListLop, this.state.loaiLop, this.state.listMonHoc[i].IdMonHoc);
-                }
-            }
-        }
-    }
-    _forAddDate = () => {
-        let data = this.state.listHS
-        for (let i = 0; i < this.state.listHS.length; i++) {
-            data[i].GioVao = this.state.dateGioVao;
-            data[i].GioRa = this.state.dateGioRa;
-            data[i].Ngay[this.dayInMonth - 1] = -1
-        }
 
-        this.setState({ listHS: data, dateGioRa: '16:30', dateGioVao: tempHouse + ":" + tempMinutes })
-    }
-    _clickItem = (item, index, itemDay) => {
-        if (this.state.isEnoughAllStudents == true) {
-            this.setState({ isEnoughAllStudents: false })
-        }
-        if (this.state.itemChildCapNhat == null && this.state.isCapNhat == false) {
-            var { listHS } = this.state;
-            const dataTemp = listHS.slice(0);
-            const day = item.Ngay;
-            switch (day[itemDay]) {
-                case -1:
-                    day[itemDay] = 1
-                    break;
-                case 0:
-                    day[itemDay] = 1
-                    break;
-                case 1:
-                    day[itemDay] = 2
-                    break;
-                case 3:
-                    day[itemDay] = 0
-                    break;
-                case 2:
-                    day[itemDay] = 4
-                    break;
-                case 4:
-                    day[itemDay] = 0
-                    break;
-                default: day[itemDay] = -1
-                    break;
-            }
-            item.Ngay = day
-            for (let i = 0; i < dataTemp.length; i++) {
-                if (dataTemp[i].IDHocSinh == item.IDHocSinh) {
-                    dataTemp[i] = item;
-                    this.setState({ listHS: dataTemp })
-                    return;
-                }
-            }
-        }
 
-        else if (this.state.isCapNhat == true) {
-            // if (this.state.itemChildCapNhat.MaHocSinh == item.MaHocSinh) {
-            var { listHS } = this.state;
-            this.setState({ itemChildCapNhat: item })
-            const dataTemp = listHS.slice(0);
-            const day = item.Ngay;
-            switch (day[itemDay]) {
-                case -1:
-                    day[itemDay] = 1
-                    break;
-                case 0:
-                    day[itemDay] = 1
-                    break;
-                case 1:
-                    day[itemDay] = 2
-                    break;
-                case 3:
-                    day[itemDay] = 0
-                    break;
-                case 2:
-                    day[itemDay] = 4
-                    break;
-                case 4:
-                    day[itemDay] = 0
-                    break;
-                default: day[itemDay] = -1
-                    break;
-            }
-            item = { ...item, Ngay: day }
-            for (let i = 0; i < dataTemp.length; i++) {
-                if (dataTemp[i].IDHocSinh == item.IDHocSinh) {
-                    dataTemp[i] = item;
-                    this.setState({ listHS: dataTemp, flagCapNhat: true })
-                    return;
-                }
-            }
-        }
-    };
-    compare(a, b) {
-        if (a < b) {
-            return -1;
-        }
-        if (a > b) {
-            return 1;
-        }
-        return 0;
-    }
+
     // Load list điểm danh
-    Listdiemdanh = async (va, flag, idMonHoc = null) => {
-        this.setState({ valuListLop: va, isCapNhat: false })
-        let res = await DiemDanhList(flag, this.state.valuListTruong, va.IDNhomKH, this.monthInYear.toString() + "/" + this.year.toString(), idMonHoc)
-        if (res.status == 1) {
-            if (res.data.DanhSach.length == 0) {
-                this.setState({ listHS: [] })
-                Utils.showMsgBoxOK(this, 'Thông Báo', 'Lớp không có học sinh để hiển thị', 'Đóng');
-            } else {
-                if (res.data.DanhSach[0].ViTri == '-1') {
-                    Utils.showMsgBoxYesNo(this, 'Thông báo', 'Học sinh lớp chưa được sắp xếp sơ đồ, TIẾP TỤC để vào màn hình sắp xếp', 'TIẾP TỤC', 'QUAY LẠI', () => { this.goSD(flag) }, () => { })
-                    this.setState({ isSoDoHopLe: true })
-                } else {
-                    this.setState({ isSoDoHopLe: false })
 
-                }
-                for (let i = 0; i < res.data.DanhSach.length; i++) {
-                    if (res.data.DanhSach[0].Ngay[this.state.tempDay - 1] != -1) {
-                        this.setState({ isCapNhat: true })
-                        break;
-                    }
-                }
-                let arr = res.data.DanhSach;
-                arr.sort((a, b) => this.compare(parseInt(a.ViTri), parseInt(b.ViTri)));
-                let arr1 = [];
-                for (let index = 0; index < 30; index++) {
-                    let ghe = {
-                        IDHocSinh: 'null'
-                    }
-                    arr1.push(ghe);
-                }
-                let data1 = arr1;
-                for (let j = 0; j < arr.length; j++) {
-                    data1[arr[j].ViTri] = arr[j]
-                }
-                this.setState({ listHS: arr, DiemDanhData: res.data, listGheRender: data1 })
-                if (this.state.isCapNhat == true) {
-                    if (this.state.loaiLop == 0) {
-                        Utils.showMsgBoxYesNo(this, 'Thông báo', 'Lớp ' + va.TenNhomKH + ' môn ' + this.state.subjectsSelected.TenMonHoc + ' đã được điểm danh trước đó. Bạn muốn cập nhật lại điểm danh hay điểm danh mới',
-                            'Điểm danh mới',
-                            'Cập nhật lại',
-                            () => {
-                                this.setState({ isCapNhat: false }),
-                                    this._forAddDate()
-                            }, () => {
-                                this.setState({ dateGioRa: arr[0].GioRa, dateGioVao: arr[0].GioVao })
-                            })
-                    } else {
-                        Utils.showMsgBoxYesNo(this, 'Thông báo', 'Lớp ' + va.TenNhomKH + ' đã được điểm danh trước đó. Bạn muốn cập nhật lại điểm danh hay điểm danh mới',
-                            'Điểm danh mới',
-                            'Cập nhật lại',
-                            () => {
-                                this.setState({ isCapNhat: false }),
-                                    this._forAddDate()
-                            }, () => { })
-                    }
-                }
-            }
-        }
-    }
     isEnoughAllStudentsChange = () => {
         if (this.state.isEnoughAllStudents) return;
         this.setState({ isEnoughAllStudents: !this.state.isEnoughAllStudents })
@@ -325,47 +161,20 @@ export default class Diemdanh extends Component {
         }
         return count;
     }
-    // _themDiemDanh = async () => {
-    //     let danhSachHocSinh = this.state.listHS
-    //     for (let i = 0; i < danhSachHocSinh.length; i++) {
-    //         danhSachHocSinh[i].NgayDiemDanh = this.dayInMonth + '/' + this.monthInYear + '/' + this.year;
-    //         danhSachHocSinh[i].GioVao = this.state.dateGioVao;
-    //         danhSachHocSinh[i].GioRa = this.state.dateGioRa;
-    //     }
-    //     var data = {
-    //         Chot: true,
-    //         TongNgayHoc: this.state.DiemDanhData.TongNgayHoc,
-    //         IDLopHoc: this.state.valuListLop.IDNhomKH,
-    //         NgayChot: this.dayInMonth + '/' + this.monthInYear + '/' + this.year,
-    //         ChiTiet: danhSachHocSinh
-    //     };
-    //     this.setState({ isLoading: true });
-    //     let res;
-    //     if (this.state.loaiLop == 0) {
-    //         res = await DiemDanh_Update(data, this.state.loaiLop, this.state.subjectsSelected.IdMonHoc);
-    //     } else {
-    //         res = await DiemDanh_Update(data, this.state.loaiLop, this.state.valuListLop.IDMonHoc);
-    //     }
-    //     if (res.status == 1) {
-    //         this.setState({ isCapNhat: true })
-    //         Utils.showMsgBoxOK(this, 'Thành Công', 'Xác nhận điểm danh thành công', 'Đóng', () => { Utils.goback(this) });
-    //     } else {
-    //         Utils.showMsgBoxOK(this, 'Thất Bại', 'Điểm danh không thành công', 'Đóng');
-    //     };
-    //     this.setState({ isLoading: false });
-    // }
 
-    //---Firebase Submit diemdanh
     _send = async (item) => {
-        Utils.nlog('--------------------item',item)
+        Utils.nlog('--------------------item', item)
         db1.ref('/Tbl_DiemDanh').push({
-            // MaDiemDanh: "MaDiemDanh",
             NgayDiemDanh: item.NgayDiemDanh,
-            NgayTao: item.IDHocSinh,
+            TenHocSinh: item.TenHocSinh,
             IDHocSinh: item.IDHocSinh,
-            isDiemDanh: item.isDiemDanh
+            LopHoc: item.LopHoc,
+            MonHoc: item.MonHoc,
+            isDiemDanh: item.isDiemDanh,
+            GioVao: item.GioVao,
+            GioRa: item.GioRa
         });
-
+        Utils.showMsgBoxOK(this, 'Thông báo', 'Điểm danh thành công')
     }
 
     _submit = async () => {
@@ -379,50 +188,23 @@ export default class Diemdanh extends Component {
             Utils.showMsgBoxOK(this, 'Thông báo', 'Giờ vào không được lớn hơn giờ ra', 'Đóng')
             return;
         }
-        // if (this.state.dateGioRa == '16:30' && this.state.dateGioVao == this.state.dateGioVaoFlag && this.state.isCapNhat == false) {
-        //     Utils.showMsgBoxYesNo(this, 'Thông báo', 'Giờ vào giờ ra hiện tại đang mặc định. Bạn có muốn tiếp tục không?', 'Tiếp tục', 'Quay lại', this._themDiemDanh, () => { return; })
-        // } else {
-            let listHocSinh = this.state.listHocSinh;
-            Utils.nlog('--------------------listHocSinh',listHocSinh)
-            for(let i = 0; i< listHocSinh.length; i++){
-                let item = {
-                    NgayDiemDanh:  this.dayInMonth + '/' + this.monthInYear + '/' + this.year,
-                    NgayTao:  this.dayInMonth + '/' + this.monthInYear + '/' + this.year,
-                    IDHocSinh: listHocSinh[i].IDHocSinh,
-                    isDiemDanh: listHocSinh[i].isDiemDanh
-                }
-                this._send(item)
+        let listHocSinh = this.state.listHocSinh;
+        Utils.nlog('--------------------listHocSinh', listHocSinh)
+        for (let i = 0; i < listHocSinh.length; i++) {
+            let item = {
+                NgayDiemDanh: this.dayInMonth + '/' + this.monthInYear + '/' + this.year,
+                IDHocSinh: listHocSinh[i].IDHocSinh,
+                isDiemDanh: listHocSinh[i].isDiemDanh,
+                TenHocSinh: listHocSinh[i].TenHocSinh,
+                MonHoc: this.state.nameSubject,
+                LopHoc: this.state.nameLop,
+                GioVao: this.state.dateGioVao,
+                GioRa: this.state.dateGioRa
             }
-            
-            // for (let i = 0; i < danhSachHocSinh.length; i++) {
-            //     danhSachHocSinh[i].NgayDiemDanh = this.dayInMonth + '/' + this.monthInYear + '/' + this.year;
-            //     danhSachHocSinh[i].GioVao = this.state.dateGioVao;
-            //     danhSachHocSinh[i].GioRa = this.state.dateGioRa;
-            // }
-            // var data = {
-            //     Chot: true,
-            //     TongNgayHoc: this.state.DiemDanhData.TongNgayHoc,
-            //     IDLopHoc: this.state.valuListLop.IDNhomKH,
-            //     NgayChot: this.dayInMonth + '/' + this.monthInYear + '/' + this.year,
-            //     ChiTiet: danhSachHocSinh
-            // };
-            // this.setState({ isLoading: true });
-            // let res;
-            // if (this.state.loaiLop == 0) {
-            //     res = await DiemDanh_Update(data, this.state.loaiLop, this.state.subjectsSelected.IdMonHoc);
-            // } else {
-            //     res = await DiemDanh_Update(data, this.state.loaiLop, this.state.valuListLop.IDMonHoc);
-            // }
-            // if (res.status == 1) {
-            //     this.setState({ isCapNhat: true })
-            //     Utils.showMsgBoxOK(this, 'Thành Công', 'Xác nhận điểm danh thành công', 'Đóng', () => { Utils.goback(this) });
-            // } else {
-            //     Utils.showMsgBoxOK(this, 'Thất Bại', 'Điểm danh không thành công', 'Đóng');
-            // };
-            // this.setState({ isLoading: false });
-        // }
+            this._send(item)
+        }
     }
-    
+
     _openDatePickTu = () => {
         if (this.state.listHS.length > 0) {
             if (this.state.isCapNhat == true) {
@@ -446,6 +228,7 @@ export default class Diemdanh extends Component {
         }
     }
     _touchItemDiemDanh = (value) => {
+
         let isDiemDanh = value.isDiemDanh == -1 ? 1 : value.isDiemDanh == 2 ? 1 : 2;
         if (isDiemDanh == 2) this.setState({ isEnoughAllStudents: false })
         let listHS = this.state.listHocSinh;
@@ -481,7 +264,7 @@ export default class Diemdanh extends Component {
 
     render() {
         var { isCapNhat, isEnoughAllStudents, nameSubject, listMonHoc, tenLop, nameLop, listHocSinh } = this.state
-        layout = (data, index) => ({ length: widthScreen, offset: widthScreen * index, index });
+        Utils.nlog('_touchItemDiemDanh', listHocSinh)
         return (
             <View style={nstyles.ncontainerX}>
                 <HeaderCom
@@ -557,15 +340,15 @@ export default class Diemdanh extends Component {
                         </View>
 
                         <View style={styles.viewTotalStudents}>
-                        <View style={[nstyles.nrow, { backgroundColor: 'white'}]}>
-                            <View style={nstyles.nrow}>
-                                <Text style={[styles.stext, { color: 'green', marginLeft: 10, textAlign: 'left' }]}>{'Có mặt: ' + this.demSoHocSinh(1)}  </Text>
+                            <View style={[nstyles.nrow, { backgroundColor: 'white' }]}>
+                                <View style={nstyles.nrow}>
+                                    <Text style={[styles.stext, { color: 'green', marginLeft: 10, textAlign: 'left' }]}>{'Có mặt: ' + this.demSoHocSinh(1)}  </Text>
+                                </View>
+                                <View style={{ height: 10 }} />
+                                <View style={[nstyles.nrow]}>
+                                    <Text style={[styles.stext, { color: 'red', marginLeft: 10, textAlign: 'left' }]}>{'Vắng mặt: ' + this.demSoHocSinh(2)}</Text>
+                                </View>
                             </View>
-                            <View style={{ height: 10 }} />
-                            <View style={[nstyles.nrow]}>
-                                <Text style={[styles.stext, { color: 'red', marginLeft: 10, textAlign: 'left' }]}>{'Vắng mặt: ' + this.demSoHocSinh(2)}</Text>
-                            </View>
-                        </View>
                             {/* <Text style={styles.textThuNgayThang}>{'Tổng số học sinh: ' + this.state.listHocSinh.length}</Text> */}
                             <View style={[nstyles.nrow, { flex: 1, alignItems: 'center', justifyContent: 'flex-end' }]}>
                                 <Text style={[styles.textThuNgayThang, { fontWeight: 'bold' }]}>{'Đủ tất cả'}</Text>
@@ -576,10 +359,10 @@ export default class Diemdanh extends Component {
                                     onValueChange={this.isEnoughAllStudentsChange} />
                             </View>
                         </View>
-                       
+
                     </View>
                     {this.state.nameSubject == 'Chọn môn học' && this.state.tenLopLoai2 == 'Chọn lớp' ?
-                        <Text style={{ textAlign: 'center', fontSize: fs(16), fontWeight: '500' }}>Vui lòng chọn lớp vào môn học</Text> : 
+                        <Text style={{ textAlign: 'center', fontSize: fs(16), fontWeight: '500' }}>Vui lòng chọn lớp vào môn học</Text> :
                         <FlatList
                             data={listHocSinh}
                             numColumns={4}
