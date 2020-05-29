@@ -21,6 +21,7 @@
     "react-native": "0.60.5",
     "react-native-24h-timepicker": "^1.1.0",
     "react-native-camera": "^3.8.0",
+    "react-native-cli": "^2.0.1",
     "react-native-code-push": "^5.6.0",
     "react-native-dash": "0.0.9",
     "react-native-datepicker": "^1.7.2",
@@ -48,7 +49,8 @@
     "react-navigation": "^3.13.0",
     "react-redux": "^7.1.0",
     "redux": "^4.0.4",
-    "redux-thunk": "^2.3.0"
+    "redux-thunk": "^2.3.0",
+    "watchman": "^1.0.0"
   },
   "devDependencies": {
     "@babel/core": "7.5.4",

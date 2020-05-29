@@ -181,7 +181,7 @@ class InfomationAccount extends Component {
   }
 
   render() {
-    var { dataTK } = this.state
+    var { infoUser } = this.props
     console.log('this.state.phonenumber', this.state.phonenumber, this.state.email)
     return (
       <View style={[nstyles.ncontainerX, { backgroundColor: colors.BackgroundHome }]}>
@@ -198,13 +198,11 @@ class InfomationAccount extends Component {
               alignItems: "center",
               borderBottomColor: colors.veryLightPinkThree, paddingVertical: 20
             }}>
-              <TouchableOpacity onPress={this._goMediapicker}>
-                <Image
-                  resizeMode="cover"
-                  source={Images.imgProfile}
-                  tintColorLeft={colors.black_11}
-                  style={{ width: 106, height: 106, borderRadius: 53, backgroundColor: colors.black_16 }} />
-              </TouchableOpacity>
+              <Image
+                resizeMode="cover"
+                source={Images.imgProfile}
+                tintColorLeft={colors.black_11}
+                style={{ width: 106, height: 106, borderRadius: 53, backgroundColor: colors.black_16 }} />
             </View>
             <View style={{
               flexDirection: "row", height: nwidth * 0.12, alignItems: "center", borderBottomWidth: 1,
@@ -213,7 +211,7 @@ class InfomationAccount extends Component {
               <Text style={{ flex: 1, fontSize: sizes.sText17, fontWeight: 'bold' }}>
                 Tài khoản
               </Text>
-              <Text style={{ fontSize: sizes.sText16, color: '#808080' }}>{'dat1234'}</Text>
+              <Text style={{ fontSize: sizes.sText16, color: '#808080' }}>{infoUser.userName}</Text>
             </View>
             <TouchableOpacity
               style={{
@@ -242,10 +240,11 @@ class InfomationAccount extends Component {
                 Họ và tên
               </Text>
               <TextInput
+                editable={false}
                 multiline={true}
                 style={[nstyles.ntextinput, { maxHeight: 100, flex: 1, textAlign: 'right' }]}
                 onChangeText={(text) => this.fullname = text}
-              >{'Lê Phạm Tuấn Kiệt'}</TextInput>
+              >{infoUser.name}</TextInput>
             </View>
             <View
               style={{
@@ -257,7 +256,7 @@ class InfomationAccount extends Component {
               </Text>
               <Text style={{ fontSize: sizes.sText13, textAlign: 'right' }}>{'Giáo viên chủ nhiệm'}</Text>
             </View>
-            {this.state.show == false ? <TouchableOpacity onPress={() => this.setState({ show: !this.state.show })}
+            <View
               style={{
                 flexDirection: "row",
                 alignItems: "center", marginBottom: 5, justifyContent: 'space-between', paddingVertical: 7
@@ -265,28 +264,9 @@ class InfomationAccount extends Component {
               <Text style={{ flex: 1, fontSize: sizes.sText17, fontWeight: 'bold' }}>
                 Lớp phụ trách
               </Text>
-              <Text numberOfLines={1} style={{ fontSize: sizes.sText13, flex: 1, textAlign: 'right' }}>
-                {'11A1'}</Text>
-              <View style={{ width: 5 }} />
-              <Image resizeMode="contain" source={Images.icNext}
-                style={[nstyles.nIcon10, { tintColor: colors.brownishGreyTwo }]}
-              />
-            </TouchableOpacity> : <TouchableOpacity onPress={() => this.setState({ show: !this.state.show })}
-              style={{
-                flexDirection: "row",
-                alignItems: "center", marginBottom: 5, justifyContent: 'space-between', paddingVertical: 7
-              }}>
-                <Text style={{ flex: 1, fontSize: sizes.sText17, fontWeight: 'bold' }}>
-                  Lớp phụ trách
-              </Text>
-                <Text style={{ fontSize: sizes.sText13, flex: 1, textAlign: 'right' }}>
-                  {'11A1'}</Text>
-                <View style={{ width: 5 }} />
-                <Image resizeMode="contain" source={Images.icDropDown}
-                  style={[nstyles.nIcon10, { tintColor: colors.brownishGreyTwo }]}
-                />
-              </TouchableOpacity>
-            }
+              <Text style={{ fontSize: sizes.sText13, flex: 1, textAlign: 'right' }}>
+                {'Lớp 1'}</Text>
+            </View>
           </View>
           <View
             style={{
@@ -302,10 +282,11 @@ class InfomationAccount extends Component {
                 Số điện thoại
               </Text>
               <TextInput
+                editable={false}
                 multiline={true}
                 style={[nstyles.ntextinput, { maxHeight: 100, flex: 1, textAlign: 'right' }]}
                 onChangeText={(phonenumber) => this.setState({ phonenumber })}
-              >{'093456789'}</TextInput>
+              >{infoUser.phone}</TextInput>
               {/* <Text style={{ color: '#808080', fontSize: sizes.sText13 }}>{dataTK.PhoneNumber}</Text> */}
             </View>
             <View style={{
@@ -316,10 +297,11 @@ class InfomationAccount extends Component {
                 Email
               </Text>
               <TextInput
+                editable={false}
                 multiline={true}
                 style={[nstyles.ntextinput, { maxHeight: 100, flex: 1, textAlign: 'right' }]}
                 onChangeText={(email) => this.setState({ email })}
-              >{'dat@gmail.com'}</TextInput>
+              >{infoUser.email}</TextInput>
               {/* <Text style={{ color: '#808080', fontSize: sizes.sText13 }}>{dataTK.Email}</Text> */}
             </View>
             <View style={{ flexDirection: "row", alignItems: "center", marginBottom: 5, justifyContent: 'space-between' }} >
@@ -327,20 +309,12 @@ class InfomationAccount extends Component {
                 Địa chỉ
               </Text>
               <TextInput
+                editable={false}
                 multiline={true}
                 style={[nstyles.ntextinput, { flex: 1, maxHeight: 100, textAlign: 'right' }]}
                 onChangeText={(DiaChi) => this.setState({ DiaChi })}
               >{'Nam kỳ khởi nghĩa'}</TextInput>
             </View>
-          </View>
-          <View style={[nstyles.nrow, { height: Height(8), justifyContent: 'center' }]}>
-            <ButtonCom
-              colorChange={[colors.lightSalmon, colors.salmonTwo]}
-              onPress={this.Update}
-              Linear={true}
-              text={"Xác nhận"}
-              style={{ paddingHorizontal: 50, marginTop: 10 }}
-            />
           </View>
         </KeyboardAwareScrollView>
         {this.state.isLoading ? <View style={[nstyles.nmiddle, { position: 'absolute', width: '100%', height: '100%', backgroundColor: colors.black_20 }]}>

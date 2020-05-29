@@ -42,29 +42,6 @@ export default class ChangePassword extends Component {
       Utils.showMsgBoxOK(this, "Mật khẩu mới và nhập lại mật khẩu mới phải trùng nhau");
       return;
     }
-
-    // else if (password != this.state.OldPassword.toString().trim()) {
-    //   Utils.showMsgBoxOK(this, "Mật khẩu mới và nhập lại mật khẩu mới phải trùng nhau");
-    //   return;
-    // }
-
-    else {
-      let res = await postChangePassword(
-        this.state.OldPassword,
-        this.state.NewPassword,
-        this.state.ConfirmPassword
-      );
-      try {
-        if (res.status == 1) {
-          Utils.showMsgBoxOK(this, res.data);
-          Utils.showMsgBoxOK(this, 'Thông báo', res.data, 'OK', Utils.goback(this));
-
-        } else
-          Utils.showMsgBoxOK(this, res.error.message);
-      } catch (error) {
-        Utils.showMsgBoxOK(this, "Đổi mật khẩu thất bại");
-      }
-    }
   };
   render() {
     return (

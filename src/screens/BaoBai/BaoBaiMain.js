@@ -29,7 +29,6 @@ export default class BaoBaiMain extends Component {
         this.clickAll = false;
         this.lop = '';
         this.state = {
-            date: "",
             tabNP: 0,
             namestudent: '',
             itemClick: [],
@@ -43,9 +42,6 @@ export default class BaoBaiMain extends Component {
         };
     }
     componentDidMount() {
-        var month = new Date().getMonth() + 1;
-        var year = new Date().getFullYear();
-        this.setState({ date: "T" + month + "/" + year });
         this.DSLop();
     }
     DSLop = async () => {
@@ -169,39 +165,18 @@ export default class BaoBaiMain extends Component {
             case 1:
                 Utils.goscreen(this, 'sc_ThemGhiChu', { type: this.type, listChild: data, lop: this.lop, valuListLop: this.state.valuListLop });
                 break;
-            // case 3:
-            //     Utils.goscreen(this, 'sc_ThongBaoHocPhi', { ListHocSinh: data, type: this.type, IDChiNhanh: this.state.valuListTruong, lop: this.lop });
-            //     break;
             case 3:
                 Utils.goscreen(this, 'sc_ThemGhiChu', { listChild: data, lop: this.lop, valuListLop: this.state.valuListLop });
                 break;
             case 2:
                 Utils.goscreen(this, 'sc_EditBaoBai', { listChild: data, lop: this.lop, valuListLop: this.state.valuListLop });
                 break;
-            case 5:
-                Utils.goscreen(this, 'sc_ThemGhiChu', { type: this.type, listChild: data, lop: this.lop, valuListLop: this.state.valuListLop });
-                break;
-            case 7:
-                Utils.goscreen(this, 'sc_ThemGhiChu', { type: this.type, listChild: data, lop: this.lop, valuListLop: this.state.valuListLop });
-                break;
-            case 8:
-                Utils.goscreen(this, 'sc_ThemGhiChu', { type: this.type, listChild: data, lop: this.lop, valuListLop: this.state.valuListLop });
-                break;
             case 9:
                 this._handleOK(dataItem)
                 break;
         };
     }
-    _goscreenDetails = (loai) => () => {
-        switch (loai) {
-            case 2:
-                Utils.goscreen(this, 'Modal_LichSuBaoBai', { type: this.type, valuListLop: this.state.valuListLop });
-                break;
-            case 7:
-                Utils.goscreen(this, 'Modal_LichSuBaoBai', { type: this.type, valuListLop: this.state.valuListLop });
-                break;
-        }
-    }
+
     _handleOK = (data) => {
         this.callBack(data);
         Utils.goback(this)
@@ -215,15 +190,6 @@ export default class BaoBaiMain extends Component {
                 return title;
             case 2:
                 title = 'Báo bài';
-                return title
-            case 4:
-                title = 'Thư mời sự kiện';
-                return title
-            case 5:
-                title = 'Kết quả học tập';
-                return title
-            case 9:
-                title = 'Thêm học sinh';
                 return title
         };
     }
@@ -240,7 +206,6 @@ export default class BaoBaiMain extends Component {
                     iconRight={this.type == 4 ? Images.icCTbaobai : this.type == 2 ? Images.icCTbaobai : null}
                     titleText={this._titleType()}
                     _onPressLeftDefault={() => Utils.gobackTop(this)}
-                    onPressRight={this.type == 4 ? this._goscreenDetails(7) : this.type == 2 ? this._goscreenDetails(2) : null}
                     titleStyle={{ color: colors.white, fontSize: sizes.reText(16) }}
                 />
                 <View style={[nstyles.nstyles.nbody, { paddingHorizontal: 15 }]}>

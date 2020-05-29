@@ -41,7 +41,7 @@ export default class SelectSubjects extends Component {
             let keys = Object.keys(data);
             let items = Object.values(data);
             let items2 = data[keys[0]];
-            Utils.nlog('dsMonHocTest', items, items2)
+            Utils.nlog('dsMonHocTest', items, items2, data)
             this.setState({ listSubjects: items })
         });
     }

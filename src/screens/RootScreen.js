@@ -33,13 +33,6 @@ class RootScreen extends Component {
   }
 
   componentDidMount() {
-    OneSignal.init(appConfig.onesignalID);
-    OneSignal.inFocusDisplaying(0);
-    // this.onReceived = this.onReceived.bind(this);
-    this.onIds = this.onIds.bind(this);
-    // OneSignal.addEventListener("received", this.onReceived);
-    OneSignal.addEventListener("ids", this.onIds);
-    // OneSignal.configure();
     this._checkLogin();
   }
 
@@ -47,13 +40,13 @@ class RootScreen extends Component {
     let phonenumber = await Utils.ngetStore(nkey.phonenumber, null);
     let password = await Utils.ngetStore(nkey.password, null);
     if (phonenumber != null && password != null) {
-      const ref = db1.ref('/Tbl_Account');
-      ref.orderByChild('Username')
+      const ref = db1.ref('/Tbl_GiaoVien');
+      ref.orderByChild('userName')
         .equalTo(phonenumber)
         .once('value')
         .then((snapshot) => {
           const value = snapshot.val();
-          Utils.nlog('-------------------value',value)
+          Utils.nlog('-------------------value', value)
           if (value == null) {
             setTimeout(() => {
               this.setStatusBar(false);
@@ -61,9 +54,10 @@ class RootScreen extends Component {
             }, 1000);
           } else {
             const data = value[Object.keys(value)[0]];
-            if (data.Password == password) {
+            if (data.password == password) {
               setTimeout(() => {
                 this.setStatusBar(false);
+                this.props.getInfomation(data);
                 Utils.goscreen(this, "sc_Welcome");
               }, 1000);
             } else {
@@ -74,7 +68,7 @@ class RootScreen extends Component {
             }
           }
         });
-        Utils.nlog('------------------- end if')
+      Utils.nlog('------------------- end if')
 
     } else {
       setTimeout(() => {
@@ -82,27 +76,9 @@ class RootScreen extends Component {
         Utils.goscreen(this, "sc_EnterYourPhoneNumber");
       }, 1000);
     }
-    // if (phonenumber)
-    //   setTimeout(() => {
-    //     this.setStatusBar(false);
-    //     Utils.goscreen(this, "sc_Welcome");
-    //   }, 1200);
-    // else
-    //   setTimeout(() => {
-    //     this.setStatusBar(false);
-    //     Utils.goscreen(this, "sc_EnterYourPhoneNumber");
-    //   }, 1200);
   };
 
-  _infomationUser = async () => {
-    let res = await apis.Hosonguoidung.NguoiDungContact()
-    Utils.nlog('NguoiDung', res)
-    if (res.status == 1) {
-      res.data.Avatar = res.data.Avatar + "?" + new Date();
-      const data = res.data;
-      this.props.getInfomation(data);
-    };
-  }
+
 
   // componentWillUnmount() {
   //   OneSignal.removeEventListener("received", this.onReceived);

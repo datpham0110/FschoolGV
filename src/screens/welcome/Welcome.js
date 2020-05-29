@@ -202,7 +202,7 @@ class Welcome extends Component {
 		const { infoUser } = this.props;
 		isTransparent = false;
 		const { lisIdtMenu } = this.state;
-		console.log('schorem2589', this.data)
+		console.log('schorem2589', infoUser)
 		return (
 			<View style={[nstyles.ncontainerX, { backgroundColor: colors.white }]}>
 				<HeaderCom
@@ -219,7 +219,7 @@ class Welcome extends Component {
 				</LinearGradient >
 				<View style={{ marginTop: -130, flex: 1 }} >
 					<View style={{ paddingVertical: 10, paddingHorizontal: 15, alignItems: 'center' }}>
-						<Text style={{ fontSize: fs(20), fontWeight: '700', color: 'white', fontStyle: 'italic' }}>{'Giáo viên:  '}{infoUser.Username}</Text>
+						<Text style={{ fontSize: fs(20), fontWeight: '700', color: 'white', fontStyle: 'italic' }}>{'Giáo viên:  '}{infoUser.name}</Text>
 					</View>
 					<ScrollView showsVerticalScrollIndicator={false} style={{ marginHorizontal: 10, backgroundColor: 'white', borderRadius: 6 }}>
 						<View style={[nstyles.nrow, { flexWrap: 'wrap', justifyContent: 'center', marginTop: 5 }]}>

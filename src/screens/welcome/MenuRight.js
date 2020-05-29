@@ -20,8 +20,6 @@ import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view
 class MenuRight extends Component {
 	constructor(props) {
 		super(props);
-		this.onOpened = this.onOpened.bind(this);
-		OneSignal.addEventListener("opened", this.onOpened);
 	}
 	_clickMenu = (route, onAction) => () => {
 		Utils.toggleDrawer(this, true);
@@ -30,48 +28,12 @@ class MenuRight extends Component {
 		} else
 			onAction();
 	};
-	_loadListClassChatRedux = async () => {
-		let res = await ListChatLop();
-		Utils.nlog('----------------------------------- ListChatLop', res)
-		if (res.status == 1) {
-			this.props.setListClassChat(res.data)
-		} else {
-			this.props.setListClassChat([])
-		}
-	}
-	onOpened(openResult) {
-		if (openResult.notification.payload.additionalData.data.deeplink == 'jeekidstudent://app/root/DrawerNativatorRight/HomeStack/ListTeacher') {
-			this._loadListClassChatRedux();
-			if (openResult.notification.payload.additionalData.data.LoaiChat == 1) {
-				if (Utils.getGlobal(nGlobalKeys.screenSelected, '') == 'detailChat') {
-					Utils.goback(nthisApp)
-					setTimeout(() => {
-						Utils.goscreen(nthisApp, 'sc_Chat', { dataNotify: openResult.notification.payload, flagNotify: true })
-					}, 500);
-				} else {
-					Utils.goscreen(nthisApp, 'sc_Chat', { dataNotify: openResult.notification.payload, flagNotify: true })
-				}
-			}
-		}
-		if (openResult.notification.payload.additionalData.data.deeplink == undefined) {
-			this._loadListClassChatRedux();
-			if (Utils.getGlobal(nGlobalKeys.screenSelected, '') == 'detailChat') {
-				Utils.goback(nthisApp)
-				setTimeout(() => {
-					Utils.goscreen(nthisApp, 'sc_DetailsChatGroup', { dataNotify: openResult.notification.payload.additionalData.data, flagNotify: true })
-				}, 500);
-			} else {
-				Utils.goscreen(nthisApp, 'sc_DetailsChatGroup', { dataNotify: openResult.notification.payload.additionalData.data, flagNotify: true })
-			}
-		}
-	}
 	onLogout = () => {
 		Utils.showMsgBoxYesNo(this, 'Thông báo', 'Bạn có chắc chắn muốn đăng xuất?', 'Đăng xuất', 'Xem lại', this.logOutAuth);
 	}
 	logOutAuth = async () => {
-		let res = await LogOut();
-		Utils.nsetStore(nkey.password, null);
-		Utils.goscreen(this, 'sc_AuthLogin');
+		Utils.nsetStore(nkey.phonenumber, null)
+		Utils.goscreen(this, 'sc_EnterYourPhoneNumber');
 	}
 	renderItemMenu = (icon, routerName = '', name = '', onAction = null) => {
 		return (
@@ -100,12 +62,12 @@ class MenuRight extends Component {
 					<View style={{ alignItems: "center", paddingTop: 30 + paddingTopMul, paddingBottom: 20, backgroundColor: colors.colorGreenOne1, }}>
 						<Image
 							resizeMode="cover"
-							source={Images.icPhotoBlack}
+							source={Images.imagesIc}
 							// source={{ uri: appConfig.domain + infoUser.Avatar }}
 							style={{ width: Width(23), height: Width(23), borderRadius: Width(23) / 2 }} />
 						<Text
 							style={[{ justifyContent: "center", color: "white", marginTop: 10, fontSize: sizes.reText(24) }]}>
-							{'Lê Phạm Tuấn Kiệt'}
+							{infoUser.name}
 						</Text>
 					</View>
 					<View style={{
@@ -128,7 +90,6 @@ class MenuRight extends Component {
 
 const mapStateToProps = state => ({
 	infoUser: state.infoUser,
-	listClassChat: state.listClassChat
 });
 
 export default Utils.connectRedux(MenuRight, mapStateToProps, true);

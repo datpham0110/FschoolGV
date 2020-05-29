@@ -15,7 +15,7 @@ import { MonHocList } from '../../apis/danhmuc';
 export const db1 = db.database();
 import { db } from '../../app/Config';
 const { width } = Dimensions.get("window");
-export default class Diemdanh extends Component {
+class Diemdanh extends Component {
     constructor(props) {
         super(props);
         tempDate = new Date();
@@ -26,20 +26,11 @@ export default class Diemdanh extends Component {
         this.state = {
             isEnoughAllStudents: false,
             tempDay: tempDate.getDate(),
-            listHS: [],
-            DiemDanhData: '',
-            listTruong: [],
-            listLop: [],
-            valuListTruong: ROOTGlobal.IdCN,
             valuListLop: '',
             isLoading: false,
             date: new Date(),
             dateGioVao: tempHouse + ":" + tempMinutes,
-            dateGioVaoFlag: tempHouse + ":" + tempMinutes,
             dateGioRa: '16:30',
-            isCapNhat: false,
-            flagCapNhat: false,
-            itemChildCapNhat: null,
             listGheRender: [],
             listMonHoc: [],
             tenLop: '...',
@@ -47,7 +38,6 @@ export default class Diemdanh extends Component {
             nameSubject: 'Chọn môn học',
             loaiLop: 0,
             tenLopLoai2: 'Chọn lớp',
-            isSoDoHopLe: false,
             subjectsSelected: null,
             listHocSinh: []
         };
@@ -100,10 +90,6 @@ export default class Diemdanh extends Component {
             Utils.showMsgBoxOK(this, 'Thông báo', 'Phải chọn lớp trước khi chọn môn', 'Đóng')
             return;
         }
-        if (this.state.loaiLop == 1) {
-            Utils.showMsgBoxOK(this, 'Thông báo', 'Bạn không thể chọn môn vì đây là môn mặc định của lớp ' + this.state.nameLop, 'Đóng')
-            return;
-        }
         //sc_SelectSubjects
         Utils.goscreen(this, 'sc_SelectSubjects', { returnSubjects: this.returnSubjects })
     }
@@ -123,7 +109,7 @@ export default class Diemdanh extends Component {
             }
             arr.push(ghe);
         }
-        this.setState({ listGheRender: arr, listHS: [], valuMonHoc: 'Chọn môn học' })
+        this.setState({ listGheRender: arr, valuMonHoc: 'Chọn môn học' })
         if (flag == 0) {
             this.setState({ listGheRender: arr, tenLop: idLop.TenLop, nameLop: idLop.TenLop, valuListLop: idLop, loaiLop: flag, nameSubject: 'Chọn môn học', subjectsSelected: null });
         } else {
@@ -163,8 +149,10 @@ export default class Diemdanh extends Component {
     }
 
     _send = async (item) => {
+        const { infoUser } = this.props;
         Utils.nlog('--------------------item', item)
         db1.ref('/Tbl_DiemDanh').push({
+            Giaovien: infoUser.name,
             NgayDiemDanh: item.NgayDiemDanh,
             TenHocSinh: item.TenHocSinh,
             IDHocSinh: item.IDHocSinh,
@@ -206,29 +194,12 @@ export default class Diemdanh extends Component {
     }
 
     _openDatePickTu = () => {
-        if (this.state.listHS.length > 0) {
-            if (this.state.isCapNhat == true) {
-                Utils.showMsgBoxOK(this, 'Thông báo', 'Cập nhật điểm danh không được chọn giờ', 'Đóng')
-            } else {
-                this.DatePicker1.onPressDate()
-            }
-        } else {
-            this.DatePicker1.onPressDate()
-        }
+        this.DatePicker1.onPressDate()
     }
     _openDatePickDen = () => {
-        if (this.state.listHS.length > 0) {
-            if (this.state.isCapNhat == true) {
-                Utils.showMsgBoxOK(this, 'Thông báo', 'Cập nhật điểm danh không được chọn giờ', 'Đóng')
-            } else {
-                this.DatePicker2.onPressDate()
-            }
-        } else {
-            this.DatePicker2.onPressDate()
-        }
+        this.DatePicker2.onPressDate()
     }
     _touchItemDiemDanh = (value) => {
-
         let isDiemDanh = value.isDiemDanh == -1 ? 1 : value.isDiemDanh == 2 ? 1 : 2;
         if (isDiemDanh == 2) this.setState({ isEnoughAllStudents: false })
         let listHS = this.state.listHocSinh;
@@ -263,7 +234,7 @@ export default class Diemdanh extends Component {
     }
 
     render() {
-        var { isCapNhat, isEnoughAllStudents, nameSubject, listMonHoc, tenLop, nameLop, listHocSinh } = this.state
+        var { isEnoughAllStudents, nameSubject, listMonHoc, tenLop, nameLop, listHocSinh } = this.state
         Utils.nlog('_touchItemDiemDanh', listHocSinh)
         return (
             <View style={nstyles.ncontainerX}>
@@ -391,31 +362,11 @@ export default class Diemdanh extends Component {
 }
 
 const styles = StyleSheet.create({
-    textNameStudent1: {
-        marginTop: 15,
-        color: colors.blackShadow,
-        fontSize: reText(12),
-        textAlign: 'center',
-        marginBottom: 10,
-        flex: 1,
-        width: 100
-    },
-    viewItemStudent1: {
-        flex: 1,
-        alignItems: 'center',
-    },
     body: {
         ...nstyles.nbody,
         marginTop: 20,
         marginLeft: 10,
         marginRight: 10
-    },
-    viewTitle: {
-        backgroundColor: colors.white,
-        paddingTop: 21,
-    },
-    viewStudents: {
-        backgroundColor: colors.white,
     },
     textThuNgayThang: {
         color: colors.blackShadow,
@@ -495,3 +446,8 @@ const styles = StyleSheet.create({
         paddingLeft: 15, fontWeight: 'bold', fontSize: 15
     }
 })
+const mapStateToProps = state => ({
+    infoUser: state.infoUser,
+});
+
+export default Utils.connectRedux(Diemdanh, mapStateToProps, true);

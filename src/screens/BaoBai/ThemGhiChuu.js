@@ -22,6 +22,15 @@ export default class ThemGhiChuu extends Component {
         this.khoangcach = 18;
         this.index = 0;
         this.id = 0;
+        this.dayInMonth = new Date().getDate();
+        this.monthInYear = new Date().getMonth() + 1;
+        if (this.monthInYear < 10) {
+            this.monthInYear = "0" + this.monthInYear.toString()
+        }
+        if (this.dayInMonth < 10) {
+            this.dayInMonth = "0" + this.dayInMonth.toString();
+        }
+        this.year = new Date().getFullYear();
         this.state = {
             date: "",
             namestudent: '',
@@ -36,28 +45,6 @@ export default class ThemGhiChuu extends Component {
     }
     _editText = () => {
         this.setState({ save: true }, this.INPUT.focus());
-    }
-    BaobaiHT = () => {
-        switch (this.type) {
-            case 1:
-                Utils.goscreen(this, 'sc_BaoBaiHT', { type: 1, ghichu: 'ghichu', lop: this.nameLop, textGChu: this.state.textGChu });
-                break;
-            case 2:
-                Utils.goscreen(this, 'sc_BaoBaiHT', { type: 2, ghichu: 'ghichu', lop: this.nameLop, textGChu: this.state.textGChu });
-                break;
-            case 3:
-                Utils.goscreen(this, 'sc_BaoBaiHT', { type: 3, ghichu: 'ghichu', lop: this.nameLop, textGChu: this.state.textGChu });
-                break;
-            case 4:
-                Utils.goscreen(this, 'sc_BaoBaiHT', { type: 4 });
-                break;
-            case 5:
-                Utils.goscreen(this, 'sc_BaoBaiHT', { type: 5 });
-                break;
-            default:
-                break;
-        }
-
     }
     _titleType = () => {
         let title = '';
@@ -100,43 +87,31 @@ export default class ThemGhiChuu extends Component {
         let tieude = this.type == 1 ? 'Thông báo' : "Ghi chú"
         const listBB = {
             TenThongBao: tenthongbao,
-            IDThongBao: '',
             TieuDe: tieude,
-            MonHoc: '',
             NoiDung: this.state.textGChu == '' ? 'Nội dung hình ảnh' : this.state.textGChu,
-            HieuLucDen: '',
-            IDLoai: this.type == 2 ? 5 : this.type == 4 ? 7 : this.type == 1 ? 1 : this.type == 3 ? 3 : 8, // 5 gắn cứng cho ghi chú
-            IDChiNhanh: ROOTGlobal.IdCN,
             listLinkImage,
             IDLopHoc: this.valuListLop
         };
-        // IDLoai: 1: Thông báo
-        // 2: Báo bài
-        // 3: Thông báo học phí
-        // 4: Thông báo điểm danh
-        // 5: Ghi chú
         let listHocSinh = this.listChild;
         Utils.nlog('--------------------listHocSinh', listHocSinh, listLinkImage)
         for (let i = 0; i < listHocSinh.length; i++) {
             let item = {
+                NgayGui: this.dayInMonth + '/' + this.monthInYear + '/' + this.year,
                 dataThongBao: listBB,
                 TenHocSinh: listHocSinh[i].TenHocSinh,
+                IDHocSinh: listHocSinh[i].IDHocSinh,
             }
             this._send(item)
         }
-        // let res = await BaoBai_Send_App_V2(listBB, this.listChild, this.nameLop);
-        // if (res.status == 1) {
-        //     Utils.showMsgBoxOK(this, 'Thông báo', 'Gửi nội dung thành công', 'OK', this.BaobaiHT);
-        // } else {
-        //     Utils.showMsgBoxOK(this, 'Thông báo', 'Có lỗi xảy ra vui lòng thử lại sau', 'OK');
-        // };
         this.setState({ isLoading: false });
     }
     _send = async (item) => {
         Utils.nlog('--------------------item', item)
         db1.ref('/Tbl_ThongBao').push({
+            NgayGui: item.NgayGui,
             dataThongBao: item.dataThongBao,
             TenHocSinh: item.TenHocSinh,
+            IDHocSinh: item.IDHocSinh,
         });
         Utils.showMsgBoxOK(this, 'Thông báo', 'Gửi nội dung thành công')
     }

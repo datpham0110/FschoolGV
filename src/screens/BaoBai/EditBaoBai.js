@@ -16,7 +16,7 @@ import { Picker } from "native-base";
 export const db1 = db.database();
 import { db } from '../../app/Config';
 import { nGlobalKeys } from "../../app/keys/globalKey";
-export default class EditBaoBai extends Component {
+class EditBaoBai extends Component {
     constructor(props) {
         super(props);
         listChild = Utils.ngetParam(this, 'listChild');
@@ -29,12 +29,20 @@ export default class EditBaoBai extends Component {
         this.nameLop = Utils.ngetParam(this, 'lop');
         this.idYoutube = '';
         this.valuListLop = Utils.ngetParam(this, 'valuListLop', '')
+        this.dayInMonth = new Date().getDate();
+        this.monthInYear = new Date().getMonth() + 1;
+        if (this.monthInYear < 10) {
+            this.monthInYear = "0" + this.monthInYear.toString()
+        }
+        if (this.dayInMonth < 10) {
+            this.dayInMonth = "0" + this.dayInMonth.toString();
+        }
+        this.year = new Date().getFullYear();
         this.state = {
             date: "",
             namestudent: '',
             checkBB: [],
             textGChu: '',
-            tieude: 'Báo bài',
             tenthongbao: 'Báo bài',
             listBB: Utils.getGlobal(nGlobalKeys.baobai, []),
             image: undefined,
@@ -75,7 +83,7 @@ export default class EditBaoBai extends Component {
     }
     PostBaoBai = async () => {
         Utils.nlog('----------------------------------PostBaoBaiPostBaoBai')
-        var { textGChu, valuMonHoc, tenthongbao, image, tieude } = this.state
+        var { textGChu, valuMonHoc, tenthongbao, image } = this.state
         if (valuMonHoc == '') {
             Utils.showMsgBoxOK(this, 'Thông báo', 'Vui lòng chọn môn học', 'Đóng');
             return;
@@ -91,7 +99,6 @@ export default class EditBaoBai extends Component {
                 TenThongBao: tenthongbao,
                 MonHoc: valuMonHoc,
                 NoiDung: textGChu == '' ? 'Báo bài hình' : textGChu,
-                TieuDe: tieude,
                 listLinkImage: this.state.image,
                 IsCoBaiKiemTra: false,
                 linkVideo: '',
@@ -205,12 +212,6 @@ export default class EditBaoBai extends Component {
             </View>
         );
     };
-
-
-    BaobaiHT = () => {
-        Utils.goscreen(this, 'sc_BaoBaiHT', { type: 2 });
-    }
-
     sendBaobai = async () => {
         var { listBB, image, textGChu, linkVideo, tenVideo, tenBaiKiemTra, soCauHoi, flagCauHoi, danhSachCauHoi } = this.state
         if (listBB.length <= 0) {
@@ -300,8 +301,10 @@ export default class EditBaoBai extends Component {
                 Utils.nlog('--------------------listHocSinh', listHocSinh)
                 for (let i = 0; i < listHocSinh.length; i++) {
                     let item = {
+                        NgayGui: this.dayInMonth + '/' + this.monthInYear + '/' + this.year,
                         dataBaoBai: listBBB,
                         TenHocSinh: listHocSinh[i].TenHocSinh,
+                        IDHocSinh: listHocSinh[i].IDHocSinh,
                     }
                     this._send(item)
                 }
@@ -310,10 +313,14 @@ export default class EditBaoBai extends Component {
         )
     }
     _send = async (item) => {
+        const { infoUser } = this.props;
         Utils.nlog('--------------------item', item)
         db1.ref('/Tbl_BaoBai').push({
+            NgayGui: item.NgayGui,
+            Giaovien: infoUser.name,
             dataBaoBai: item.dataBaoBai,
             TenHocSinh: item.TenHocSinh,
+            IDHocSinh: item.IDHocSinh,
         });
         Utils.showMsgBoxOK(this, 'Thông báo', 'Gửi báo bài thành công')
     }
@@ -554,6 +561,9 @@ export default class EditBaoBai extends Component {
                     keyboardShouldPersistTaps={'always'}
                 >
                     <View style={nstyles.nbody}>
+                        <View style={[nstyles.nrow, { paddingVertical: 10, alignItems: 'center', justifyContent: 'space-between' }]}>
+                            <Text style={[styles.textThuNgayThang, { flex: 1, fontWeight: 'bold', fontSize: sizes.reText(22) }]}>{this.dayInMonth + '/' + this.monthInYear + '/' + this.year}</Text>
+                        </View>
                         <View style={{
                             paddingHorizontal: 15, backgroundColor: colors.white, marginHorizontal: this.khoangcach,
                             marginVertical: 15, borderBottomEndRadius: 6, borderBottomStartRadius: 6, paddingVertical: 15
@@ -597,16 +607,7 @@ export default class EditBaoBai extends Component {
                                     onChangeText={(textGChu) => this.setState({ textGChu })}
                                     value={textGChu}
                                 />
-                                <View style={{ flexWrap: 'wrap', flex: 1, marginHorizontal: -this.khoangcach + 8 }}>
-                                    {this.state.image ? <FlatList
-                                        numColumns={2}
-                                        data={this.state.image}
-                                        scrollEnabled={false}
-                                        renderItem={({ item, index }) => this._renderImage(item, index, this.state.image)}
-                                        keyExtractor={item => item.uri}
-                                        extraData={this.state.checkFix}
-                                    /> : null}
-                                </View>
+
                                 {
                                     this.state.linkVideo == 'Link' ? null :
                                         <TouchableOpacity disabled={this.state.checkFix == true} style={{ flexDirection: 'row', alignItems: 'center' }}
@@ -628,9 +629,6 @@ export default class EditBaoBai extends Component {
                             </View>
 
                             <View style={[nrow, { justifyContent: 'space-between', marginTop: 13, paddingHorizontal: this.khoangcach }]}>
-                                <TouchableOpacity disabled={this.state.checkFix == true} onPress={this._goMediapicker}>
-                                    <Image resizeMode='contain' style={nstyles.nstyles.nIcon20} source={Images.icCameraBlack} />
-                                </TouchableOpacity>
                                 <TouchableOpacity disabled={this.state.checkFix == true} onPress={this._addLink}>
                                     <Image resizeMode='contain' style={[nstyles.nstyles.nIcon20, this.state.linkVideo == 'Link' ? {} : { tintColor: colors.greenBlue }]}
                                         source={Images.linkicon} />
@@ -664,16 +662,6 @@ export default class EditBaoBai extends Component {
                         </TouchableOpacity> : null
                     }
 
-                    {/* <View>
-                        <FlatList
-                            scrollEnabled={false}
-                            data={listCauHoi}
-                            ref={refs => this.listCauHoi = refs}
-                            renderItem={this._renderItemCauHoi}
-                            extraData={listCauHoi}
-                            keyExtractor={(item, index) => index.toString()}
-                        />
-                    </View> */}
                     {listCauHoi != '' ?
                         <View style={{
                             paddingHorizontal: 15, backgroundColor: colors.white, marginHorizontal: this.khoangcach,
@@ -774,3 +762,8 @@ const stBaoBaiDetail = StyleSheet.create({
     }
 
 })
+const mapStateToProps = state => ({
+    infoUser: state.infoUser,
+});
+
+export default Utils.connectRedux(EditBaoBai, mapStateToProps, true);

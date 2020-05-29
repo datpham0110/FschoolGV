@@ -164,15 +164,7 @@ class Login extends Component {
   //   }
   // };
 
-  _infomationUser = async () => {
-    let res = await apis.Hosonguoidung.NguoiDungContact()
-    Utils.nlog('NguoiDung', res)
-    if (res.status == 1) {
-      const data = res.data;
-      this.props.getInfomation(data);
-    };
-  }
-
+  
 
   render() {
     return (

@@ -20,7 +20,7 @@ export const db1 = db.database();
 import { db } from '../../app/Config';
 
 //const Firebase = firebase.initializeApp(appConfig)
-export default class EnterYourPhoneNumber extends React.Component {
+class EnterYourPhoneNumber extends React.Component {
   constructor(props) {
     super(props);
     this.email = "";
@@ -32,13 +32,13 @@ export default class EnterYourPhoneNumber extends React.Component {
   componentDidMount() {
   }
 
-  _ktdulieu = () => {
+  login = () => {
     if (!this.phonenumber.trim()) {
       Utils.showMsgBoxOK(this, 'Thông báo', 'Vui lòng nhập tên đăng nhập', 'Đóng');
       return;
     };
-    const ref = db1.ref('/Tbl_Account')
-    ref.orderByChild('Username')
+    const ref = db1.ref('/Tbl_GiaoVien')
+    ref.orderByChild('userName')
       .equalTo(this.phonenumber)
       .once('value')
       .then((snapshot) => {
@@ -47,10 +47,12 @@ export default class EnterYourPhoneNumber extends React.Component {
           Utils.showMsgBoxOK(this, 'Thông báo', 'Tài khoản không tồn tại')
         } else {
           const data = value[Object.keys(value)[0]];
-          if (data.Password == this.password.trim()) {
+          if (data.password == this.password.trim()) {
             Utils.nsetStore(nkey.phonenumber, this.phonenumber);
             Utils.nsetStore(nkey.password, this.password);
-            Utils.goscreen(this, "sc_Welcome", { data: data });
+            this.props.getInfomation(data);
+            Utils.goscreen(this, "sc_Welcome");
+            Utils.nlog('datadata', data)
           } else {
             Utils.showMsgBoxOK(this, 'Thông báo', 'Mật khẩu không đúng', 'Đóng')
           };
@@ -91,7 +93,7 @@ export default class EnterYourPhoneNumber extends React.Component {
                 iconStyle={{ marginRight: 10, tintColor: "gray" }}
               />
               <ButtonCom
-                onPress={this._ktdulieu}
+                onPress={this.login}
                 Linear={true}
                 style={{ marginTop: 10, backgroundColor: colors.colorPink }}
                 text={"Đăng nhập"}
@@ -107,3 +109,4 @@ export default class EnterYourPhoneNumber extends React.Component {
     );
   }
 }
+export default Utils.connectRedux(EnterYourPhoneNumber, null, true);
